@@ -213,6 +213,24 @@ const isMessageResult = (value: unknown): value is Message => {
   return "createMessageComponentCollector" in value && "edit" in value;
 };
 
+const resolveReplyMessage = (value: unknown): Message | null => {
+  if (isMessageResult(value)) {
+    return value;
+  }
+
+  if (!value || typeof value !== "object" || !("resource" in value)) {
+    return null;
+  }
+
+  const resource = (value as { resource?: unknown }).resource;
+  if (!resource || typeof resource !== "object" || !("message" in resource)) {
+    return null;
+  }
+
+  const message = (resource as { message?: unknown }).message;
+  return isMessageResult(message) ? message : null;
+};
+
 const persistAndApplyPresence = async (ctx: CommandExecutionContext, state: PresenceState): Promise<void> => {
   applyPresenceState(ctx.client, state);
   await savePresenceState(ctx.client, state);
@@ -243,15 +261,16 @@ export const presenceCommand = defineCommand({
     const replyResult = await ctx.reply({
       flags: MessageFlags.IsComponentsV2,
       components: [buildContainer(ctx, state, customIds)],
-      fetchReply: true,
+      withResponse: true,
     });
 
-    if (!isMessageResult(replyResult)) {
+    const replyMessage = resolveReplyMessage(replyResult);
+    if (!replyMessage) {
       return;
     }
 
     const ownerId = ctx.user.id;
-    const collector = replyResult.createMessageComponentCollector({ time: 15 * 60_000 });
+    const collector = replyMessage.createMessageComponentCollector({ time: 15 * 60_000 });
 
     collector.on("collect", async (interaction) => {
       if (interaction.user.id !== ownerId) {
@@ -338,7 +357,7 @@ export const presenceCommand = defineCommand({
 
             await submitted.deferUpdate();
 
-            await replyResult.edit({
+            await replyMessage.edit({
               flags: MessageFlags.IsComponentsV2,
               components: [buildContainer(ctx, state, customIds)],
             });
@@ -367,7 +386,7 @@ export const presenceCommand = defineCommand({
     });
 
     collector.on("end", async () => {
-      await replyResult
+      await replyMessage
         .edit({
           flags: MessageFlags.IsComponentsV2,
           components: [buildContainer(ctx, state, customIds, true)],
