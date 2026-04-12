@@ -20,7 +20,6 @@ const toMessageReplyOptions = (payload: Exclude<ReplyPayload, string>): MessageR
     ephemeral: _ephemeral,
     fetchReply: _fetchReply,
     withResponse: _withResponse,
-    flags: _flags,
     ...rest
   } = payload as InteractionReplyOptions & MessageReplyOptions;
 

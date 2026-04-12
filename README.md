@@ -12,6 +12,12 @@ Professional command framework template for Discord.js `14.26.2` with:
 - User permission checks
 - Auto-generated help from command metadata
 
+## Presence Storage
+
+- The `presence` command is persisted in PostgreSQL.
+- Storage is keyed by `bot_id` (Discord user id), so one PostgreSQL instance can serve multiple bots.
+- Presence survives bot restarts and container restarts.
+
 ## Setup
 
 1. Install dependencies:
@@ -21,10 +27,41 @@ Professional command framework template for Discord.js `14.26.2` with:
 3. Fill required values in `.env`:
    - `DISCORD_TOKEN`
    - `DISCORD_CLIENT_ID`
-4. Deploy slash commands:
+   - `DATABASE_URL`
+4. Optional values:
+   - `DATABASE_SSL` (`true` for managed cloud DB, `false` for local Docker)
+   - `PRESENCE_STREAM_URL` (used when activity type is `STREAMING`)
+5. Deploy slash commands:
    npm run deploy:commands
-5. Start in development:
+6. Start in development:
    npm run dev
+
+## Docker Deployment (Bot + PostgreSQL)
+
+1. Configure `.env` (at minimum `DISCORD_TOKEN`, `DISCORD_CLIENT_ID`).
+2. Start stack:
+   docker compose up -d --build
+3. Stop stack:
+   docker compose down
+
+By default, `docker-compose.yml` provisions:
+- `bot`: the Discord bot container
+- `postgres`: PostgreSQL 16 with persistent volume `postgres_data`
+
+The bot container uses:
+- `DATABASE_URL=postgresql://<POSTGRES_USER>:<POSTGRES_PASSWORD>@postgres:5432/<POSTGRES_DB>`
+
+## Multi-Bot With One DB
+
+You can run several bot services against the same PostgreSQL instance.
+
+- Keep one shared `postgres` service.
+- Add additional bot services with different `DISCORD_TOKEN` / `DISCORD_CLIENT_ID`.
+- Keep `DATABASE_URL` pointing to the same PostgreSQL service.
+
+Because rows are keyed by `bot_id`, each bot keeps its own independent presence configuration.
+
+An example with two bot services is available in `docker-compose.multi-bot.example.yml`.
 
 ## Architecture
 
@@ -35,6 +72,8 @@ Professional command framework template for Discord.js `14.26.2` with:
 - `src/framework/execution/CommandExecutor.ts`: unified pipeline (permissions/execute)
 - `src/framework/handlers/prefixHandler.ts`: prefix entrypoint
 - `src/framework/handlers/slashHandler.ts`: slash entrypoint
+- `src/framework/presence/presenceStore.ts`: PostgreSQL presence storage
+- `src/framework/presence/presenceTypes.ts`: shared presence types/validation
 - `locales/*.json`: external i18n dictionaries
 - `src/commands/*`: business commands only (`execute`)
 

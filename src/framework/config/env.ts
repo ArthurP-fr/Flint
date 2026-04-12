@@ -8,6 +8,17 @@ loadEnv();
 const envSchema = z.object({
   DISCORD_TOKEN: z.string().min(1, "DISCORD_TOKEN is required"),
   DISCORD_CLIENT_ID: z.string().min(1, "DISCORD_CLIENT_ID is required"),
+  DATABASE_URL: z.string().optional().transform((value) => value && value.length > 0 ? value : undefined),
+  DATABASE_SSL: z
+    .string()
+    .optional()
+    .default("false")
+    .transform((value) => value.toLowerCase() === "true"),
+  PRESENCE_STREAM_URL: z
+    .string()
+    .url("PRESENCE_STREAM_URL must be a valid URL")
+    .optional()
+    .default("https://twitch.tv/discord"),
   PREFIX: z.string().min(1).max(5).default("+"),
   DEFAULT_LANG: z.enum(SUPPORTED_LANGS).default("en"),
   DEV_GUILD_ID: z.string().optional().transform((value) => value && value.length > 0 ? value : undefined),

@@ -1,6 +1,7 @@
 import { Client, Events, GatewayIntentBits } from "discord.js";
 
 import { commandList } from "./commands/index.js";
+import { restorePresenceFromStorage } from "./commands/utility/presence.js";
 import { deployApplicationCommands } from "./framework/commands/deploy.js";
 import { CommandRegistry } from "./framework/commands/registry.js";
 import { env } from "./framework/config/env.js";
@@ -8,8 +9,30 @@ import { CommandExecutor } from "./framework/execution/CommandExecutor.js";
 import { createPrefixHandler } from "./framework/handlers/prefixHandler.js";
 import { createSlashHandler } from "./framework/handlers/slashHandler.js";
 import { I18nService } from "./framework/i18n/I18nService.js";
+import { initPresenceStore, shutdownPresenceStore } from "./framework/presence/presenceStore.js";
+
+const bindGracefulShutdown = (): void => {
+  const shutdown = async (signal: string): Promise<void> => {
+    console.log(`[shutdown] ${signal}`);
+    await shutdownPresenceStore().catch((error) => {
+      console.error("[shutdown] presence store close failed", error);
+    });
+    process.exit(0);
+  };
+
+  process.once("SIGINT", () => {
+    void shutdown("SIGINT");
+  });
+
+  process.once("SIGTERM", () => {
+    void shutdown("SIGTERM");
+  });
+};
 
 const bootstrap = async (): Promise<void> => {
+  await initPresenceStore();
+  bindGracefulShutdown();
+
   const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
   });
@@ -46,6 +69,11 @@ const bootstrap = async (): Promise<void> => {
 
   client.once(Events.ClientReady, async () => {
     console.log(`[ready] logged as ${client.user?.tag ?? "unknown"}`);
+    try {
+      await restorePresenceFromStorage(client);
+    } catch (error) {
+      console.error("[ready] failed to restore bot presence", error);
+    }
 
     if (env.AUTO_DEPLOY_SLASH) {
       try {
@@ -68,5 +96,8 @@ const bootstrap = async (): Promise<void> => {
 
 bootstrap().catch((error) => {
   console.error("[boot] fatal error", error);
+  void shutdownPresenceStore().catch((closeError) => {
+    console.error("[boot] failed to close presence store", closeError);
+  });
   process.exitCode = 1;
 });

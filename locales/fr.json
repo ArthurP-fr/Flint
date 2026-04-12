@@ -61,6 +61,95 @@
         "summary": "Resume commande avancee\ntext={{text}}\ncount={{count}}\nratio={{ratio}}\nenabled={{enabled}}\nuser={{user}}\nchannel={{channel}}\nrole={{role}}\nsource={{source}}"
       }
     },
+    "presence": {
+      "name": "presence",
+      "description": "Configurer la presence du bot avec un panneau interactif.",
+      "examples": {
+        "slash": "Ouvrir le panneau interactif de presence"
+      },
+      "responses": {
+        "slashOnly": "Cette commande est disponible uniquement en slash.",
+        "panel": "Panneau presence\nStatut: {{status}}\nActivite: {{activityType}}\nTexte: {{activityText}}",
+        "statusUpdated": "Statut mis a jour: {{status}}.",
+        "activityUpdated": "Type d activite mis a jour: {{activityType}}.",
+        "textUpdated": "Texte de presence mis a jour: {{activityText}}",
+        "notOwner": "Seul l auteur de la commande peut utiliser ce panneau.",
+        "invalidSelection": "Selection invalide.",
+        "modalTimeout": "Temps depasse pour la modification du texte. Clique a nouveau sur le bouton."
+      },
+      "ui": {
+        "status": {
+          "placeholder": "Choisir un statut",
+          "options": {
+            "online": {
+              "label": "En ligne",
+              "description": "Affiche le bot en ligne"
+            },
+            "idle": {
+              "label": "Inactif",
+              "description": "Affiche le bot inactif"
+            },
+            "dnd": {
+              "label": "Ne pas deranger",
+              "description": "Affiche le bot en mode ne pas deranger"
+            },
+            "invisible": {
+              "label": "Hors ligne",
+              "description": "Affiche le bot hors ligne"
+            },
+            "streaming": {
+              "label": "Streaming",
+              "description": "Affiche le bot en mode streaming"
+            }
+          }
+        },
+        "activity": {
+          "placeholder": "Choisir un type d activite",
+          "options": {
+            "PLAYING": {
+              "label": "Joue a",
+              "description": "Affiche Joue a ..."
+            },
+            "STREAMING": {
+              "label": "Streaming",
+              "description": "Affiche En direct sur ..."
+            },
+            "WATCHING": {
+              "label": "Regarde",
+              "description": "Affiche Regarde ..."
+            },
+            "LISTENING": {
+              "label": "Ecoute",
+              "description": "Affiche Ecoute ..."
+            },
+            "COMPETING": {
+              "label": "Competition",
+              "description": "Affiche Competition ..."
+            },
+            "CUSTOM": {
+              "label": "CustomStatus",
+              "description": "Affiche un statut personnalise"
+            }
+          }
+        },
+        "embed": {
+          "title": "Configuration de la presence",
+          "description": "Modifie le statut, le type d activite et le texte en direct.",
+          "footer": "Panneau interactif /presence",
+          "fields": {
+            "status": "Statut",
+            "activity": "Type d activite",
+            "text": "Texte"
+          }
+        },
+        "textButton": "📝 Modifier le texte",
+        "modal": {
+          "title": "Texte de presence",
+          "label": "Texte d activite",
+          "placeholder": "Exemple: 🚀 En maintenance"
+        }
+      }
+    },
     "help": {
       "name": "aide",
       "description": "Afficher la liste des commandes ou les details d une commande.",

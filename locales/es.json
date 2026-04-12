@@ -61,6 +61,95 @@
         "summary": "Resumen comando avanzada\ntext={{text}}\ncount={{count}}\nratio={{ratio}}\nenabled={{enabled}}\nuser={{user}}\nchannel={{channel}}\nrole={{role}}\nsource={{source}}"
       }
     },
+    "presence": {
+      "name": "presence",
+      "description": "Configurar la presencia del bot con un panel interactivo.",
+      "examples": {
+        "slash": "Abrir el panel interactivo de presencia"
+      },
+      "responses": {
+        "slashOnly": "Este comando solo esta disponible como slash.",
+        "panel": "Panel de presencia\nEstado: {{status}}\nActividad: {{activityType}}\nTexto: {{activityText}}",
+        "statusUpdated": "Estado actualizado a {{status}}.",
+        "activityUpdated": "Tipo de actividad actualizado a {{activityType}}.",
+        "textUpdated": "Texto de presencia actualizado: {{activityText}}",
+        "notOwner": "Solo el autor del comando puede usar este panel.",
+        "invalidSelection": "Seleccion invalida.",
+        "modalTimeout": "Tiempo agotado para editar el texto. Pulsa el boton otra vez."
+      },
+      "ui": {
+        "status": {
+          "placeholder": "Elegir un estado",
+          "options": {
+            "online": {
+              "label": "En linea",
+              "description": "Muestra el bot en linea"
+            },
+            "idle": {
+              "label": "Inactivo",
+              "description": "Muestra el bot inactivo"
+            },
+            "dnd": {
+              "label": "No molestar",
+              "description": "Muestra el bot en no molestar"
+            },
+            "invisible": {
+              "label": "Desconectado",
+              "description": "Muestra el bot fuera de linea"
+            },
+            "streaming": {
+              "label": "Streaming",
+              "description": "Muestra el bot en modo streaming"
+            }
+          }
+        },
+        "activity": {
+          "placeholder": "Elegir un tipo de actividad",
+          "options": {
+            "PLAYING": {
+              "label": "Jugando",
+              "description": "Muestra Jugando a ..."
+            },
+            "STREAMING": {
+              "label": "Streaming",
+              "description": "Muestra En directo en ..."
+            },
+            "WATCHING": {
+              "label": "Viendo",
+              "description": "Muestra Viendo ..."
+            },
+            "LISTENING": {
+              "label": "Escuchando",
+              "description": "Muestra Escuchando ..."
+            },
+            "COMPETING": {
+              "label": "Compitiendo",
+              "description": "Muestra Compitiendo en ..."
+            },
+            "CUSTOM": {
+              "label": "CustomStatus",
+              "description": "Muestra un estado personalizado"
+            }
+          }
+        },
+        "embed": {
+          "title": "Configuracion de Presencia",
+          "description": "Cambia el estado, el tipo de actividad y el texto en tiempo real.",
+          "footer": "Panel interactivo /presence",
+          "fields": {
+            "status": "Estado",
+            "activity": "Tipo de actividad",
+            "text": "Texto"
+          }
+        },
+        "textButton": "📝 Editar texto",
+        "modal": {
+          "title": "Texto de presencia",
+          "label": "Texto de actividad",
+          "placeholder": "Ejemplo: 🚀 En mantenimiento"
+        }
+      }
+    },
     "help": {
       "name": "ayuda",
       "description": "Mostrar lista de comandos o detalles de un comando.",

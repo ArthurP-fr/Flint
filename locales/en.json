@@ -61,6 +61,95 @@
         "summary": "Advanced command summary\ntext={{text}}\ncount={{count}}\nratio={{ratio}}\nenabled={{enabled}}\nuser={{user}}\nchannel={{channel}}\nrole={{role}}\nsource={{source}}"
       }
     },
+    "presence": {
+      "name": "presence",
+      "description": "Configure bot presence with an interactive panel.",
+      "examples": {
+        "slash": "Open the interactive presence panel"
+      },
+      "responses": {
+        "slashOnly": "This command is only available as a slash command.",
+        "panel": "Presence panel\nStatus: {{status}}\nActivity: {{activityType}}\nText: {{activityText}}",
+        "statusUpdated": "Status updated to {{status}}.",
+        "activityUpdated": "Activity type updated to {{activityType}}.",
+        "textUpdated": "Presence text updated to: {{activityText}}",
+        "notOwner": "Only the command author can use this panel.",
+        "invalidSelection": "Invalid selection received.",
+        "modalTimeout": "Text update timed out. Click the button again."
+      },
+      "ui": {
+        "status": {
+          "placeholder": "Choose a status",
+          "options": {
+            "online": {
+              "label": "Online",
+              "description": "Displayed as online"
+            },
+            "idle": {
+              "label": "Idle",
+              "description": "Displayed as idle"
+            },
+            "dnd": {
+              "label": "Do Not Disturb",
+              "description": "Displayed as do not disturb"
+            },
+            "invisible": {
+              "label": "Invisible",
+              "description": "Displayed as offline"
+            },
+            "streaming": {
+              "label": "Streaming",
+              "description": "Displayed in streaming mode"
+            }
+          }
+        },
+        "activity": {
+          "placeholder": "Choose an activity type",
+          "options": {
+            "PLAYING": {
+              "label": "Playing",
+              "description": "Shows as Playing ..."
+            },
+            "STREAMING": {
+              "label": "Streaming",
+              "description": "Shows as Streaming ..."
+            },
+            "WATCHING": {
+              "label": "Watching",
+              "description": "Shows as Watching ..."
+            },
+            "LISTENING": {
+              "label": "Listening",
+              "description": "Shows as Listening to ..."
+            },
+            "COMPETING": {
+              "label": "Competing",
+              "description": "Shows as Competing in ..."
+            },
+            "CUSTOM": {
+              "label": "CustomStatus",
+              "description": "Shows a custom status"
+            }
+          }
+        },
+        "embed": {
+          "title": "Presence Configuration",
+          "description": "Change status, activity type, and text in real time.",
+          "footer": "Interactive /presence panel",
+          "fields": {
+            "status": "Status",
+            "activity": "Activity type",
+            "text": "Text"
+          }
+        },
+        "textButton": "📝 Edit text",
+        "modal": {
+          "title": "Presence text",
+          "label": "Activity text",
+          "placeholder": "Example: 🚀 In maintenance"
+        }
+      }
+    },
     "help": {
       "name": "help",
       "description": "Display command list or details for one command.",
