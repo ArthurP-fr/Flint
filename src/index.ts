@@ -2,6 +2,7 @@ import { Client, Events, GatewayIntentBits } from "discord.js";
 
 import { commandList } from "./commands/index.js";
 import { restorePresenceFromStorage, shutdownPresenceRuntime } from "./commands/utility/presence.js";
+import { registerMemberMessageEvents } from "./events/memberMessageEvents.js";
 import { deployApplicationCommands } from "./framework/commands/deploy.js";
 import { CommandRegistry } from "./framework/commands/registry.js";
 import { env } from "./framework/config/env.js";
@@ -9,12 +10,19 @@ import { CommandExecutor } from "./framework/execution/CommandExecutor.js";
 import { createPrefixHandler } from "./framework/handlers/prefixHandler.js";
 import { createSlashHandler } from "./framework/handlers/slashHandler.js";
 import { I18nService } from "./framework/i18n/I18nService.js";
+import {
+  initMemberMessageStore,
+  shutdownMemberMessageStore,
+} from "./framework/memberMessages/memberMessageStore.js";
 import { initPresenceStore, shutdownPresenceStore } from "./framework/presence/presenceStore.js";
 
 const bindGracefulShutdown = (): void => {
   const shutdown = async (signal: string): Promise<void> => {
     console.log(`[shutdown] ${signal}`);
     shutdownPresenceRuntime();
+    await shutdownMemberMessageStore().catch((error) => {
+      console.error("[shutdown] member message store close failed", error);
+    });
     await shutdownPresenceStore().catch((error) => {
       console.error("[shutdown] presence store close failed", error);
     });
@@ -32,6 +40,7 @@ const bindGracefulShutdown = (): void => {
 
 const bootstrap = async (): Promise<void> => {
   await initPresenceStore();
+  await initMemberMessageStore();
   bindGracefulShutdown();
 
   process.on("unhandledRejection", (reason) => {
@@ -43,7 +52,12 @@ const bootstrap = async (): Promise<void> => {
   });
 
   const client = new Client({
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMembers,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.MessageContent,
+    ],
   });
 
   const i18n = new I18nService(env.DEFAULT_LANG);
@@ -82,6 +96,8 @@ const bootstrap = async (): Promise<void> => {
     });
   });
 
+  registerMemberMessageEvents(client, i18n);
+
   client.once(Events.ClientReady, async () => {
     console.log(`[ready] logged as ${client.user?.tag ?? "unknown"}`);
     try {
@@ -112,6 +128,9 @@ const bootstrap = async (): Promise<void> => {
 bootstrap().catch(async (error) => {
   console.error("[boot] fatal error", error);
   shutdownPresenceRuntime();
+  await shutdownMemberMessageStore().catch((closeError) => {
+    console.error("[boot] failed to close member message store", closeError);
+  });
   await shutdownPresenceStore().catch((closeError) => {
     console.error("[boot] failed to close presence store", closeError);
   });

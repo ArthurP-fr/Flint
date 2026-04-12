@@ -157,6 +157,152 @@
         }
       }
     },
+    "welcome": {
+      "name": "bienvenida",
+      "description": "Configurar mensajes de bienvenida con un panel interactivo.",
+      "examples": {
+        "slash": "Abrir el panel de configuracion de bienvenida"
+      },
+      "responses": {
+        "guildOnly": "Este comando solo puede usarse dentro de un servidor.",
+        "notOwner": "Solo el autor del comando puede usar este panel.",
+        "invalidSelection": "Seleccion invalida.",
+        "testSuccess": "Mensaje de prueba enviado en {{channel}}.",
+        "testDisabled": "El modulo de bienvenida esta desactivado.",
+        "testMissingChannel": "No hay canal configurado. Usa primero el boton de canal.",
+        "testChannelUnavailable": "El canal configurado no existe o no es compatible.",
+        "testMissingPermissions": "El bot no tiene permiso para enviar mensajes en ese canal.",
+        "testFailed": "No se pudo enviar el mensaje de prueba. Intentalo mas tarde."
+      },
+      "ui": {
+        "embed": {
+          "title": "Configuracion Welcome",
+          "description": "Ajusta estado, canal, tipo de mensaje y ejecuta una prueba.",
+          "fields": {
+            "status": "Estado",
+            "channel": "Canal",
+            "type": "Tipo",
+            "channelPicker": "Selector de canal"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Activado",
+          "disabled": "🔴 Desactivado"
+        },
+        "channelNotConfigured": "#sin-configurar",
+        "channelPickerPlaceholder": "Selecciona un canal de bienvenida",
+        "channelPickerHint": "Usa el menu de seleccion de abajo para elegir el canal destino.",
+        "buttons": {
+          "toggle": "Alternar estado",
+          "channel": "Configurar canal",
+          "channelCancel": "Cerrar selector",
+          "test": "Probar"
+        },
+        "type": {
+          "placeholder": "Elige un tipo de mensaje",
+          "options": {
+            "simple": {
+              "label": "Mensaje simple",
+              "description": "Enviar un mensaje de texto clasico"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Enviar un embed de bienvenida"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Enviar un container Components V2"
+            },
+            "image": {
+              "label": "Imagen",
+              "description": "Enviar un embed con imagen"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "🎉 Bienvenido {{user}} a **{{guild}}**!",
+        "embedTitle": "Bienvenido",
+        "embedDescription": "{{user}} acaba de entrar en **{{guild}}**.",
+        "containerTitle": "Bienvenido",
+        "containerDescription": "{{user}} acaba de entrar en **{{guild}}**.",
+        "imageTitle": "Bienvenido",
+        "imageDescription": "al servidor de Discord {{guild}}"
+      }
+    },
+    "goodbye": {
+      "name": "despedida",
+      "description": "Configurar mensajes de despedida con un panel interactivo.",
+      "examples": {
+        "slash": "Abrir el panel de configuracion de despedida"
+      },
+      "responses": {
+        "guildOnly": "Este comando solo puede usarse dentro de un servidor.",
+        "notOwner": "Solo el autor del comando puede usar este panel.",
+        "invalidSelection": "Seleccion invalida.",
+        "testSuccess": "Mensaje de prueba enviado en {{channel}}.",
+        "testDisabled": "El modulo de despedida esta desactivado.",
+        "testMissingChannel": "No hay canal configurado. Usa primero el boton de canal.",
+        "testChannelUnavailable": "El canal configurado no existe o no es compatible.",
+        "testMissingPermissions": "El bot no tiene permiso para enviar mensajes en ese canal.",
+        "testFailed": "No se pudo enviar el mensaje de prueba. Intentalo mas tarde."
+      },
+      "ui": {
+        "embed": {
+          "title": "Configuracion Goodbye",
+          "description": "Ajusta estado, canal, tipo de mensaje y ejecuta una prueba.",
+          "fields": {
+            "status": "Estado",
+            "channel": "Canal",
+            "type": "Tipo",
+            "channelPicker": "Selector de canal"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Activado",
+          "disabled": "🔴 Desactivado"
+        },
+        "channelNotConfigured": "#sin-configurar",
+        "channelPickerPlaceholder": "Selecciona un canal de despedida",
+        "channelPickerHint": "Usa el menu de seleccion de abajo para elegir el canal destino.",
+        "buttons": {
+          "toggle": "Alternar estado",
+          "channel": "Configurar canal",
+          "channelCancel": "Cerrar selector",
+          "test": "Probar"
+        },
+        "type": {
+          "placeholder": "Elige un tipo de mensaje",
+          "options": {
+            "simple": {
+              "label": "Mensaje simple",
+              "description": "Enviar un mensaje de texto clasico"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Enviar un embed de despedida"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Enviar un container Components V2"
+            },
+            "image": {
+              "label": "Imagen",
+              "description": "Enviar un embed con imagen"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "👋 {{user}} salio de **{{guild}}**.",
+        "embedTitle": "Despedida",
+        "embedDescription": "{{user}} salio de **{{guild}}**.",
+        "containerTitle": "Despedida",
+        "containerDescription": "{{user}} salio de **{{guild}}**.",
+        "imageTitle": "Hasta luego",
+        "imageDescription": "del servidor de Discord {{guild}}"
+      }
+    },
     "help": {
       "name": "ayuda",
       "description": "Mostrar lista de comandos o detalles de un comando.",

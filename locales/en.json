@@ -157,6 +157,152 @@
         }
       }
     },
+    "welcome": {
+      "name": "welcome",
+      "description": "Configure welcome messages with an interactive panel.",
+      "examples": {
+        "slash": "Open the welcome message configuration panel"
+      },
+      "responses": {
+        "guildOnly": "This command can only be used inside a server.",
+        "notOwner": "Only the command author can use this panel.",
+        "invalidSelection": "Invalid selection.",
+        "testSuccess": "Test message sent in {{channel}}.",
+        "testDisabled": "Welcome module is disabled.",
+        "testMissingChannel": "No channel configured yet. Use the channel button first.",
+        "testChannelUnavailable": "Configured channel was not found or is not supported.",
+        "testMissingPermissions": "Bot is missing permission to send messages in that channel.",
+        "testFailed": "Failed to send test message. Please try again later."
+      },
+      "ui": {
+        "embed": {
+          "title": "Welcome Configuration",
+          "description": "Configure status, channel, message type, and run a test send.",
+          "fields": {
+            "status": "Status",
+            "channel": "Channel",
+            "type": "Type",
+            "channelPicker": "Channel picker"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Enabled",
+          "disabled": "🔴 Disabled"
+        },
+        "channelNotConfigured": "#not-configured",
+        "channelPickerPlaceholder": "Select a welcome channel",
+        "channelPickerHint": "Use the select menu below to choose the destination channel.",
+        "buttons": {
+          "toggle": "Toggle status",
+          "channel": "Set channel",
+          "channelCancel": "Close channel picker",
+          "test": "Test"
+        },
+        "type": {
+          "placeholder": "Choose a message type",
+          "options": {
+            "simple": {
+              "label": "Simple message",
+              "description": "Send a classic text message"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Send a rich embed message"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Send a Components V2 container"
+            },
+            "image": {
+              "label": "Image",
+              "description": "Send an embed with an image"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "🎉 Welcome {{user}} to **{{guild}}**!",
+        "embedTitle": "Welcome!",
+        "embedDescription": "{{user}} just joined **{{guild}}**.",
+        "containerTitle": "Welcome",
+        "containerDescription": "{{user}} just joined **{{guild}}**.",
+        "imageTitle": "Welcome",
+        "imageDescription": "on the Discord server {{guild}}"
+      }
+    },
+    "goodbye": {
+      "name": "goodbye",
+      "description": "Configure goodbye messages with an interactive panel.",
+      "examples": {
+        "slash": "Open the goodbye message configuration panel"
+      },
+      "responses": {
+        "guildOnly": "This command can only be used inside a server.",
+        "notOwner": "Only the command author can use this panel.",
+        "invalidSelection": "Invalid selection.",
+        "testSuccess": "Test message sent in {{channel}}.",
+        "testDisabled": "Goodbye module is disabled.",
+        "testMissingChannel": "No channel configured yet. Use the channel button first.",
+        "testChannelUnavailable": "Configured channel was not found or is not supported.",
+        "testMissingPermissions": "Bot is missing permission to send messages in that channel.",
+        "testFailed": "Failed to send test message. Please try again later."
+      },
+      "ui": {
+        "embed": {
+          "title": "Goodbye Configuration",
+          "description": "Configure status, channel, message type, and run a test send.",
+          "fields": {
+            "status": "Status",
+            "channel": "Channel",
+            "type": "Type",
+            "channelPicker": "Channel picker"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Enabled",
+          "disabled": "🔴 Disabled"
+        },
+        "channelNotConfigured": "#not-configured",
+        "channelPickerPlaceholder": "Select a goodbye channel",
+        "channelPickerHint": "Use the select menu below to choose the destination channel.",
+        "buttons": {
+          "toggle": "Toggle status",
+          "channel": "Set channel",
+          "channelCancel": "Close channel picker",
+          "test": "Test"
+        },
+        "type": {
+          "placeholder": "Choose a message type",
+          "options": {
+            "simple": {
+              "label": "Simple message",
+              "description": "Send a classic text message"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Send a rich embed message"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Send a Components V2 container"
+            },
+            "image": {
+              "label": "Image",
+              "description": "Send an embed with an image"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "👋 {{user}} left **{{guild}}**.",
+        "embedTitle": "Goodbye",
+        "embedDescription": "{{user}} has left **{{guild}}**.",
+        "containerTitle": "Goodbye",
+        "containerDescription": "{{user}} has left **{{guild}}**.",
+        "imageTitle": "Goodbye",
+        "imageDescription": "from the Discord server {{guild}}"
+      }
+    },
     "help": {
       "name": "help",
       "description": "Display command list or details for one command.",

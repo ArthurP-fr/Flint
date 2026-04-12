@@ -157,6 +157,152 @@
         }
       }
     },
+    "welcome": {
+      "name": "bienvenue",
+      "description": "Configurer les messages de bienvenue avec un panneau interactif.",
+      "examples": {
+        "slash": "Ouvrir le panneau de configuration des messages de bienvenue"
+      },
+      "responses": {
+        "guildOnly": "Cette commande doit etre utilisee dans un serveur.",
+        "notOwner": "Seul l auteur de la commande peut utiliser ce panneau.",
+        "invalidSelection": "Selection invalide.",
+        "testSuccess": "Message de test envoye dans {{channel}}.",
+        "testDisabled": "Le module de bienvenue est desactive.",
+        "testMissingChannel": "Aucun salon configure. Utilise le bouton Salon.",
+        "testChannelUnavailable": "Le salon configure est introuvable ou non compatible.",
+        "testMissingPermissions": "Le bot n a pas la permission d envoyer des messages dans ce salon.",
+        "testFailed": "Impossible d envoyer le message de test. Reessaie plus tard."
+      },
+      "ui": {
+        "embed": {
+          "title": "Configuration Welcome",
+          "description": "Regle le statut, le salon, le type de message et lance un test.",
+          "fields": {
+            "status": "Statut",
+            "channel": "Salon",
+            "type": "Type",
+            "channelPicker": "Selection du salon"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Active",
+          "disabled": "🔴 Desactive"
+        },
+        "channelNotConfigured": "#non-configure",
+        "channelPickerPlaceholder": "Selectionne un salon de bienvenue",
+        "channelPickerHint": "Choisis le salon dans le select menu ci-dessous.",
+        "buttons": {
+          "toggle": "Toggle statut",
+          "channel": "Configurer salon",
+          "channelCancel": "Fermer select salon",
+          "test": "Tester"
+        },
+        "type": {
+          "placeholder": "Choisir un type de message",
+          "options": {
+            "simple": {
+              "label": "Message simple",
+              "description": "Envoie un message texte classique"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Envoie un embed de bienvenue"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Envoie un container Components V2"
+            },
+            "image": {
+              "label": "Image",
+              "description": "Envoie un embed avec image"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "🎉 Bienvenue {{user}} sur **{{guild}}** !",
+        "embedTitle": "Bienvenue !",
+        "embedDescription": "{{user}} vient de rejoindre **{{guild}}**.",
+        "containerTitle": "Bienvenue",
+        "containerDescription": "{{user}} vient de rejoindre **{{guild}}**.",
+        "imageTitle": "Bienvenue",
+        "imageDescription": "sur le serveur Discord {{guild}}"
+      }
+    },
+    "goodbye": {
+      "name": "aurevoir",
+      "description": "Configurer les messages d au revoir avec un panneau interactif.",
+      "examples": {
+        "slash": "Ouvrir le panneau de configuration des messages d au revoir"
+      },
+      "responses": {
+        "guildOnly": "Cette commande doit etre utilisee dans un serveur.",
+        "notOwner": "Seul l auteur de la commande peut utiliser ce panneau.",
+        "invalidSelection": "Selection invalide.",
+        "testSuccess": "Message de test envoye dans {{channel}}.",
+        "testDisabled": "Le module d au revoir est desactive.",
+        "testMissingChannel": "Aucun salon configure. Utilise le bouton Salon.",
+        "testChannelUnavailable": "Le salon configure est introuvable ou non compatible.",
+        "testMissingPermissions": "Le bot n a pas la permission d envoyer des messages dans ce salon.",
+        "testFailed": "Impossible d envoyer le message de test. Reessaie plus tard."
+      },
+      "ui": {
+        "embed": {
+          "title": "Configuration Goodbye",
+          "description": "Regle le statut, le salon, le type de message et lance un test.",
+          "fields": {
+            "status": "Statut",
+            "channel": "Salon",
+            "type": "Type",
+            "channelPicker": "Selection du salon"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Active",
+          "disabled": "🔴 Desactive"
+        },
+        "channelNotConfigured": "#non-configure",
+        "channelPickerPlaceholder": "Selectionne un salon d au revoir",
+        "channelPickerHint": "Choisis le salon dans le select menu ci-dessous.",
+        "buttons": {
+          "toggle": "Toggle statut",
+          "channel": "Configurer salon",
+          "channelCancel": "Fermer select salon",
+          "test": "Tester"
+        },
+        "type": {
+          "placeholder": "Choisir un type de message",
+          "options": {
+            "simple": {
+              "label": "Message simple",
+              "description": "Envoie un message texte classique"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Envoie un embed d au revoir"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Envoie un container Components V2"
+            },
+            "image": {
+              "label": "Image",
+              "description": "Envoie un embed avec image"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "👋 {{user}} a quitte **{{guild}}**.",
+        "embedTitle": "Au revoir",
+        "embedDescription": "{{user}} a quitte **{{guild}}**.",
+        "containerTitle": "Au revoir",
+        "containerDescription": "{{user}} a quitte **{{guild}}**.",
+        "imageTitle": "Au revoir",
+        "imageDescription": "du serveur Discord {{guild}}"
+      }
+    },
     "help": {
       "name": "aide",
       "description": "Afficher la liste des commandes ou les details d une commande.",
