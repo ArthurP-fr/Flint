@@ -45,26 +45,6 @@
         "pong": "Pong. Latence websocket: {{latency}}ms."
       }
     },
-    "advanced": {
-      "name": "avance",
-      "description": "Commande de demonstration utilisant tous les parametres disponibles.",
-      "args": {
-        "text": "Texte requis",
-        "count": "Entier requis",
-        "ratio": "Nombre decimal optionnel",
-        "enabled": "Booleen optionnel",
-        "user": "Utilisateur cible requis",
-        "channel": "Salon optionnel",
-        "role": "Role optionnel"
-      },
-      "examples": {
-        "full": "Exemple prefix complet avec tous les types d arguments",
-        "slash": "Equivalent en slash"
-      },
-      "responses": {
-        "summary": "Resume commande avancee\ntext={{text}}\ncount={{count}}\nratio={{ratio}}\nenabled={{enabled}}\nuser={{user}}\nchannel={{channel}}\nrole={{role}}\nsource={{source}}"
-      }
-    },
     "presence": {
       "name": "presence",
       "description": "Configurer la presence du bot avec un panneau interactif.",

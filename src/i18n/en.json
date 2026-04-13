@@ -45,26 +45,6 @@
         "pong": "Pong. Websocket latency: {{latency}}ms."
       }
     },
-    "advanced": {
-      "name": "advanced",
-      "description": "Showcase command using every available command parameter.",
-      "args": {
-        "text": "Required text value",
-        "count": "Required integer value",
-        "ratio": "Optional decimal number",
-        "enabled": "Optional boolean flag",
-        "user": "Required target user",
-        "channel": "Optional channel",
-        "role": "Optional role"
-      },
-      "examples": {
-        "full": "Complete prefix example with all argument types",
-        "slash": "Equivalent slash usage"
-      },
-      "responses": {
-        "summary": "Advanced command summary\ntext={{text}}\ncount={{count}}\nratio={{ratio}}\nenabled={{enabled}}\nuser={{user}}\nchannel={{channel}}\nrole={{role}}\nsource={{source}}"
-      }
-    },
     "presence": {
       "name": "presence",
       "description": "Configure bot presence with an interactive panel.",

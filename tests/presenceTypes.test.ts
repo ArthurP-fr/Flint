@@ -8,7 +8,7 @@ import {
   parsePresenceState,
   sanitizeActivityTexts,
   sanitizePresenceRotationIntervalSeconds,
-} from "../src/types/presenceTypes.js";
+} from "../src/validators/presence.js";
 
 test("sanitizeActivityTexts fallback sur le texte par defaut", () => {
   const texts = sanitizeActivityTexts(["   ", ""]);

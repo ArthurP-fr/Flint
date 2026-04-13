@@ -1,86 +1,101 @@
 # AGENT.md - Guide du projet template_discordjs
 
-Version: 1.0
+Version: 2.0
 
 But
 ---
-Ce fichier décrit le projet, sa structure, les conventions de code et la procédure recommandée pour ajouter de nouvelles fonctionnalités (commandes, événements, services). Il sert de référence pour les contributeurs et pour les agents automatisés qui travaillent sur le dépôt.
+Ce fichier decrit la structure actuelle du projet, les conventions d'architecture et le workflow recommande pour contribuer sans introduire de dette technique.
 
-Vue d'ensemble du projet
------------------------
-- Tech stack: TypeScript + Discord.js (bot template). Le code source est dans `src/` et la sortie build dans `build/` (à ignorer).
-- Localisation: `src/i18n/` contient `en.json`, `fr.json`, `es.json`.
+Vue d'ensemble
+--------------
+- Stack: TypeScript + Discord.js 14.
+- Build: esbuild + typecheck TypeScript strict.
+- Localisation: `src/i18n/en.json`, `src/i18n/fr.json`, `src/i18n/es.json`.
+- Base de donnees: PostgreSQL, stores injectes via lifecycle centralise.
 
-Organisation des fichiers
-------------------------
+Organisation des dossiers
+-------------------------
 - Racine:
-  - `package.json`, `tsconfig.json`, `Dockerfile`, `docker-compose.yml` — scripts et infra.
-- `src/` (code TypeScript):
-  - `index.ts` — point d'entrée, boot du bot.
-  - `commands/` — définitions de commandes (chaque fichier expose une commande). 
-  - `events/` — un fichier par événement Discord (ex: `guildMemberAdd.ts`). `src/events/index.ts` centralise l'enregistrement.
-  - `framework/` — bibliothèque interne: helpers commandes, `i18n/`, `memberMessages/`, `presence/`, `execution/`, `handlers/`, `config/`, `types/`.
-  - `utils/` — helpers génériques (ex: `templateVariables.ts`).
-- `tests/` — tests unitaires ciblant managers, stores et utilitaires.
+  - `package.json`, `tsconfig.json`, `Dockerfile`, `docker-compose.yml`.
+- `src/app/`
+  - `bootstrap.ts`: wiring des dependances, init DB, handlers, shutdown.
+  - `container.ts`: contrats de services injectes.
+- `src/commands/`
+  - Wrappers de commandes uniquement.
+  - Chaque fichier retourne une commande via `defineCommand(...)`.
+  - Aucune logique metier lourde dans cette couche.
+- `src/features/`
+  - `presence/`: orchestration panel, runtime, service, repository contract.
+  - `memberMessages/`: orchestration panel, dispatch, image rendering, repository contract.
+- `src/core/`
+  - `commands/`: parser, registry, slash builder, usage.
+  - `execution/`: pipeline d'execution des commandes.
+  - `discord/`: helpers partages (resolveReplyMessage, session registry).
+- `src/database/`
+  - `stores/`: implementations PostgreSQL concretes.
+  - `dbLifecycle.ts`: init/shutdown centralise.
+- `src/validators/`
+  - Validation et sanitation metier (presence, member messages).
+- `src/types/`
+  - Types purs partages (pas de logique metier).
+- `src/events/`
+  - Enregistrement des listeners Discord, relies aux services injectes.
+- `src/handlers/`
+  - Entrees prefix/slash et adaptation du contexte d'execution.
+- `src/utils/`
+  - Utilitaires generiques transverses.
 
-Principes et conventions de code
--------------------------------
-- Commands: chaque commande doit être définie avec `defineCommand({...})` et exposer uniquement la configuration + une fonction `execute()` très mince qui délègue la logique métier à un service/manager.
-- Services / Managers: placer la logique métier testable dans `src/framework/*`. Ces modules doivent être découplés de Discord.js — recevoir des adaptateurs ou des interfaces plutôt que des objets Discord directement.
-- Events: un seul fichier par événement; exporter une fonction `registerX(client, i18n)` ou une fonction d'enregistrement équivalente. Centraliser les imports dans `src/events/index.ts`.
-- Typage: utiliser TypeScript strict, signatures fortement typées pour les handlers (`onPrefixMessage(message: Message)` etc.).
-- Tests: privilégier les tests unitaires pour managers/stores/transformations. Mockez les adaptateurs Discord.
-- i18n: utiliser `I18nService` pour traductions. Ajouter toutes les clés dans `src/i18n/*.json`.
-- Nommage: fichiers en lowerCamelCase (ex: `welcome.ts`, `memberMessagePanel.ts`). Exports nommés préférés pour faciliter le mocking.
-- Sécurité: ne pas committer de secrets (`.env*` doit être dans `.gitignore`).
+Principes d'architecture
+------------------------
+- Commands UI only:
+  - Une commande ne fait que declarer `meta/args/examples` et deleguer `execute`.
+- Features own business logic:
+  - Toute logique metier testable va dans `src/features/*`.
+- Core is shared infra:
+  - Helpers communs Discord, execution pipeline, parser, registry.
+- Validators isolate rules:
+  - Les regles de validation/sanitation ne vont pas dans `src/types`.
+- Database via repository contracts:
+  - Les features dependent d'interfaces, pas de singletons globaux.
+- Bootstrap owns lifecycle:
+  - Init/shutdown DB et services centralises dans `src/app/bootstrap.ts`.
 
-Procédure standard pour ajouter une nouvelle commande
-----------------------------------------------------
-1. Créer le fichier dans `src/commands/myCommand.ts`.
-2. Utiliser `defineCommand({ meta, args, examples, execute })` pour déclarer la commande.
-3. Implémenter `execute()` de façon minimale: valider les args et appeler un service dans `src/framework/` si la logique est non triviale.
-4. Ajouter les clés de traduction dans `src/i18n/en.json`, `src/i18n/fr.json`, `src/i18n/es.json` (ex: `commands.myCommand.success`).
-5. Écrire des tests unitaires dans `tests/` pour le service/manager; si la commande est juste un wrapper, testez le service.
-6. Si c'est une slash command, vérifier que le registre inclut la commande; redémarrer le bot avec `AUTO_DEPLOY_SLASH=true` si synchronisation nécessaire.
-7. Lancer `npm run build` puis `npm test` (ou la suite de scripts définie dans `package.json`).
-8. Ouvrir une PR documentant le changement et incluant les tests et les traductions.
+Conventions de code
+-------------------
+- TypeScript strict obligatoire.
+- Exports nommes preferes.
+- Fichiers en lowerCamelCase.
+- Commentaires courts uniquement pour clarifier un bloc non trivial.
+- Eviter tout couplage direct d'une feature vers une autre sans passer par contrats explicites.
 
-Procédure standard pour ajouter un nouvel événement
---------------------------------------------------
-1. Créer `src/events/<eventName>.ts` et y exporter `register<EventName>(client, i18n)`.
-2. Respecter la signature projet (voir `src/events/index.ts` pour l'exemple d'enregistrement).
-3. Mettre la logique testable dans un manager/service et tester cette logique séparément.
-4. Ajouter l'import et l'appel d'enregistrement dans `src/events/index.ts`.
+Procedure: ajouter une commande
+--------------------------------
+1. Creer un wrapper dans `src/commands/`.
+2. Declarer la commande avec `defineCommand({ ... })`.
+3. Deleguer `execute` vers un module `src/features/...`.
+4. Ajouter la commande dans `createCommandList` (`src/commands/index.ts`).
+5. Ajouter les cles i18n dans `src/i18n/*.json`.
+6. Ajouter les tests cibles (`tests/`) selon la logique introduite.
 
-Procédure pour ajouter un service/manager dans `framework`
---------------------------------------------------------
-1. Créer un dossier `src/framework/<feature>/` contenant `manager.ts`, `store.ts` (si nécessaire), `types.ts` et tests.
-2. Interfacez le manager pour qu'il accepte des adaptateurs (ex: `DiscordAdapter`) au lieu d'utiliser directement `client`.
-3. Documenter les comportements et écrire des tests unitaires couvrant les cas critiques.
+Procedure: ajouter une feature
+------------------------------
+1. Creer `src/features/<feature>/`.
+2. Definir les contrats repository dans la feature.
+3. Implementer le service metier independant de Discord quand possible.
+4. Ajouter/adapter le store PostgreSQL sous `src/database/stores/`.
+5. Cablage d'injection dans `src/app/bootstrap.ts`.
+6. Ajouter tests unitaires et, si necessaire, integration.
 
-i18n — bonnes pratiques
------------------------
-- Utiliser des clés structurées: `commands.<name>.<key>` ou `presence.<action>`.
-- Garder `en.json` comme référence complète; synchroniser les autres langues.
+Tests et verification
+---------------------
+- Verification minimale avant PR:
+  - `npm run typecheck`
+  - `npm test`
+- En cas de refactor de structure:
+  - verifier README + AGENT.md + i18n + imports.
 
-Tests et CI
------------
-- Prioriser les tests sur managers, stores et utilitaires.
-- Mocks: extraire les dépendances externes (Discord API) derrière des adaptateurs pour pouvoir les mocker.
-- Scripts: utiliser `npm test` et `npm run build` depuis la racine (vérifier `package.json`).
-
-Déploiement / exécution
------------------------
-- Utiliser `Dockerfile` / `docker-compose.yml` fournis pour le déploiement en conteneur.
-- Pour les slash commands, activer `AUTO_DEPLOY_SLASH=true` pour une synchronisation automatique au démarrage.
-
-Revue et PR
------------
-- Inclure toujours:
-  - modifications de traduction,
-  - tests unitaires pour toute logique métier ajoutée,
-  - notes de migration si la structure des commandes/events change.
-
-Remarques finales
------------------
-- Ce fichier est la source de vérité pour les agents et contributeurs. Pour toute modification structurelle majeure (réorganisation de dossiers, changement d'API interne), mettez à jour `AGENT.md` et ouvrez une PR dédiée.
+Securite
+--------
+- Ne jamais committer de secrets.
+- `.env*` (sauf `.env.example`) doit rester ignore.
+- Eviter d'exposer des credentials dans logs/scripts de debug.

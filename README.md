@@ -79,23 +79,25 @@ An example with two bot services is available in `docker-compose.multi-bot.examp
 
 ## Architecture
 
-- `src/types/command.ts`: strict command schema
-- `src/core/commands/defineCommand.ts`: default command completion
-- `src/core/commands/registry.ts`: trigger/name mapping generated from i18n dictionaries
-- `src/core/commands/argParser.ts`: prefix/slash args parsing from schema
-- `src/core/execution/CommandExecutor.ts`: unified pipeline (permissions/cooldown/execute)
-- `src/handlers/prefixHandler.ts`: prefix entrypoint
-- `src/handlers/slashHandler.ts`: slash entrypoint
-- `src/database/presence/presenceStore.ts`: PostgreSQL presence storage
-- `src/types/presenceTypes.ts`: shared presence types/validation
+- `src/app/bootstrap.ts`: runtime bootstrap, dependency wiring, graceful shutdown
+- `src/commands/*`: thin command wrappers (`defineCommand` + delegated execute)
+- `src/features/presence/*`: presence runtime, panel orchestration, repository contract
+- `src/features/memberMessages/*`: member-message dispatch, panel orchestration, image rendering, repository contract
+- `src/core/commands/*`: registry, parsing, slash payload, usage helpers
+- `src/core/execution/CommandExecutor.ts`: unified execution pipeline (permissions/cooldown/error handling)
+- `src/core/discord/*`: shared Discord helpers (reply message resolver, panel session registry)
+- `src/database/stores/*`: PostgreSQL store implementations
+- `src/database/dbLifecycle.ts`: centralized DB init/shutdown lifecycle
+- `src/validators/*`: business validation/sanitization
+- `src/types/*`: pure shared types and contracts
 - `src/i18n/*.json`: external i18n dictionaries
-- `src/commands/*`: business commands only (`execute`, optional `cooldown`)
 
 ## Included Commands
 
 - `kiss` (`fun`) with required `user` arg
 - `ping` (`utility`)
-- `advanced` (`utility`) with full argument/permission example
+- `welcome` (`utility`) interactive welcome-message panel
+- `goodbye` (`utility`) interactive goodbye-message panel
 - `presence` (`utility`) with interactive status/activity/text panel
 - `help` (`core`) with auto category and usage generation
 

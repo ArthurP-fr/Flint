@@ -1,6 +1,5 @@
-import { Pool } from "pg";
+import type { Pool } from "pg";
 
-import { env } from "../../config/env.js";
 import type {
   MemberMessageConfig,
   MemberMessageKind,
@@ -9,7 +8,8 @@ import type {
 import {
   createDefaultMemberMessageConfig,
   isMemberMessageRenderTypeValue,
-} from "../../types/memberMessageTypes.js";
+} from "../../validators/memberMessages.js";
+import type { MemberMessageRepository } from "../../features/memberMessages/repository.js";
 
 const tableSql = `
 CREATE TABLE IF NOT EXISTS bot_member_message_configs (
@@ -45,7 +45,7 @@ const toConfig = (row: MemberMessageRow): MemberMessageConfig => {
   };
 };
 
-class MemberMessageStore {
+export class PostgresMemberMessageStore implements MemberMessageRepository {
   public constructor(private readonly pool: Pool) {}
 
   public async init(): Promise<void> {
@@ -101,50 +101,10 @@ class MemberMessageStore {
     );
   }
 
-  public async close(): Promise<void> {
-    await this.pool.end();
+  public async deleteByBotGuild(botId: string, guildId: string): Promise<void> {
+    await this.pool.query(
+      "DELETE FROM bot_member_message_configs WHERE bot_id = $1 AND guild_id = $2",
+      [botId, guildId],
+    );
   }
 }
-
-let store: MemberMessageStore | null = null;
-
-export const initMemberMessageStore = async (): Promise<MemberMessageStore> => {
-  if (store) {
-    return store;
-  }
-
-  const pool = new Pool({
-    connectionString: env.DATABASE_URL,
-    ssl: env.DATABASE_SSL ? { rejectUnauthorized: false } : undefined,
-  });
-
-  const nextStore = new MemberMessageStore(pool);
-
-  try {
-    await nextStore.init();
-    store = nextStore;
-    return nextStore;
-  } catch (error) {
-    await pool.end().catch(() => {
-      // Ignore close errors; the original init error should be preserved.
-    });
-    throw error;
-  }
-};
-
-export const getMemberMessageStore = (): MemberMessageStore => {
-  if (!store) {
-    throw new Error("MemberMessageStore is not initialized. Call initMemberMessageStore() during bootstrap.");
-  }
-
-  return store;
-};
-
-export const shutdownMemberMessageStore = async (): Promise<void> => {
-  if (!store) {
-    return;
-  }
-
-  await store.close();
-  store = null;
-};

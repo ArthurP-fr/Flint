@@ -11,21 +11,11 @@ export const registerInteractionCreate = (
   onSlashInteraction: (interaction: ChatInputCommandInteraction) => Promise<void>,
 ): void => {
   client.on(Events.InteractionCreate, (interaction) => {
-    // On ne traite que les `ChatInputCommand` (slash)
-    if (!interaction || typeof (interaction as any).isChatInputCommand !== "function") {
+    if (!interaction.isChatInputCommand()) {
       return;
     }
 
-    try {
-      if (!(interaction as any).isChatInputCommand()) {
-        return;
-      }
-    } catch {
-      return;
-    }
-
-    // Cast sécurisé par le test `isChatInputCommand()` effectué ci‑dessus
-    void onSlashInteraction(interaction as ChatInputCommandInteraction).catch((error) => {
+    void onSlashInteraction(interaction).catch((error) => {
       console.error("[event:interactionCreate] handler failed", error);
     });
   });

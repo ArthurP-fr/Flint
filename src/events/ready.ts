@@ -1,20 +1,21 @@
 import { Events, type Client } from "discord.js";
-import { deployApplicationCommands } from "../core/commands/deploy.js";
+
 import { env } from "../config/env.js";
-import { restorePresenceFromStorage } from "../commands/presence.js";
+import { deployApplicationCommands } from "../core/commands/deploy.js";
 import type { CommandRegistry } from "../core/commands/registry.js";
+import type { PresenceService } from "../features/presence/service.js";
 import type { I18nService } from "../i18n/index.js";
 
-/**
- * Attache le listener `ready` et exécute les tâches post-démarrage:
- * - restauration de la présence
- * - (optionnel) déploiement des commandes slash
- */
-export const registerClientReady = (client: Client, registry: CommandRegistry, i18n: I18nService): void => {
+export const registerClientReady = (
+  client: Client,
+  registry: CommandRegistry,
+  i18n: I18nService,
+  presenceService: PresenceService,
+): void => {
   client.once(Events.ClientReady, async () => {
     console.log(`[ready] logged as ${client.user?.tag ?? "unknown"}`);
     try {
-      await restorePresenceFromStorage(client);
+      await presenceService.restoreFromStorage(client);
     } catch (error) {
       console.error("[ready] failed to restore bot presence", error);
     }

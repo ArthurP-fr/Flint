@@ -7,10 +7,12 @@
 import { PermissionFlagsBits } from "discord.js";
 
 import { defineCommand } from "../core/commands/defineCommand.js";
-import { createMemberMessageExecute } from "./memberMessagePanel.js";
+import { createMemberMessagePanelExecute } from "../features/memberMessages/commandPanel.js";
+import type { MemberMessageService } from "../features/memberMessages/service.js";
+import type { I18nService } from "../i18n/index.js";
 
 /** Commande `welcome` — ouvre le panneau de configuration des messages 'welcome'. */
-export const welcomeCommand = defineCommand({
+export const createWelcomeCommand = (memberMessageService: MemberMessageService, i18n: I18nService) => defineCommand({
   meta: {
     name: "welcome",
     category: "utility",
@@ -22,5 +24,5 @@ export const welcomeCommand = defineCommand({
       descriptionKey: "examples.slash",
     },
   ],
-  execute: createMemberMessageExecute("welcome"),
+  execute: createMemberMessagePanelExecute("welcome", memberMessageService, i18n),
 });

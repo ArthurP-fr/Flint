@@ -6,19 +6,21 @@
  */
 import { helpCommand } from "./help.js";
 import { kissCommand } from "./kiss.js";
-import { goodbyeCommand } from "./goodbye.js";
-import { presenceCommand } from "./presence.js";
+import { createGoodbyeCommand } from "./goodbye.js";
+import { createPresenceCommand } from "./presence.js";
 import { pingCommand } from "./ping.js";
-import { welcomeCommand } from "./welcome.js";
+import { createWelcomeCommand } from "./welcome.js";
+import type { AppFeatureServices } from "../app/container.js";
+import type { I18nService } from "../i18n/index.js";
 
 import type { BotCommand } from "../types/command.js";
 
 /** CommandList: tableau ordonné des commandes disponibles. */
-export const commandList: BotCommand[] = [
+export const createCommandList = (services: AppFeatureServices, i18n: I18nService): BotCommand[] => [
   kissCommand,
   pingCommand,
-  welcomeCommand,
-  goodbyeCommand,
-  presenceCommand,
+  createWelcomeCommand(services.memberMessageService, i18n),
+  createGoodbyeCommand(services.memberMessageService, i18n),
+  createPresenceCommand(services.presenceService),
   helpCommand,
 ];

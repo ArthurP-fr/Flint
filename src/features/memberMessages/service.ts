@@ -15,13 +15,15 @@ import type { SupportedLang } from "../../types/command.js";
 import type {
   DispatchMemberMessageInput,
   DispatchMemberMessageResult,
+  MemberMessageConfig,
   MemberMessageKind,
   MemberMessageRenderType,
   SendableChannel,
   TemplateSuffix,
 } from "../../types/memberMessages.js";
-import { renderMemberMessageImage } from "./memberMessageImage.js";
-import { getMemberMessageStore } from "../../database/memberMessages/memberMessageStore.js";
+import { renderMemberMessageImage } from "./imageRenderer.js";
+import type { MemberMessageRepository } from "./repository.js";
+
 export type {
   DispatchMemberMessageFailureReason,
   DispatchMemberMessageResult,
@@ -180,86 +182,111 @@ const buildMemberMessagePayload = async (
   };
 };
 
-export const dispatchMemberMessage = async (input: DispatchMemberMessageInput): Promise<DispatchMemberMessageResult> => {
-  const botId = input.client.user?.id;
-  if (!botId) {
-    return {
-      sent: false,
-      reason: "bot_not_ready",
-      channelId: null,
-    };
+export class MemberMessageService {
+  public constructor(private readonly repository: MemberMessageRepository) {}
+
+  public resolveBotId(client: DispatchMemberMessageInput["client"]): string | null {
+    return client.user?.id ?? null;
   }
 
-  const config = await getMemberMessageStore().getByBotGuildKind(botId, input.guild.id, input.kind);
-
-  if (!input.ignoreEnabled && !config.enabled) {
-    return {
-      sent: false,
-      reason: "disabled",
-      channelId: config.channelId,
-    };
+  public async getConfig(botId: string, guildId: string, kind: MemberMessageKind) {
+    return this.repository.getByBotGuildKind(botId, guildId, kind);
   }
 
-  if (!config.channelId) {
-    return {
-      sent: false,
-      reason: "missing_channel",
-      channelId: null,
-    };
+  public async saveConfig(
+    botId: string,
+    guildId: string,
+    kind: MemberMessageKind,
+    config: MemberMessageConfig,
+  ): Promise<void> {
+    await this.repository.upsertByBotGuildKind(botId, guildId, kind, config);
   }
 
-  const channel = await input.guild.channels.fetch(config.channelId).catch(() => null);
-  if (!channel) {
-    return {
-      sent: false,
-      reason: "channel_not_found",
-      channelId: config.channelId,
-    };
+  public async cleanupGuild(botId: string, guildId: string): Promise<void> {
+    await this.repository.deleteByBotGuild(botId, guildId);
   }
 
-  if (!hasSendMethod(channel)) {
-    return {
-      sent: false,
-      reason: "channel_not_sendable",
-      channelId: config.channelId,
-    };
-  }
-
-  const me = input.guild.members.me;
-  if (me && "permissionsFor" in channel && typeof channel.permissionsFor === "function") {
-    const permissions = channel.permissionsFor(me);
-    if (!permissions || !permissions.has(PermissionFlagsBits.ViewChannel) || !permissions.has(PermissionFlagsBits.SendMessages)) {
+  public async dispatch(input: DispatchMemberMessageInput): Promise<DispatchMemberMessageResult> {
+    const botId = this.resolveBotId(input.client);
+    if (!botId) {
       return {
         sent: false,
-        reason: "missing_permissions",
-        channelId: config.channelId,
+        reason: "bot_not_ready",
+        channelId: null,
       };
     }
-  }
 
-  const lang = input.i18n?.resolveLang(input.guild.preferredLocale ?? null) ?? "en";
-  const payload = await buildMemberMessagePayload(input.i18n, lang, input.kind, config.messageType, input.guild, input.user);
+    const config = await this.repository.getByBotGuildKind(botId, input.guild.id, input.kind);
 
-  try {
-    await channel.send(payload);
-    return {
-      sent: true,
-      reason: "sent",
-      channelId: config.channelId,
-    };
-  } catch (error) {
-    if (hasCode(error) && error.code === 50013) {
+    if (!input.ignoreEnabled && !config.enabled) {
       return {
         sent: false,
-        reason: "missing_permissions",
+        reason: "disabled",
         channelId: config.channelId,
       };
     }
 
-    return {
-      sent: false,
-      reason: "send_failed",
-      channelId: config.channelId,
-    };
+    if (!config.channelId) {
+      return {
+        sent: false,
+        reason: "missing_channel",
+        channelId: null,
+      };
+    }
+
+    const channel = await input.guild.channels.fetch(config.channelId).catch(() => null);
+    if (!channel) {
+      return {
+        sent: false,
+        reason: "channel_not_found",
+        channelId: config.channelId,
+      };
+    }
+
+    if (!hasSendMethod(channel)) {
+      return {
+        sent: false,
+        reason: "channel_not_sendable",
+        channelId: config.channelId,
+      };
+    }
+
+    const me = input.guild.members.me;
+    if (me && "permissionsFor" in channel && typeof channel.permissionsFor === "function") {
+      const permissions = channel.permissionsFor(me);
+      if (!permissions || !permissions.has(PermissionFlagsBits.ViewChannel) || !permissions.has(PermissionFlagsBits.SendMessages)) {
+        return {
+          sent: false,
+          reason: "missing_permissions",
+          channelId: config.channelId,
+        };
+      }
+    }
+
+    const lang = input.i18n?.resolveLang(input.guild.preferredLocale ?? null) ?? "en";
+    const payload = await buildMemberMessagePayload(input.i18n, lang, input.kind, config.messageType, input.guild, input.user);
+
+    try {
+      await channel.send(payload);
+      return {
+        sent: true,
+        reason: "sent",
+        channelId: config.channelId,
+      };
+    } catch (error) {
+      if (hasCode(error) && error.code === 50013) {
+        return {
+          sent: false,
+          reason: "missing_permissions",
+          channelId: config.channelId,
+        };
+      }
+
+      return {
+        sent: false,
+        reason: "send_failed",
+        channelId: config.channelId,
+      };
+    }
   }
-};
+}

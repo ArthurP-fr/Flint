@@ -1,14 +1,3 @@
-/**
- * Panneau de configuration pour les messages de bienvenue / départ
- *
- * Contient la logique UI (Components v2), collectors et sessions pour afficher
- * et gérer un panneau interactif permettant de configurer les messages
- * d'accueil et d'au revoir par guild.
- *
- * Export:
- * - `createMemberMessageExecute(kind)` : factory utilisée par les commandes
- *   `welcome` et `goodbye` pour attacher le panneau.
- */
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -19,18 +8,12 @@ import {
   MessageFlags,
   StringSelectMenuBuilder,
   TextDisplayBuilder,
-  type Message,
 } from "discord.js";
 
-import { env } from "../config/env.js";
-import { I18nService } from "../i18n/index.js";
-import { dispatchMemberMessage } from "../services/memberMessages/memberMessageSender.js";
-import { getMemberMessageStore } from "../database/memberMessages/memberMessageStore.js";
-import {
-  MEMBER_MESSAGE_RENDER_TYPES,
-  isMemberMessageRenderTypeValue,
-} from "../types/memberMessageTypes.js";
-import type { CommandExecutionContext } from "../types/command.js";
+import { ComponentSessionRegistry } from "../../core/discord/componentSessionRegistry.js";
+import { resolveReplyMessage } from "../../core/discord/replyMessageResolver.js";
+import type { I18nService } from "../../i18n/index.js";
+import type { CommandExecutionContext } from "../../types/command.js";
 import type {
   MemberMessageConfig,
   MemberMessageCustomIds,
@@ -38,14 +21,17 @@ import type {
   MemberMessagePanelSession,
   MemberMessagePanelUiState,
   MemberMessageRenderType,
-} from "../types/memberMessages.js";
+} from "../../types/memberMessages.js";
+import {
+  MEMBER_MESSAGE_RENDER_TYPES,
+  isMemberMessageRenderTypeValue,
+} from "../../validators/memberMessages.js";
+import type { MemberMessageService } from "./service.js";
 
-const memberMessageI18n = new I18nService(env.DEFAULT_LANG);
+const panelSessions = new ComponentSessionRegistry<MemberMessagePanelSession>();
 
-const activePanelsByUser = new Map<string, MemberMessagePanelSession>();
-
-const panelSessionKey = (kind: MemberMessageKind, guildId: string, userId: string): string => {
-  return `${kind}:${guildId}:${userId}`;
+const panelSessionKey = (kind: MemberMessageKind, botId: string, guildId: string, userId: string): string => {
+  return `${kind}:${botId}:${guildId}:${userId}`;
 };
 
 const createCustomIds = (kind: MemberMessageKind): MemberMessageCustomIds => {
@@ -59,32 +45,6 @@ const createCustomIds = (kind: MemberMessageKind): MemberMessageCustomIds => {
     channelSelect: `${kind}:channel-select:${nonce}`,
     testButton: `${kind}:test:${nonce}`,
   };
-};
-
-const isMessageResult = (value: unknown): value is Message => {
-  if (!value || typeof value !== "object") {
-    return false;
-  }
-
-  return "createMessageComponentCollector" in value && "edit" in value;
-};
-
-const resolveReplyMessage = (value: unknown): Message | null => {
-  if (isMessageResult(value)) {
-    return value;
-  }
-
-  if (!value || typeof value !== "object" || !("resource" in value)) {
-    return null;
-  }
-
-  const resource = (value as { resource?: unknown }).resource;
-  if (!resource || typeof resource !== "object" || !("message" in resource)) {
-    return null;
-  }
-
-  const message = (resource as { message?: unknown }).message;
-  return isMessageResult(message) ? message : null;
 };
 
 const statusLabel = (ctx: CommandExecutionContext, enabled: boolean): string => {
@@ -201,13 +161,11 @@ const testFeedbackKey = (reason: string): string => {
   }
 };
 
-/**
- * Factory qui crée l'exécuteur de commande pour un `MemberMessageKind` donné.
- *
- * Le handler retourné gère l'affichage du panneau, la collecte d'interactions
- * et la persistance de la configuration via `memberMessageStore`.
- */
-export const createMemberMessageExecute = (kind: MemberMessageKind) => {
+export const createMemberMessagePanelExecute = (
+  kind: MemberMessageKind,
+  memberMessageService: MemberMessageService,
+  panelI18n: I18nService,
+) => {
   return async (ctx: CommandExecutionContext): Promise<void> => {
     if (!ctx.guild) {
       await ctx.reply(ctx.ct("responses.guildOnly"));
@@ -215,13 +173,13 @@ export const createMemberMessageExecute = (kind: MemberMessageKind) => {
     }
 
     const guild = ctx.guild;
-    const botId = ctx.client.user?.id;
+    const botId = memberMessageService.resolveBotId(ctx.client);
     if (!botId) {
       await ctx.reply(ctx.t("errors.execution"));
       return;
     }
 
-    const config = await getMemberMessageStore().getByBotGuildKind(botId, guild.id, kind);
+    const config = await memberMessageService.getConfig(botId, guild.id, kind);
     const customIds = createCustomIds(kind);
     const uiState: MemberMessagePanelUiState = {
       channelPickerOpen: false,
@@ -239,16 +197,10 @@ export const createMemberMessageExecute = (kind: MemberMessageKind) => {
     }
 
     const ownerId = ctx.user.id;
-    const sessionKey = panelSessionKey(kind, guild.id, ownerId);
-    const existingPanel = activePanelsByUser.get(sessionKey);
-    if (existingPanel) {
-      existingPanel.collector.stop("replaced");
-      await existingPanel.disable().catch(() => undefined);
-      activePanelsByUser.delete(sessionKey);
-    }
+    const sessionKey = panelSessionKey(kind, botId, guild.id, ownerId);
 
     const saveConfig = async (): Promise<void> => {
-      await getMemberMessageStore().upsertByBotGuildKind(botId, guild.id, kind, config);
+      await memberMessageService.saveConfig(botId, guild.id, kind, config);
     };
 
     const disablePanel = async (): Promise<void> => {
@@ -261,7 +213,7 @@ export const createMemberMessageExecute = (kind: MemberMessageKind) => {
     };
 
     const collector = replyMessage.createMessageComponentCollector({ time: 15 * 60_000 });
-    activePanelsByUser.set(sessionKey, {
+    await panelSessions.replace(sessionKey, {
       collector,
       disable: disablePanel,
     });
@@ -307,9 +259,9 @@ export const createMemberMessageExecute = (kind: MemberMessageKind) => {
 
           if (interaction.customId === customIds.testButton) {
             await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
-            const testResult = await dispatchMemberMessage({
+            const testResult = await memberMessageService.dispatch({
               client: ctx.client,
-              i18n: memberMessageI18n,
+              i18n: panelI18n,
               guild,
               user: ctx.user,
               kind,
@@ -400,11 +352,7 @@ export const createMemberMessageExecute = (kind: MemberMessageKind) => {
     });
 
     collector.on("end", async () => {
-      const currentPanel = activePanelsByUser.get(sessionKey);
-      if (currentPanel?.collector === collector) {
-        activePanelsByUser.delete(sessionKey);
-      }
-
+      panelSessions.deleteIfCollectorMatch(sessionKey, collector);
       await disablePanel();
     });
   };

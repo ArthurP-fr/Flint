@@ -1,6 +1,5 @@
-import { Pool } from "pg";
+import type { Pool } from "pg";
 
-import { env } from "../../config/env.js";
 import type {
   PresenceActivityTypeValue,
   PresenceRow,
@@ -15,7 +14,8 @@ import {
   sanitizeActivityText,
   sanitizeActivityTexts,
   sanitizePresenceRotationIntervalSeconds,
-} from "../../types/presenceTypes.js";
+} from "../../validators/presence.js";
+import type { PresenceRepository } from "../../features/presence/repository.js";
 
 const tableSql = `
 CREATE TABLE IF NOT EXISTS bot_presence_states (
@@ -88,7 +88,7 @@ const toPresenceState = (row: PresenceRow): PresenceState | null => {
   };
 };
 
-class PresenceStore {
+export class PostgresPresenceStore implements PresenceRepository {
   public constructor(private readonly pool: Pool) {}
 
   public async init(): Promise<void> {
@@ -147,50 +147,4 @@ class PresenceStore {
       ],
     );
   }
-
-  public async close(): Promise<void> {
-    await this.pool.end();
-  }
 }
-
-let store: PresenceStore | null = null;
-
-export const initPresenceStore = async (): Promise<PresenceStore> => {
-  if (store) {
-    return store;
-  }
-
-  const pool = new Pool({
-    connectionString: env.DATABASE_URL,
-    ssl: env.DATABASE_SSL ? { rejectUnauthorized: false } : undefined,
-  });
-
-  const nextStore = new PresenceStore(pool);
-  try {
-    await nextStore.init();
-    store = nextStore;
-    return nextStore;
-  } catch (error) {
-    await pool.end().catch(() => {
-      // Ignore close errors; the original init error is the one we want to surface.
-    });
-    throw error;
-  }
-};
-
-export const getPresenceStore = (): PresenceStore => {
-  if (!store) {
-    throw new Error("PresenceStore is not initialized. Call initPresenceStore() during bootstrap.");
-  }
-
-  return store;
-};
-
-export const shutdownPresenceStore = async (): Promise<void> => {
-  if (!store) {
-    return;
-  }
-
-  await store.close();
-  store = null;
-};

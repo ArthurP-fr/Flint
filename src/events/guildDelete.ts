@@ -1,12 +1,18 @@
 import { Events, type Client } from "discord.js";
 
-/**
- * Enregistre le listener `guildDelete` (bot retiré d'un serveur).
- *
- * Action minimale: log pour monitoring ; peut être étendu (cleanup, etc.).
- */
-export const registerGuildDelete = (client: Client): void => {
+import type { MemberMessageService } from "../features/memberMessages/service.js";
+
+export const registerGuildDelete = (client: Client, memberMessageService: MemberMessageService): void => {
   client.on(Events.GuildDelete, (guild) => {
     console.log(`[event:guildDelete] left guild ${guild.id} (${guild.name})`);
+
+    const botId = memberMessageService.resolveBotId(client);
+    if (!botId) {
+      return;
+    }
+
+    void memberMessageService.cleanupGuild(botId, guild.id).catch((error) => {
+      console.error("[event:guildDelete] failed to cleanup guild config", error);
+    });
   });
 };
