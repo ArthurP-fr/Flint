@@ -2,9 +2,9 @@ import type {
   MemberMessageConfig,
   MemberMessageKind,
   MemberMessageRenderType,
-} from "../../types/memberMessages.js";
+} from "./memberMessages.js";
 
-export type { MemberMessageConfig, MemberMessageKind, MemberMessageRenderType } from "../../types/memberMessages.js";
+export type { MemberMessageConfig, MemberMessageKind, MemberMessageRenderType } from "./memberMessages.js";
 
 export const MEMBER_MESSAGE_KINDS: readonly MemberMessageKind[] = ["welcome", "goodbye"];
 

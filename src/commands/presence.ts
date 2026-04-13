@@ -32,7 +32,7 @@ import type {
   PresenceState,
   PresenceStatusValue,
 } from "../types/presence.js";
-import { getPresenceStore } from "../framework/presence/presenceStore.js";
+import { getPresenceStore } from "../database/presence/presenceStore.js";
 import {
   PRESENCE_TEMPLATE_REFRESH_INTERVAL_MS,
   containsPresenceTemplateVariables,
@@ -51,7 +51,7 @@ import {
   sanitizeActivityText,
   sanitizeActivityTexts,
   sanitizePresenceRotationIntervalSeconds,
-} from "../framework/presence/presenceTypes.js";
+} from "../types/presenceTypes.js";
 import type { CommandExecutionContext } from "../types/command.js";
 
 const presenceRuntimeByBotId = new Map<string, PresenceRuntimeState>();

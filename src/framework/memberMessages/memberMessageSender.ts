@@ -21,7 +21,7 @@ import type {
   TemplateSuffix,
 } from "../../types/memberMessages.js";
 import { renderMemberMessageImage } from "./memberMessageImage.js";
-import { getMemberMessageStore } from "./memberMessageStore.js";
+import { getMemberMessageStore } from "../../database/memberMessages/memberMessageStore.js";
 export type {
   DispatchMemberMessageFailureReason,
   DispatchMemberMessageResult,

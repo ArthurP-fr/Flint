@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 
-import { env } from "../config/env.js";
+import { env } from "../../framework/config/env.js";
 import type {
   MemberMessageConfig,
   MemberMessageKind,
@@ -9,7 +9,7 @@ import type {
 import {
   createDefaultMemberMessageConfig,
   isMemberMessageRenderTypeValue,
-} from "./memberMessageTypes.js";
+} from "../../types/memberMessageTypes.js";
 
 const tableSql = `
 CREATE TABLE IF NOT EXISTS bot_member_message_configs (

@@ -22,8 +22,8 @@ import { I18nService } from "./i18n/index.js";
 import {
   initMemberMessageStore,
   shutdownMemberMessageStore,
-} from "./framework/memberMessages/memberMessageStore.js";
-import { initPresenceStore, shutdownPresenceStore } from "./framework/presence/presenceStore.js";
+} from "./database/memberMessages/memberMessageStore.js";
+import { initPresenceStore, shutdownPresenceStore } from "./database/presence/presenceStore.js";
 
 /**
  * Attache des handlers pour un arrêt gracieux du process.

@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 
-import { env } from "../config/env.js";
+import { env } from "../../framework/config/env.js";
 import type {
   PresenceActivityTypeValue,
   PresenceRow,
@@ -15,7 +15,7 @@ import {
   sanitizeActivityText,
   sanitizeActivityTexts,
   sanitizePresenceRotationIntervalSeconds,
-} from "./presenceTypes.js";
+} from "../../types/presenceTypes.js";
 
 const tableSql = `
 CREATE TABLE IF NOT EXISTS bot_presence_states (

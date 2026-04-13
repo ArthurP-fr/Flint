@@ -86,8 +86,8 @@ An example with two bot services is available in `docker-compose.multi-bot.examp
 - `src/framework/execution/CommandExecutor.ts`: unified pipeline (permissions/cooldown/execute)
 - `src/framework/handlers/prefixHandler.ts`: prefix entrypoint
 - `src/framework/handlers/slashHandler.ts`: slash entrypoint
-- `src/framework/presence/presenceStore.ts`: PostgreSQL presence storage
-- `src/framework/presence/presenceTypes.ts`: shared presence types/validation
+- `src/database/presence/presenceStore.ts`: PostgreSQL presence storage
+- `src/types/presenceTypes.ts`: shared presence types/validation
 - `src/i18n/*.json`: external i18n dictionaries
 - `src/commands/*`: business commands only (`execute`, optional `cooldown`)
 

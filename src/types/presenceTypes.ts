@@ -2,7 +2,7 @@ import type {
   PresenceActivityTypeValue,
   PresenceState,
   PresenceStatusValue,
-} from "../../types/presence.js";
+} from "./presence.js";
 
 export const PRESENCE_STATUSES: readonly PresenceStatusValue[] = ["online", "idle", "dnd", "invisible", "streaming"];
 export const PRESENCE_ACTIVITY_TYPES: readonly PresenceActivityTypeValue[] = [
