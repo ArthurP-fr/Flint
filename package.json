@@ -9,16 +9,19 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "npm run typecheck && node scripts/build.mjs",
+    "migrate": "node scripts/migrate.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "node --import tsx --test tests/**/*.test.ts",
     "check": "npm run typecheck && npm run test",
-    "start": "node build/index.js"
+    "start": "npm run migrate && node build/index.js"
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.97",
     "discord.js": "14.26.2",
     "dotenv": "16.4.5",
+    "ioredis": "^5.10.1",
     "pg": "^8.20.0",
+    "pino": "^10.3.1",
     "zod": "3.23.8"
   },
   "devDependencies": {

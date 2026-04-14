@@ -1,7 +1,10 @@
 import { Events, type Client } from "discord.js";
 
-import type { MemberMessageService } from "../features/memberMessages/service.js";
+import { createScopedLogger } from "../core/logging/logger.js";
 import type { I18nService } from "../i18n/index.js";
+import type { MemberMessageService } from "../modules/memberMessages/index.js";
+
+const log = createScopedLogger("event:guildMemberAdd");
 
 export const registerGuildMemberAdd = (
   client: Client,
@@ -16,7 +19,14 @@ export const registerGuildMemberAdd = (
       user: member.user,
       kind: "welcome",
     }).catch((error) => {
-      console.error("[event:guildMemberAdd] failed to send welcome message", error);
+      log.error(
+        {
+          guildId: member.guild.id,
+          userId: member.user.id,
+          err: error,
+        },
+        "failed to send welcome message",
+      );
     });
   });
 };

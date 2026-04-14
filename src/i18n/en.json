@@ -14,7 +14,9 @@
       "user": "You are missing permissions: {{permissions}}"
     },
     "execution": "An unexpected error happened while running this command.",
-    "cooldown": "Please wait {{seconds}}s before using this command again."
+    "cooldown": "Please wait {{seconds}}s before using this command again.",
+    "rateLimit": "Too many requests. Please wait {{seconds}}s before retrying.",
+    "executionQueued": "Command accepted and queued for processing."
   },
   "categories": {
     "fun": "Fun",

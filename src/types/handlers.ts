@@ -1,5 +1,5 @@
 import type { CommandRegistry } from "../core/commands/registry.js";
-import type { CommandExecutor } from "../core/execution/CommandExecutor.js";
+import type { CommandDispatchPort } from "../core/execution/dispatch.js";
 import type { I18nService } from "../i18n/index.js";
 import type {
   BotCommand,
@@ -16,6 +16,7 @@ export interface HandlerExecutionDeps {
 }
 
 export interface BuildExecutionContextInput {
+  requestId: string;
   command: BotCommand;
   source: CommandSource;
   lang: SupportedLang;
@@ -29,9 +30,9 @@ export interface BuildExecutionContextInput {
 }
 
 export interface PrefixHandlerDeps extends HandlerExecutionDeps {
-  executor: CommandExecutor;
+  dispatcher: CommandDispatchPort;
 }
 
 export interface SlashHandlerDeps extends HandlerExecutionDeps {
-  executor: CommandExecutor;
+  dispatcher: CommandDispatchPort;
 }

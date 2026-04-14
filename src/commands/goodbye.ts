@@ -7,9 +7,11 @@
 import { PermissionFlagsBits } from "discord.js";
 
 import { defineCommand } from "../core/commands/defineCommand.js";
-import { createMemberMessagePanelExecute } from "../features/memberMessages/commandPanel.js";
-import type { MemberMessageService } from "../features/memberMessages/service.js";
 import type { I18nService } from "../i18n/index.js";
+import {
+  createMemberMessagePanelExecute,
+  type MemberMessageService,
+} from "../modules/memberMessages/index.js";
 
 /** Commande `goodbye` — ouvre le panneau de configuration des messages 'goodbye'. */
 export const createGoodbyeCommand = (memberMessageService: MemberMessageService, i18n: I18nService) => defineCommand({
@@ -18,6 +20,7 @@ export const createGoodbyeCommand = (memberMessageService: MemberMessageService,
     category: "utility",
   },
   permissions: [PermissionFlagsBits.ManageGuild],
+  sensitive: true,
   examples: [
     {
       source: "slash",

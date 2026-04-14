@@ -24,15 +24,21 @@ Organisation des dossiers
   - Wrappers de commandes uniquement.
   - Chaque fichier retourne une commande via `defineCommand(...)`.
   - Aucune logique metier lourde dans cette couche.
+- `src/modules/`
+  - `help/`: module help (service + commande).
+  - `presence/`: point d'entree module presence (services et contrats).
+  - `memberMessages/`: point d'entree module member messages (services et contrats).
 - `src/features/`
-  - `presence/`: orchestration panel, runtime, service, repository contract.
-  - `memberMessages/`: orchestration panel, dispatch, image rendering, repository contract.
+  - Implementation interne des modules (detail technique derriere `src/modules/*`).
 - `src/core/`
   - `commands/`: parser, registry, slash builder, usage.
-  - `execution/`: pipeline d'execution des commandes.
+  - `execution/`: pipeline d'execution des commandes (dispatch local/worker, cooldown/rate-limit stores).
+  - `runtime/`: coordination multi-instance (leader election / startup locks).
+  - `logging/`: logger structure JSON (`pino`).
   - `discord/`: helpers partages (resolveReplyMessage, session registry).
 - `src/database/`
   - `stores/`: implementations PostgreSQL concretes.
+  - `migrations/`: fichiers SQL versionnes appliques via `npm run migrate`.
   - `dbLifecycle.ts`: init/shutdown centralise.
 - `src/validators/`
   - Validation et sanitation metier (presence, member messages).
@@ -49,14 +55,21 @@ Principes d'architecture
 ------------------------
 - Commands UI only:
   - Une commande ne fait que declarer `meta/args/examples` et deleguer `execute`.
-- Features own business logic:
-  - Toute logique metier testable va dans `src/features/*`.
+- Modules own business logic:
+  - Toute logique metier testable va dans `src/modules/*` (les wrappers `src/commands/*` restent minces).
 - Core is shared infra:
   - Helpers communs Discord, execution pipeline, parser, registry.
+- Execution pipeline is decoupled:
+  - Parsing reste dans `src/handlers/*`.
+  - Dispatch est route par `src/core/execution/dispatch.ts` (`local` ou `worker`).
+  - Execution metier passe par `CommandExecutor` avec stores abstraits (memory/Redis).
+- Contexts are split for low coupling:
+  - `ExecutionContext` (core), `TransportContext` (Discord), `I18nContext` (localization).
+  - `CommandExecutionContext` conserve des alias legacy pour ne pas casser les commandes existantes.
 - Validators isolate rules:
   - Les regles de validation/sanitation ne vont pas dans `src/types`.
 - Database via repository contracts:
-  - Les features dependent d'interfaces, pas de singletons globaux.
+  - Les modules dependent d'interfaces, pas de singletons globaux.
 - Bootstrap owns lifecycle:
   - Init/shutdown DB et services centralises dans `src/app/bootstrap.ts`.
 
@@ -72,23 +85,25 @@ Procedure: ajouter une commande
 --------------------------------
 1. Creer un wrapper dans `src/commands/`.
 2. Declarer la commande avec `defineCommand({ ... })`.
-3. Deleguer `execute` vers un module `src/features/...`.
+3. Deleguer `execute` vers un module `src/modules/...`.
 4. Ajouter la commande dans `createCommandList` (`src/commands/index.ts`).
 5. Ajouter les cles i18n dans `src/i18n/*.json`.
 6. Ajouter les tests cibles (`tests/`) selon la logique introduite.
 
 Procedure: ajouter une feature
 ------------------------------
-1. Creer `src/features/<feature>/`.
+1. Creer `src/modules/<feature>/`.
 2. Definir les contrats repository dans la feature.
 3. Implementer le service metier independant de Discord quand possible.
 4. Ajouter/adapter le store PostgreSQL sous `src/database/stores/`.
-5. Cablage d'injection dans `src/app/bootstrap.ts`.
-6. Ajouter tests unitaires et, si necessaire, integration.
+5. Ajouter une migration SQL versionnee dans `database/migrations/`.
+6. Cablage d'injection dans `src/app/bootstrap.ts`.
+7. Ajouter tests unitaires et, si necessaire, integration.
 
 Tests et verification
 ---------------------
 - Verification minimale avant PR:
+  - `npm run migrate`
   - `npm run typecheck`
   - `npm test`
 - En cas de refactor de structure:

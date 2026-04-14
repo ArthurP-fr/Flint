@@ -35,5 +35,26 @@ test("defineCommand applique les valeurs par defaut", () => {
   assert.deepEqual(command.args, []);
   assert.deepEqual(command.permissions, []);
   assert.deepEqual(command.examples, []);
+  assert.equal(command.sensitive, false);
   assert.equal(command.cooldown, undefined);
+});
+
+test("defineCommand refuse une commande sensible sans permission", () => {
+  assert.throws(() => {
+    defineCommand({
+      meta: { name: "sensitiveNoPerm", category: "test" },
+      sensitive: true,
+      execute: async () => undefined,
+    });
+  });
+});
+
+test("defineCommand marque sensible automatiquement si permissions presentes", () => {
+  const command = defineCommand({
+    meta: { name: "secured", category: "test" },
+    permissions: ["ManageGuild"],
+    execute: async () => undefined,
+  });
+
+  assert.equal(command.sensitive, true);
 });

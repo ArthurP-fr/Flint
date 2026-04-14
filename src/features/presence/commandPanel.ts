@@ -26,6 +26,9 @@ import {
 import { getPresenceTemplateHelpText } from "./templateVariables.js";
 import type { PresenceService } from "./service.js";
 import type { PresenceCustomIds } from "./types.js";
+import { createScopedLogger } from "../../core/logging/logger.js";
+
+const log = createScopedLogger("command:presence");
 
 const createCustomIds = (): PresenceCustomIds => {
   const nonce = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
@@ -354,7 +357,7 @@ export const createPresenceCommandExecute = (presenceService: PresenceService) =
 
         await interaction.reply({ content: ctx.ct("responses.invalidSelection"), flags: [MessageFlags.Ephemeral] });
       } catch (error) {
-        console.error("[command:presence] interaction failed", error);
+        log.error({ err: error }, "interaction failed");
         const fallback = ctx.t("errors.execution");
 
         if (!interaction.replied && !interaction.deferred) {

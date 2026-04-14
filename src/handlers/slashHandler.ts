@@ -1,3 +1,5 @@
+import { randomUUID } from "node:crypto";
+
 import { MessageFlags, type ChatInputCommandInteraction } from "discord.js";
 import type { SlashHandlerDeps } from "../types/handlers.js";
 
@@ -35,9 +37,10 @@ export const createSlashHandler = (deps: SlashHandlerDeps) => {
       return;
     }
 
-    await deps.executor.run(
+    await deps.dispatcher.dispatch(
       command,
       buildCommandExecutionContext(deps, {
+        requestId: randomUUID(),
         command,
         source: "slash",
         lang,

@@ -1,3 +1,5 @@
+import { randomUUID } from "node:crypto";
+
 import type { Message } from "discord.js";
 import type { BotCommand, SupportedLang } from "../types/command.js";
 import type { PrefixHandlerDeps } from "../types/handlers.js";
@@ -66,9 +68,10 @@ export const createPrefixHandler = (deps: PrefixHandlerDeps) => {
       return;
     }
 
-    await deps.executor.run(
+    await deps.dispatcher.dispatch(
       command,
       buildCommandExecutionContext(deps, {
+        requestId: randomUUID(),
         command,
         source: "prefix",
         lang,

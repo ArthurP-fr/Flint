@@ -1,7 +1,10 @@
 import { Events, type Client } from "discord.js";
 
-import type { MemberMessageService } from "../features/memberMessages/service.js";
+import { createScopedLogger } from "../core/logging/logger.js";
 import type { I18nService } from "../i18n/index.js";
+import type { MemberMessageService } from "../modules/memberMessages/index.js";
+
+const log = createScopedLogger("event:guildMemberRemove");
 
 export const registerGuildMemberRemove = (
   client: Client,
@@ -16,7 +19,14 @@ export const registerGuildMemberRemove = (
       user: member.user,
       kind: "goodbye",
     }).catch((error) => {
-      console.error("[event:guildMemberRemove] failed to send goodbye message", error);
+      log.error(
+        {
+          guildId: member.guild.id,
+          userId: member.user.id,
+          err: error,
+        },
+        "failed to send goodbye message",
+      );
     });
   });
 };

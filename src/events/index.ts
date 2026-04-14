@@ -2,6 +2,7 @@ import type { ChatInputCommandInteraction, Client, Message } from "discord.js";
 
 import type { AppFeatureServices } from "../app/container.js";
 import type { CommandRegistry } from "../core/commands/registry.js";
+import type { LeaderCoordinator } from "../core/runtime/leaderCoordinator.js";
 import type { I18nService } from "../i18n/index.js";
 import { registerGuildCreate } from "./guildCreate.js";
 import { registerGuildDelete } from "./guildDelete.js";
@@ -20,6 +21,7 @@ export const registerEvents = (
   },
   registry: CommandRegistry,
   services: AppFeatureServices,
+  leaderCoordinator: LeaderCoordinator,
 ): void => {
   registerMessageCreate(client, handlers.onPrefixMessage);
   registerInteractionCreate(client, handlers.onSlashInteraction);
@@ -30,5 +32,5 @@ export const registerEvents = (
   registerGuildCreate(client);
   registerGuildDelete(client, services.memberMessageService);
 
-  registerClientReady(client, registry, i18n, services.presenceService);
+  registerClientReady(client, registry, i18n, services.presenceService, leaderCoordinator);
 };

@@ -15,34 +15,19 @@ import {
   sanitizeActivityTexts,
   sanitizePresenceRotationIntervalSeconds,
 } from "../../validators/presence.js";
-import type { PresenceRepository } from "../../features/presence/repository.js";
+import type { PresenceRepository } from "../../modules/presence/index.js";
 
-const tableSql = `
-CREATE TABLE IF NOT EXISTS bot_presence_states (
-  bot_id TEXT PRIMARY KEY,
-  status TEXT NOT NULL,
-  activity_type TEXT NOT NULL,
-  activity_text TEXT NOT NULL,
-  activity_texts TEXT,
-  rotation_interval_seconds INTEGER,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
-`;
-
-const migrationSql = `
-ALTER TABLE bot_presence_states
-  ADD COLUMN IF NOT EXISTS activity_texts TEXT;
-
-ALTER TABLE bot_presence_states
-  ADD COLUMN IF NOT EXISTS rotation_interval_seconds INTEGER;
-`;
-
-const backfillSql = `
-UPDATE bot_presence_states
-SET
-  activity_texts = COALESCE(activity_texts, '[]'),
-  rotation_interval_seconds = COALESCE(rotation_interval_seconds, ${DEFAULT_ACTIVITY_ROTATION_INTERVAL_SECONDS})
-WHERE activity_texts IS NULL OR rotation_interval_seconds IS NULL;
+const presenceSchemaProbeSql = `
+SELECT
+  bot_id,
+  status,
+  activity_type,
+  activity_text,
+  activity_texts,
+  rotation_interval_seconds,
+  updated_at
+FROM bot_presence_states
+LIMIT 0;
 `;
 
 const parseStoredTexts = (rawTexts: string | null, fallbackText: string): string[] => {
@@ -92,9 +77,14 @@ export class PostgresPresenceStore implements PresenceRepository {
   public constructor(private readonly pool: Pool) {}
 
   public async init(): Promise<void> {
-    await this.pool.query(tableSql);
-    await this.pool.query(migrationSql);
-    await this.pool.query(backfillSql);
+    try {
+      await this.pool.query(presenceSchemaProbeSql);
+    } catch (error) {
+      throw new Error(
+        "[db:init] missing or incompatible table \"bot_presence_states\". Run migrations with \"npm run migrate\".",
+        { cause: error },
+      );
+    }
   }
 
   public async getByBotId(botId: string): Promise<PresenceState> {

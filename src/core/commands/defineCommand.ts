@@ -32,14 +32,31 @@ const normalizeCooldown = (input: BotCommandInput): number | undefined => {
   return input.cooldown;
 };
 
+const resolveSensitive = (input: BotCommandInput, permissions: readonly unknown[]): boolean => {
+  if (input.sensitive === true && permissions.length === 0) {
+    throw new Error(
+      `Invalid security config for command "${input.meta.name}": sensitive commands must declare at least one required permission.`,
+    );
+  }
+
+  if (input.sensitive !== undefined) {
+    return input.sensitive;
+  }
+
+  return permissions.length > 0;
+};
+
 export const defineCommand = (input: BotCommandInput): BotCommand => {
   assertRequiredArgsBeforeOptional(input);
   const cooldown = normalizeCooldown(input);
+  const permissions = [...(input.permissions ?? [])];
+  const sensitive = resolveSensitive(input, permissions);
 
   return {
     meta: input.meta,
     args: [...(input.args ?? [])],
-    permissions: input.permissions ?? [],
+    permissions,
+    sensitive,
     examples: input.examples ?? [],
     ...(cooldown !== undefined ? { cooldown } : {}),
     execute: input.execute,

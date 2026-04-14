@@ -14,7 +14,9 @@
       "user": "Te faltan permisos: {{permissions}}"
     },
     "execution": "Ocurrio un error inesperado al ejecutar este comando.",
-    "cooldown": "Espera {{seconds}}s antes de volver a usar este comando."
+    "cooldown": "Espera {{seconds}}s antes de volver a usar este comando.",
+    "rateLimit": "Demasiadas solicitudes. Espera {{seconds}}s antes de reintentar.",
+    "executionQueued": "Comando aceptado y encolado para procesamiento."
   },
   "categories": {
     "fun": "Diversion",

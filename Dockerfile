@@ -20,5 +20,12 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
 COPY --from=builder /app/build ./build
+COPY scripts ./scripts
+COPY database ./database
 
-CMD ["node", "build/index.js"]
+RUN addgroup -S app && adduser -S app -G app
+RUN chown -R app:app /app
+
+USER app
+
+CMD ["sh", "-c", "node scripts/migrate.mjs && node build/index.js"]

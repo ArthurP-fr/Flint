@@ -9,30 +9,19 @@ import {
   createDefaultMemberMessageConfig,
   isMemberMessageRenderTypeValue,
 } from "../../validators/memberMessages.js";
-import type { MemberMessageRepository } from "../../features/memberMessages/repository.js";
+import type { MemberMessageRepository } from "../../modules/memberMessages/index.js";
 
-const tableSql = `
-CREATE TABLE IF NOT EXISTS bot_member_message_configs (
-  bot_id TEXT NOT NULL,
-  guild_id TEXT NOT NULL,
-  kind TEXT NOT NULL,
-  enabled BOOLEAN NOT NULL DEFAULT FALSE,
-  channel_id TEXT,
-  message_type TEXT NOT NULL DEFAULT 'simple',
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  PRIMARY KEY (bot_id, guild_id, kind)
-);
-`;
-
-const migrationSql = `
-ALTER TABLE bot_member_message_configs
-  ADD COLUMN IF NOT EXISTS enabled BOOLEAN NOT NULL DEFAULT FALSE;
-
-ALTER TABLE bot_member_message_configs
-  ADD COLUMN IF NOT EXISTS channel_id TEXT;
-
-ALTER TABLE bot_member_message_configs
-  ADD COLUMN IF NOT EXISTS message_type TEXT NOT NULL DEFAULT 'simple';
+const memberMessageSchemaProbeSql = `
+SELECT
+  bot_id,
+  guild_id,
+  kind,
+  enabled,
+  channel_id,
+  message_type,
+  updated_at
+FROM bot_member_message_configs
+LIMIT 0;
 `;
 
 const toConfig = (row: MemberMessageRow): MemberMessageConfig => {
@@ -49,8 +38,14 @@ export class PostgresMemberMessageStore implements MemberMessageRepository {
   public constructor(private readonly pool: Pool) {}
 
   public async init(): Promise<void> {
-    await this.pool.query(tableSql);
-    await this.pool.query(migrationSql);
+    try {
+      await this.pool.query(memberMessageSchemaProbeSql);
+    } catch (error) {
+      throw new Error(
+        "[db:init] missing or incompatible table \"bot_member_message_configs\". Run migrations with \"npm run migrate\".",
+        { cause: error },
+      );
+    }
   }
 
   public async getByBotGuildKind(botId: string, guildId: string, kind: MemberMessageKind): Promise<MemberMessageConfig> {

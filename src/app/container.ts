@@ -1,5 +1,9 @@
-import type { MemberMessageService } from "../features/memberMessages/service.js";
-import type { PresenceService } from "../features/presence/service.js";
+import type {
+  MemberMessageService,
+} from "../modules/memberMessages/index.js";
+import type {
+  PresenceService,
+} from "../modules/presence/index.js";
 
 export interface AppFeatureServices {
   presenceService: PresenceService;

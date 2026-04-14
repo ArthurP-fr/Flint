@@ -1,4 +1,7 @@
 import { Events, type Client } from "discord.js";
+import { createScopedLogger } from "../core/logging/logger.js";
+
+const log = createScopedLogger("event:guildCreate");
 
 /**
  * Enregistre le listener `guildCreate` (bot ajouté à un serveur).
@@ -7,6 +10,6 @@ import { Events, type Client } from "discord.js";
  */
 export const registerGuildCreate = (client: Client): void => {
   client.on(Events.GuildCreate, (guild) => {
-    console.log(`[event:guildCreate] joined guild ${guild.id} (${guild.name})`);
+    log.info({ guildId: guild.id, guildName: guild.name }, "joined guild");
   });
 };

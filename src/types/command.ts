@@ -8,6 +8,7 @@ import type {
   Message,
   MessageCreateOptions,
   MessageReplyOptions,
+  PermissionsBitField,
   PermissionResolvable,
   Role,
   TextBasedChannel,
@@ -72,7 +73,49 @@ export interface CommandI18nTools {
   format: (template: string, vars?: TranslationVars) => string;
 }
 
+export interface ExecutionContext {
+  requestId: string;
+  receivedAt: number;
+  source: CommandSource;
+  commandName: string;
+  commandCategory: string;
+  args: Record<string, CommandArgValue>;
+  actor: {
+    userId: string;
+    guildId: string | null;
+    channelId: string | null;
+  };
+}
+
+export interface TransportContext {
+  kind: "discord";
+  client: Client;
+  user: User;
+  guild: Guild | null;
+  channel: TextBasedChannel | null;
+  raw: Message | ChatInputCommandInteraction;
+  reply: (payload: ReplyPayload) => Promise<unknown>;
+  resolveMemberPermissions: () => Promise<Readonly<PermissionsBitField> | null>;
+}
+
+export interface I18nContext {
+  lang: SupportedLang;
+  t: (key: string, vars?: TranslationVars) => string;
+  ct: (relativeKey: string, vars?: TranslationVars) => string;
+  commandText: Record<string, unknown>;
+  format: (template: string, vars?: TranslationVars) => string;
+  i18n: CommandI18nTools;
+  registry: CommandRegistryReader;
+  prefix: string;
+  defaultLang: SupportedLang;
+}
+
 export interface CommandExecutionContext {
+  execution: ExecutionContext;
+  transport: TransportContext;
+  i18nContext: I18nContext;
+
+  // Backward-compatible aliases kept for existing command implementations.
   client: Client;
   user: User;
   guild: Guild | null;
@@ -97,6 +140,7 @@ export interface BotCommandInput {
   meta: CommandMeta;
   args?: CommandArgument[];
   permissions?: PermissionResolvable[];
+  sensitive?: boolean;
   examples?: CommandExample[];
   cooldown?: number;
   execute: (ctx: CommandExecutionContext) => Promise<void>;
@@ -106,6 +150,7 @@ export interface BotCommand {
   meta: CommandMeta;
   args: CommandArgument[];
   permissions: PermissionResolvable[];
+  sensitive: boolean;
   examples: CommandExample[];
   cooldown?: number;
   execute: (ctx: CommandExecutionContext) => Promise<void>;

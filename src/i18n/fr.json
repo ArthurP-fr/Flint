@@ -14,7 +14,9 @@
       "user": "Tu n as pas les permissions: {{permissions}}"
     },
     "execution": "Une erreur inattendue est survenue pendant l execution.",
-    "cooldown": "Patiente {{seconds}}s avant de reutiliser cette commande."
+    "cooldown": "Patiente {{seconds}}s avant de reutiliser cette commande.",
+    "rateLimit": "Trop de requetes. Patiente {{seconds}}s avant de reessayer.",
+    "executionQueued": "Commande acceptee et mise en file de traitement."
   },
   "categories": {
     "fun": "Fun",

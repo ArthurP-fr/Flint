@@ -1,4 +1,7 @@
 import { Events, type Client, type ChatInputCommandInteraction } from "discord.js";
+import { createScopedLogger } from "../core/logging/logger.js";
+
+const log = createScopedLogger("event:interactionCreate");
 
 /**
  * Enregistre le listener `interactionCreate` pour les commandes slash (chat input).
@@ -16,7 +19,7 @@ export const registerInteractionCreate = (
     }
 
     void onSlashInteraction(interaction).catch((error) => {
-      console.error("[event:interactionCreate] handler failed", error);
+      log.error({ err: error }, "handler failed");
     });
   });
 };

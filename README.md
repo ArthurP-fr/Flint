@@ -6,6 +6,9 @@ Professional command framework template for Discord.js `14.26.2` with:
 - Minimal command authoring (`name`, `category`, `execute`)
 - Optional per-user command cooldown (`cooldown` in seconds)
 - Shared execution logic for prefix and slash
+- Dispatch pipeline ready for local execution or worker queue mode
+- Global user rate limiting (memory or Redis backend)
+- Structured JSON logging with `pino`
 - External JSON i18n
 - Automatic prefix and slash localizations from locale files
 - One localized `name` per language drives both prefix and slash triggers
@@ -31,12 +34,25 @@ Professional command framework template for Discord.js `14.26.2` with:
    - `DATABASE_URL`
 4. Optional values:
    - `DATABASE_SSL` (`true` for managed cloud DB, `false` for local Docker)
+   - `DATABASE_SSL_REJECT_UNAUTHORIZED` (`true` by default for secure TLS verification)
+   - `DATABASE_SSL_CA` (optional CA cert chain, supports escaped newlines)
+   - `ALLOW_INSECURE_DB_SSL` (`false` by default; set `true` only for local/dev exceptions)
    - `PRESENCE_STREAM_URL` (used when activity type is `STREAMING`)
    - `AUTO_DEPLOY_SLASH` (`true` to sync slash commands on startup)
    - `DEV_GUILD_ID` (optional guild scope for faster slash sync)
-5. Start in development:
+   - `LOG_LEVEL` (default `info`, JSON logs)
+   - `STATE_BACKEND` (`memory` or `redis`)
+   - `REDIS_URL` (required when `STATE_BACKEND=redis`)
+   - `GLOBAL_RATE_LIMIT_MAX_REQUESTS` (global per-user request budget)
+   - `GLOBAL_RATE_LIMIT_WINDOW_SECONDS` (window size in seconds)
+   - `COMMAND_DISPATCH_MODE` (`local` or `worker`; enable `worker` only if a queue consumer is deployed)
+   - `COMMAND_QUEUE_NAME` (Redis list used in `worker` mode)
+   - `ENABLE_LEADER_ELECTION` (`true` to guard startup jobs in multi-instance)
+5. Run migrations:
+   npm run migrate
+6. Start in development:
    npm run dev
-6. Validate code quality:
+7. Validate code quality:
    - npm run typecheck
    - npm run test
    - npm run check
@@ -63,6 +79,7 @@ The bot container uses:
 
 Security defaults:
 - PostgreSQL is bound to `127.0.0.1` by default in Compose.
+- Database TLS verification is strict by default when SSL is enabled.
 - Keep strong values for `POSTGRES_PASSWORD` and rotate credentials if exposed.
 
 ## Multi-Bot With One DB
@@ -81,10 +98,17 @@ An example with two bot services is available in `docker-compose.multi-bot.examp
 
 - `src/app/bootstrap.ts`: runtime bootstrap, dependency wiring, graceful shutdown
 - `src/commands/*`: thin command wrappers (`defineCommand` + delegated execute)
-- `src/features/presence/*`: presence runtime, panel orchestration, repository contract
-- `src/features/memberMessages/*`: member-message dispatch, panel orchestration, image rendering, repository contract
+- `src/modules/help/*`: help command module (service + command contract)
+- `src/modules/presence/*`: module entrypoint for presence runtime and contracts
+- `src/modules/memberMessages/*`: module entrypoint for member-message runtime and contracts
+- `src/features/*`: implementation details used behind `src/modules/*`
 - `src/core/commands/*`: registry, parsing, slash payload, usage helpers
-- `src/core/execution/CommandExecutor.ts`: unified execution pipeline (permissions/cooldown/error handling)
+- `src/core/execution/CommandExecutor.ts`: execution core (permissions, cooldown, global rate limit)
+- `src/core/execution/dispatch.ts`: dispatch abstraction (`local` or `worker`)
+- `src/core/execution/cooldownStore.ts`: cooldown store contracts and memory/Redis implementations
+- `src/core/execution/globalRateLimitStore.ts`: global limiter contracts and memory/Redis implementations
+- `src/core/runtime/leaderCoordinator.ts`: leader-only startup coordination for multi-instance deployments
+- `src/core/logging/logger.ts`: centralized structured logger (`pino`)
 - `src/core/discord/*`: shared Discord helpers (reply message resolver, panel session registry)
 - `src/database/stores/*`: PostgreSQL store implementations
 - `src/database/dbLifecycle.ts`: centralized DB init/shutdown lifecycle
@@ -106,4 +130,5 @@ An example with two bot services is available in `docker-compose.multi-bot.examp
 1. Create a command object in `src/commands/...`
 2. Follow the schema in `src/types/command.ts`
 3. Add command to `src/commands/index.ts`
-4. If `AUTO_DEPLOY_SLASH=true`, restart the bot to sync slash commands automatically
+4. Put business logic in `src/modules/<module>/...` and keep `src/commands/*` as wrappers only
+5. If `AUTO_DEPLOY_SLASH=true`, restart the bot to sync slash commands automatically

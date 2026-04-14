@@ -1,27 +1,50 @@
 import {
   PermissionsBitField,
-  type ChatInputCommandInteraction,
-  type Message,
   type PermissionResolvable,
 } from "discord.js";
 
 import type { BotCommand, CommandExecutionContext } from "../../types/command.js";
+import type { AppLogger } from "../logging/logger.js";
+import type { CooldownStore } from "./cooldownStore.js";
+import type {
+  GlobalRateLimitPolicy,
+  GlobalRateLimitStore,
+} from "./globalRateLimitStore.js";
 
-const COOLDOWN_SWEEP_INTERVAL_MS = 60_000;
-const COOLDOWN_SWEEP_MIN_ENTRIES = 512;
+export interface CommandExecutorDeps {
+  cooldownStore: CooldownStore;
+  globalRateLimitStore: GlobalRateLimitStore;
+  globalRateLimitPolicy: GlobalRateLimitPolicy;
+  logger: AppLogger;
+}
 
 export class CommandExecutor {
-  private readonly cooldowns = new Map<string, number>();
-  private lastCooldownSweepAt = 0;
+  public constructor(private readonly deps: CommandExecutorDeps) {}
 
   public async run(command: BotCommand, ctx: CommandExecutionContext): Promise<void> {
-    const missingUserPermissions = this.getMissingPermissions(command.permissions, this.memberPermissions(ctx));
+    if (this.isSensitiveCommand(command) && !ctx.transport.guild) {
+      await ctx.reply(
+        ctx.t("errors.permissions.user", {
+          permissions: this.formatPermissionLabel("ManageGuild"),
+        }),
+      );
+      return;
+    }
+
+    const rateLimitRetryAfterSeconds = await this.consumeGlobalRateLimit(ctx);
+    if (rateLimitRetryAfterSeconds > 0) {
+      await ctx.reply(ctx.t("errors.rateLimit", { seconds: rateLimitRetryAfterSeconds }));
+      return;
+    }
+
+    const availablePermissions = await this.resolveMemberPermissions(ctx);
+    const missingUserPermissions = this.getMissingPermissions(command.permissions, availablePermissions);
     if (missingUserPermissions.length > 0) {
       await ctx.reply(ctx.t("errors.permissions.user", { permissions: missingUserPermissions.join(", ") }));
       return;
     }
 
-    const remainingCooldownSeconds = this.consumeCooldown(command, ctx.user.id);
+    const remainingCooldownSeconds = await this.consumeCooldown(command, ctx.execution.actor.userId);
     if (remainingCooldownSeconds > 0) {
       await ctx.reply(ctx.t("errors.cooldown", { seconds: remainingCooldownSeconds }));
       return;
@@ -30,18 +53,37 @@ export class CommandExecutor {
     try {
       await command.execute(ctx);
     } catch (error) {
-      console.error(`[command:${command.meta.name}] execution failed`, error);
+      this.deps.logger.error(
+        {
+          requestId: ctx.execution.requestId,
+          command: command.meta.name,
+          source: ctx.execution.source,
+          userId: ctx.execution.actor.userId,
+          err: error,
+        },
+        "command execution failed",
+      );
       await ctx.reply(ctx.t("errors.execution"));
     }
   }
 
-  private memberPermissions(ctx: CommandExecutionContext): Readonly<PermissionsBitField> | null {
-    if (ctx.source === "slash") {
-      return (ctx.raw as ChatInputCommandInteraction).memberPermissions ?? null;
+  private async resolveMemberPermissions(
+    ctx: CommandExecutionContext,
+  ): Promise<Readonly<PermissionsBitField> | null> {
+    try {
+      return await ctx.transport.resolveMemberPermissions();
+    } catch (error) {
+      this.deps.logger.warn(
+        {
+          requestId: ctx.execution.requestId,
+          source: ctx.execution.source,
+          userId: ctx.execution.actor.userId,
+          err: error,
+        },
+        "permission resolution failed",
+      );
+      return null;
     }
-
-    const message = ctx.raw as Message;
-    return message.member?.permissions ?? null;
   }
 
   private getMissingPermissions(
@@ -86,50 +128,54 @@ export class CommandExecutor {
       .trim();
   }
 
-  private consumeCooldown(command: BotCommand, userId: string): number {
+  private async consumeCooldown(command: BotCommand, userId: string): Promise<number> {
     if (command.cooldown === undefined || command.cooldown <= 0) {
       return 0;
     }
 
-    const key = this.cooldownKey(command.meta.name, userId);
-    const now = Date.now();
-    this.sweepExpiredCooldowns(now);
-
-    const expiresAt = this.cooldowns.get(key);
-
-    if (expiresAt !== undefined && expiresAt > now) {
-      return Math.ceil((expiresAt - now) / 1000);
+    try {
+      const result = await this.deps.cooldownStore.consume(command.meta.name, userId, command.cooldown);
+      return result.allowed ? 0 : result.retryAfterSeconds;
+    } catch (error) {
+      this.deps.logger.warn(
+        {
+          command: command.meta.name,
+          userId,
+          err: error,
+        },
+        "cooldown store unavailable, continuing without cooldown enforcement",
+      );
+      return 0;
     }
-
-    if (expiresAt !== undefined) {
-      this.cooldowns.delete(key);
-    }
-
-    this.cooldowns.set(key, now + command.cooldown * 1000);
-    return 0;
   }
 
-  private sweepExpiredCooldowns(now: number): void {
-    if (this.cooldowns.size === 0) {
-      return;
-    }
+  private async consumeGlobalRateLimit(ctx: CommandExecutionContext): Promise<number> {
+    try {
+      const result = await this.deps.globalRateLimitStore.consume(
+        ctx.execution.actor.userId,
+        this.deps.globalRateLimitPolicy,
+      );
 
-    const shouldSweepBySize = this.cooldowns.size >= COOLDOWN_SWEEP_MIN_ENTRIES;
-    const shouldSweepByTime = now - this.lastCooldownSweepAt >= COOLDOWN_SWEEP_INTERVAL_MS;
-    if (!shouldSweepBySize && !shouldSweepByTime) {
-      return;
-    }
-
-    for (const [key, expiresAt] of this.cooldowns.entries()) {
-      if (expiresAt <= now) {
-        this.cooldowns.delete(key);
+      if (result.allowed) {
+        return 0;
       }
-    }
 
-    this.lastCooldownSweepAt = now;
+      return result.retryAfterSeconds;
+    } catch (error) {
+      this.deps.logger.warn(
+        {
+          requestId: ctx.execution.requestId,
+          userId: ctx.execution.actor.userId,
+          err: error,
+        },
+        "global rate limit store unavailable, continuing without rate limiting",
+      );
+
+      return 0;
+    }
   }
 
-  private cooldownKey(commandName: string, userId: string): string {
-    return `${commandName}:${userId}`;
+  private isSensitiveCommand(command: BotCommand): boolean {
+    return command.sensitive || command.permissions.length > 0;
   }
 }

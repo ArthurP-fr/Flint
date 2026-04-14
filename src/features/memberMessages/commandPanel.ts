@@ -12,6 +12,7 @@ import {
 
 import { ComponentSessionRegistry } from "../../core/discord/componentSessionRegistry.js";
 import { resolveReplyMessage } from "../../core/discord/replyMessageResolver.js";
+import { createScopedLogger } from "../../core/logging/logger.js";
 import type { I18nService } from "../../i18n/index.js";
 import type { CommandExecutionContext } from "../../types/command.js";
 import type {
@@ -27,6 +28,8 @@ import {
   isMemberMessageRenderTypeValue,
 } from "../../validators/memberMessages.js";
 import type { MemberMessageService } from "./service.js";
+
+const log = createScopedLogger("command:memberMessagesPanel");
 
 const panelSessions = new ComponentSessionRegistry<MemberMessagePanelSession>();
 
@@ -334,7 +337,7 @@ export const createMemberMessagePanelExecute = (
           flags: [MessageFlags.Ephemeral],
         });
       } catch (error) {
-        console.error(`[command:${kind}] interaction failed`, error);
+        log.error({ kind, err: error }, "interaction failed");
 
         if (!interaction.replied && !interaction.deferred) {
           await interaction.reply({
