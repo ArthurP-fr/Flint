@@ -6,6 +6,7 @@ import {
   PermissionFlagsBits,
   TextDisplayBuilder,
   type Guild,
+  type GuildMember,
   type MessageCreateOptions,
   type User,
 } from "discord.js";
@@ -13,6 +14,8 @@ import {
 import type { I18nService } from "../../i18n/index.js";
 import type { SupportedLang } from "../../types/command.js";
 import type {
+  AssignWelcomeAutoRolesInput,
+  AssignWelcomeAutoRolesResult,
   DispatchMemberMessageInput,
   DispatchMemberMessageResult,
   MemberMessageConfig,
@@ -21,6 +24,7 @@ import type {
   SendableChannel,
   TemplateSuffix,
 } from "../../types/memberMessages.js";
+import { sanitizeMemberMessageRoleIds } from "../../validators/memberMessages.js";
 import { renderMemberMessageImage } from "./imageRenderer.js";
 import type { MemberMessageRepository } from "./repository.js";
 
@@ -117,6 +121,35 @@ const resolveTemplate = (
   return translated === key ? defaultTemplate(kind, suffix, vars) : translated;
 };
 
+const resolveNonEmptyTemplate = (
+  i18n: I18nService | undefined,
+  lang: SupportedLang,
+  kind: MemberMessageKind,
+  suffix: TemplateSuffix,
+  vars: Record<string, string>,
+): string => {
+  const resolved = resolveTemplate(i18n, lang, kind, suffix, vars).trim();
+  if (resolved.length > 0) {
+    return resolved;
+  }
+
+  const fallback = defaultTemplate(kind, suffix, vars).trim();
+  return fallback.length > 0 ? fallback : suffix;
+};
+
+const resolveAssignableRoleId = async (member: GuildMember, roleId: string): Promise<string | null> => {
+  if (roleId === member.guild.id) {
+    return null;
+  }
+
+  const role = member.guild.roles.cache.get(roleId) ?? await member.guild.roles.fetch(roleId).catch(() => null);
+  if (!role || !role.editable) {
+    return null;
+  }
+
+  return role.id;
+};
+
 const buildMemberMessagePayload = async (
   i18n: I18nService | undefined,
   lang: SupportedLang,
@@ -165,10 +198,13 @@ const buildMemberMessagePayload = async (
     };
   }
 
+  const imageTitle = resolveNonEmptyTemplate(i18n, lang, kind, "imageTitle", vars);
+  const imageSubtitle = resolveNonEmptyTemplate(i18n, lang, kind, "imageDescription", vars);
+
   const imageBuffer = await renderMemberMessageImage({
     kind,
-    title: resolveTemplate(i18n, lang, kind, "imageTitle", vars),
-    subtitle: resolveTemplate(i18n, lang, kind, "imageDescription", vars),
+    title: imageTitle,
+    subtitle: imageSubtitle,
     username: user.globalName ?? user.username,
     avatarUrl: user.displayAvatarURL({ extension: "png", size: 512 }),
   });
@@ -204,6 +240,99 @@ export class MemberMessageService {
 
   public async cleanupGuild(botId: string, guildId: string): Promise<void> {
     await this.repository.deleteByBotGuild(botId, guildId);
+  }
+
+  public async assignWelcomeAutoRoles(input: AssignWelcomeAutoRolesInput): Promise<AssignWelcomeAutoRolesResult> {
+    const botId = this.resolveBotId(input.client);
+    if (!botId) {
+      return {
+        assigned: false,
+        reason: "bot_not_ready",
+        configuredRoleIds: [],
+        appliedRoleIds: [],
+        skippedRoleIds: [],
+      };
+    }
+
+    const config = await this.repository.getByBotGuildKind(botId, input.member.guild.id, "welcome");
+    const configuredRoleIds = sanitizeMemberMessageRoleIds(config.autoRoleIds);
+
+    if (configuredRoleIds.length === 0) {
+      return {
+        assigned: false,
+        reason: "no_roles_configured",
+        configuredRoleIds,
+        appliedRoleIds: [],
+        skippedRoleIds: [],
+      };
+    }
+
+    const me = input.member.guild.members.me;
+    if (!me || !me.permissions.has(PermissionFlagsBits.ManageRoles)) {
+      return {
+        assigned: false,
+        reason: "missing_permissions",
+        configuredRoleIds,
+        appliedRoleIds: [],
+        skippedRoleIds: [...configuredRoleIds],
+      };
+    }
+
+    if (!input.member.manageable) {
+      return {
+        assigned: false,
+        reason: "member_not_manageable",
+        configuredRoleIds,
+        appliedRoleIds: [],
+        skippedRoleIds: [...configuredRoleIds],
+      };
+    }
+
+    const resolvedRoleIds = await Promise.all(
+      configuredRoleIds.map((roleId) => resolveAssignableRoleId(input.member, roleId)),
+    );
+
+    const appliedRoleIds = resolvedRoleIds.filter((roleId): roleId is string => roleId !== null);
+    const skippedRoleIds = configuredRoleIds.filter((roleId) => !appliedRoleIds.includes(roleId));
+
+    if (appliedRoleIds.length === 0) {
+      return {
+        assigned: false,
+        reason: "no_assignable_roles",
+        configuredRoleIds,
+        appliedRoleIds: [],
+        skippedRoleIds,
+      };
+    }
+
+    try {
+      await input.member.roles.add(appliedRoleIds, "welcome auto roles");
+      return {
+        assigned: true,
+        reason: "assigned",
+        configuredRoleIds,
+        appliedRoleIds,
+        skippedRoleIds,
+      };
+    } catch (error) {
+      if (hasCode(error) && error.code === 50013) {
+        return {
+          assigned: false,
+          reason: "missing_permissions",
+          configuredRoleIds,
+          appliedRoleIds: [],
+          skippedRoleIds: [...configuredRoleIds],
+        };
+      }
+
+      return {
+        assigned: false,
+        reason: "assign_failed",
+        configuredRoleIds,
+        appliedRoleIds: [],
+        skippedRoleIds: [...configuredRoleIds],
+      };
+    }
   }
 
   public async dispatch(input: DispatchMemberMessageInput): Promise<DispatchMemberMessageResult> {

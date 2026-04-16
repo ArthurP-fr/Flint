@@ -6,6 +6,7 @@ import {
   ChannelType,
   ContainerBuilder,
   MessageFlags,
+  RoleSelectMenuBuilder,
   StringSelectMenuBuilder,
   TextDisplayBuilder,
 } from "discord.js";
@@ -26,6 +27,7 @@ import type {
 import {
   MEMBER_MESSAGE_RENDER_TYPES,
   isMemberMessageRenderTypeValue,
+  sanitizeMemberMessageRoleIds,
 } from "../../validators/memberMessages.js";
 import type { MemberMessageService } from "./service.js";
 
@@ -44,8 +46,12 @@ const createCustomIds = (kind: MemberMessageKind): MemberMessageCustomIds => {
     toggleButton: `${kind}:toggle:${nonce}`,
     channelButton: `${kind}:channel:${nonce}`,
     channelCancelButton: `${kind}:channel-cancel:${nonce}`,
+    roleButton: `${kind}:roles:${nonce}`,
+    roleCancelButton: `${kind}:roles-cancel:${nonce}`,
+    roleClearButton: `${kind}:roles-clear:${nonce}`,
     typeSelect: `${kind}:type:${nonce}`,
     channelSelect: `${kind}:channel-select:${nonce}`,
+    roleSelect: `${kind}:role-select:${nonce}`,
     testButton: `${kind}:test:${nonce}`,
   };
 };
@@ -58,8 +64,18 @@ const messageTypeLabel = (ctx: CommandExecutionContext, messageType: MemberMessa
   return ctx.ct(`ui.type.options.${messageType}.label`);
 };
 
+const autoRolesLabel = (ctx: CommandExecutionContext, config: MemberMessageConfig): string => {
+  const roleIds = sanitizeMemberMessageRoleIds(config.autoRoleIds);
+  if (roleIds.length === 0) {
+    return ctx.ct("ui.autoRolesNotConfigured");
+  }
+
+  return roleIds.map((roleId) => `<@&${roleId}>`).join(", ");
+};
+
 const panelContent = (
   ctx: CommandExecutionContext,
+  kind: MemberMessageKind,
   config: MemberMessageConfig,
   uiState: MemberMessagePanelUiState,
 ): string => {
@@ -73,8 +89,16 @@ const panelContent = (
     `${ctx.ct("ui.embed.fields.type")}: ${messageTypeLabel(ctx, config.messageType)}`,
   ];
 
+  if (kind === "welcome") {
+    lines.push(`${ctx.ct("ui.embed.fields.autoRoles")}: ${autoRolesLabel(ctx, config)}`);
+  }
+
   if (uiState.channelPickerOpen) {
     lines.push("", `${ctx.ct("ui.embed.fields.channelPicker")}: ${ctx.ct("ui.channelPickerHint")}`);
+  }
+
+  if (kind === "welcome" && uiState.rolePickerOpen) {
+    lines.push("", `${ctx.ct("ui.embed.fields.autoRoles")}: ${ctx.ct("ui.rolePickerHint")}`);
   }
 
   return lines.join("\n");
@@ -82,6 +106,7 @@ const panelContent = (
 
 const buildContainer = (
   ctx: CommandExecutionContext,
+  kind: MemberMessageKind,
   customIds: MemberMessageCustomIds,
   config: MemberMessageConfig,
   uiState: MemberMessagePanelUiState,
@@ -98,6 +123,18 @@ const buildContainer = (
     .setLabel(uiState.channelPickerOpen ? ctx.ct("ui.buttons.channelCancel") : ctx.ct("ui.buttons.channel"))
     .setStyle(ButtonStyle.Secondary)
     .setDisabled(disabled);
+
+  const roleButton = new ButtonBuilder()
+    .setCustomId(uiState.rolePickerOpen ? customIds.roleCancelButton : customIds.roleButton)
+    .setLabel(uiState.rolePickerOpen ? ctx.ct("ui.buttons.rolesCancel") : ctx.ct("ui.buttons.roles"))
+    .setStyle(ButtonStyle.Secondary)
+    .setDisabled(disabled);
+
+  const clearRolesButton = new ButtonBuilder()
+    .setCustomId(customIds.roleClearButton)
+    .setLabel(ctx.ct("ui.buttons.rolesClear"))
+    .setStyle(ButtonStyle.Danger)
+    .setDisabled(disabled || config.autoRoleIds.length === 0);
 
   const testButton = new ButtonBuilder()
     .setCustomId(customIds.testButton)
@@ -122,11 +159,25 @@ const buildContainer = (
 
   const container = new ContainerBuilder();
   container.addTextDisplayComponents(
-    new TextDisplayBuilder().setContent(panelContent(ctx, config, uiState)),
+    new TextDisplayBuilder().setContent(panelContent(ctx, kind, config, uiState)),
   );
-  container.addActionRowComponents(
-    new ActionRowBuilder<ButtonBuilder>().addComponents(toggleButton, channelButton, testButton),
-  );
+
+  if (kind === "welcome") {
+    container.addActionRowComponents(
+      new ActionRowBuilder<ButtonBuilder>().addComponents(
+        toggleButton,
+        channelButton,
+        roleButton,
+        clearRolesButton,
+        testButton,
+      ),
+    );
+  } else {
+    container.addActionRowComponents(
+      new ActionRowBuilder<ButtonBuilder>().addComponents(toggleButton, channelButton, testButton),
+    );
+  }
+
   container.addActionRowComponents(
     new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(typeSelect),
   );
@@ -142,6 +193,19 @@ const buildContainer = (
 
     container.addActionRowComponents(
       new ActionRowBuilder<ChannelSelectMenuBuilder>().addComponents(channelSelect),
+    );
+  }
+
+  if (kind === "welcome" && uiState.rolePickerOpen) {
+    const roleSelect = new RoleSelectMenuBuilder()
+      .setCustomId(customIds.roleSelect)
+      .setPlaceholder(ctx.ct("ui.rolePickerPlaceholder"))
+      .setMinValues(1)
+      .setMaxValues(25)
+      .setDisabled(disabled);
+
+    container.addActionRowComponents(
+      new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(roleSelect),
     );
   }
 
@@ -186,11 +250,12 @@ export const createMemberMessagePanelExecute = (
     const customIds = createCustomIds(kind);
     const uiState: MemberMessagePanelUiState = {
       channelPickerOpen: false,
+      rolePickerOpen: false,
     };
 
     const replyResult = await ctx.reply({
       flags: MessageFlags.IsComponentsV2,
-      components: [buildContainer(ctx, customIds, config, uiState)],
+      components: [buildContainer(ctx, kind, customIds, config, uiState)],
       withResponse: true,
     });
 
@@ -210,7 +275,7 @@ export const createMemberMessagePanelExecute = (
       await replyMessage
         .edit({
           flags: MessageFlags.IsComponentsV2,
-          components: [buildContainer(ctx, customIds, config, uiState, true)],
+          components: [buildContainer(ctx, kind, customIds, config, uiState, true)],
         })
         .catch(() => undefined);
     };
@@ -237,16 +302,17 @@ export const createMemberMessagePanelExecute = (
             await saveConfig();
             await interaction.update({
               flags: MessageFlags.IsComponentsV2,
-              components: [buildContainer(ctx, customIds, config, uiState)],
+              components: [buildContainer(ctx, kind, customIds, config, uiState)],
             });
             return;
           }
 
           if (interaction.customId === customIds.channelButton) {
             uiState.channelPickerOpen = true;
+            uiState.rolePickerOpen = false;
             await interaction.update({
               flags: MessageFlags.IsComponentsV2,
-              components: [buildContainer(ctx, customIds, config, uiState)],
+              components: [buildContainer(ctx, kind, customIds, config, uiState)],
             });
             return;
           }
@@ -255,7 +321,36 @@ export const createMemberMessagePanelExecute = (
             uiState.channelPickerOpen = false;
             await interaction.update({
               flags: MessageFlags.IsComponentsV2,
-              components: [buildContainer(ctx, customIds, config, uiState)],
+              components: [buildContainer(ctx, kind, customIds, config, uiState)],
+            });
+            return;
+          }
+
+          if (kind === "welcome" && interaction.customId === customIds.roleButton) {
+            uiState.rolePickerOpen = true;
+            uiState.channelPickerOpen = false;
+            await interaction.update({
+              flags: MessageFlags.IsComponentsV2,
+              components: [buildContainer(ctx, kind, customIds, config, uiState)],
+            });
+            return;
+          }
+
+          if (kind === "welcome" && interaction.customId === customIds.roleCancelButton) {
+            uiState.rolePickerOpen = false;
+            await interaction.update({
+              flags: MessageFlags.IsComponentsV2,
+              components: [buildContainer(ctx, kind, customIds, config, uiState)],
+            });
+            return;
+          }
+
+          if (kind === "welcome" && interaction.customId === customIds.roleClearButton) {
+            config.autoRoleIds = [];
+            await saveConfig();
+            await interaction.update({
+              flags: MessageFlags.IsComponentsV2,
+              components: [buildContainer(ctx, kind, customIds, config, uiState)],
             });
             return;
           }
@@ -307,7 +402,18 @@ export const createMemberMessagePanelExecute = (
           await saveConfig();
           await interaction.update({
             flags: MessageFlags.IsComponentsV2,
-            components: [buildContainer(ctx, customIds, config, uiState)],
+            components: [buildContainer(ctx, kind, customIds, config, uiState)],
+          });
+          return;
+        }
+
+        if (kind === "welcome" && interaction.isRoleSelectMenu() && interaction.customId === customIds.roleSelect) {
+          config.autoRoleIds = sanitizeMemberMessageRoleIds([...config.autoRoleIds, ...interaction.values]);
+          uiState.rolePickerOpen = false;
+          await saveConfig();
+          await interaction.update({
+            flags: MessageFlags.IsComponentsV2,
+            components: [buildContainer(ctx, kind, customIds, config, uiState)],
           });
           return;
         }
@@ -327,7 +433,7 @@ export const createMemberMessagePanelExecute = (
           await saveConfig();
           await interaction.update({
             flags: MessageFlags.IsComponentsV2,
-            components: [buildContainer(ctx, customIds, config, uiState)],
+            components: [buildContainer(ctx, kind, customIds, config, uiState)],
           });
           return;
         }

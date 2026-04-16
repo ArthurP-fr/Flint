@@ -209,7 +209,8 @@
             "status": "Statut",
             "channel": "Salon",
             "type": "Type",
-            "channelPicker": "Selection du salon"
+            "channelPicker": "Selection du salon",
+            "autoRoles": "Roles auto"
           }
         },
         "status": {
@@ -217,12 +218,18 @@
           "disabled": "🔴 Desactive"
         },
         "channelNotConfigured": "#non-configure",
+        "autoRolesNotConfigured": "Aucun role auto configure",
         "channelPickerPlaceholder": "Selectionne un salon de bienvenue",
         "channelPickerHint": "Choisis le salon dans le select menu ci-dessous.",
+        "rolePickerPlaceholder": "Selectionne un ou plusieurs roles auto",
+        "rolePickerHint": "Choisis les roles dans le select menu ci-dessous pour les ajouter a la liste auto.",
         "buttons": {
           "toggle": "Toggle statut",
           "channel": "Configurer salon",
           "channelCancel": "Fermer select salon",
+          "roles": "Ajouter roles auto",
+          "rolesCancel": "Fermer select roles",
+          "rolesClear": "Vider roles auto",
           "test": "Tester"
         },
         "type": {

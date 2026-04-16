@@ -16,6 +16,8 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
+RUN apk add --no-cache fontconfig ttf-dejavu
+
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 

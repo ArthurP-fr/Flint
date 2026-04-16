@@ -209,7 +209,8 @@
             "status": "Estado",
             "channel": "Canal",
             "type": "Tipo",
-            "channelPicker": "Selector de canal"
+            "channelPicker": "Selector de canal",
+            "autoRoles": "Roles automaticos"
           }
         },
         "status": {
@@ -217,12 +218,18 @@
           "disabled": "🔴 Desactivado"
         },
         "channelNotConfigured": "#sin-configurar",
+        "autoRolesNotConfigured": "Ningun rol automatico configurado",
         "channelPickerPlaceholder": "Selecciona un canal de bienvenida",
         "channelPickerHint": "Usa el menu de seleccion de abajo para elegir el canal destino.",
+        "rolePickerPlaceholder": "Selecciona uno o varios roles automaticos",
+        "rolePickerHint": "Usa el menu de roles de abajo para agregarlos a la lista automatica.",
         "buttons": {
           "toggle": "Alternar estado",
           "channel": "Configurar canal",
           "channelCancel": "Cerrar selector",
+          "roles": "Agregar roles auto",
+          "rolesCancel": "Cerrar selector de roles",
+          "rolesClear": "Limpiar roles auto",
           "test": "Probar"
         },
         "type": {

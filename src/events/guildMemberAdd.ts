@@ -12,6 +12,35 @@ export const registerGuildMemberAdd = (
   memberMessageService: MemberMessageService,
 ): void => {
   client.on(Events.GuildMemberAdd, (member) => {
+    void memberMessageService.assignWelcomeAutoRoles({ client, member }).then((result) => {
+      if (result.assigned) {
+        return;
+      }
+
+      if (result.reason === "no_roles_configured" || result.reason === "no_assignable_roles") {
+        return;
+      }
+
+      log.warn(
+        {
+          guildId: member.guild.id,
+          userId: member.user.id,
+          reason: result.reason,
+          configuredRoleIds: result.configuredRoleIds,
+        },
+        "failed to assign welcome auto roles",
+      );
+    }).catch((error) => {
+      log.error(
+        {
+          guildId: member.guild.id,
+          userId: member.user.id,
+          err: error,
+        },
+        "welcome auto-role dispatch crashed",
+      );
+    });
+
     void memberMessageService.dispatch({
       client,
       i18n,

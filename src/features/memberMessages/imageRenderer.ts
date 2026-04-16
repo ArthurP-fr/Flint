@@ -9,6 +9,7 @@ const AVATAR_X = 42;
 const AVATAR_Y = (CARD_HEIGHT - AVATAR_SIZE) / 2;
 const TEXT_X = AVATAR_X + AVATAR_SIZE + 56;
 const TEXT_MAX_WIDTH = CARD_WIDTH - TEXT_X - 36;
+const FONT_FAMILY = '"DejaVu Sans", sans-serif';
 
 const fitFontSize = (
   context: SKRSContext2D,
@@ -21,7 +22,7 @@ const fitFontSize = (
   let size = startSize;
 
   while (size > minSize) {
-    context.font = `${fontWeight} ${size}px sans-serif`;
+    context.font = `${fontWeight} ${size}px ${FONT_FAMILY}`;
     if (context.measureText(text).width <= maxWidth) {
       break;
     }
@@ -110,7 +111,7 @@ const drawAvatar = async (
   } catch {
     const initial = username.trim().charAt(0).toUpperCase() || "?";
     context.fillStyle = "#f8fafc";
-    context.font = "700 92px sans-serif";
+    context.font = `700 92px ${FONT_FAMILY}`;
     context.textAlign = "center";
     context.textBaseline = "middle";
     context.fillText(initial, AVATAR_X + AVATAR_SIZE / 2, AVATAR_Y + AVATAR_SIZE / 2);
@@ -153,12 +154,12 @@ export const renderMemberMessageImage = async (input: MemberMessageImageInput): 
   await drawAvatar(context, input.username, input.avatarUrl);
 
   const headlineSize = fitFontSize(context, input.title, 84, 52, TEXT_MAX_WIDTH, 700);
-  context.font = `700 ${headlineSize}px sans-serif`;
+  context.font = `700 ${headlineSize}px ${FONT_FAMILY}`;
   context.fillStyle = "#f8fafc";
   context.fillText(input.title, TEXT_X, 116);
 
   const subtitleSize = fitFontSize(context, input.subtitle, 58, 30, TEXT_MAX_WIDTH, 500);
-  context.font = `500 ${subtitleSize}px sans-serif`;
+  context.font = `500 ${subtitleSize}px ${FONT_FAMILY}`;
   context.fillStyle = "#e5e7eb";
 
   const subtitleLines = wrapText(context, input.subtitle, TEXT_MAX_WIDTH, 2);
@@ -169,7 +170,7 @@ export const renderMemberMessageImage = async (input: MemberMessageImageInput): 
   });
 
   const usernameSize = fitFontSize(context, input.username, 54, 28, TEXT_MAX_WIDTH, 700);
-  context.font = `700 ${usernameSize}px sans-serif`;
+  context.font = `700 ${usernameSize}px ${FONT_FAMILY}`;
   context.fillStyle = input.kind === "welcome" ? "#93c5fd" : "#fda4af";
   context.fillText(input.username, TEXT_X, CARD_HEIGHT - 34);
 

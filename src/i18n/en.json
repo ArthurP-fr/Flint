@@ -209,7 +209,8 @@
             "status": "Status",
             "channel": "Channel",
             "type": "Type",
-            "channelPicker": "Channel picker"
+            "channelPicker": "Channel picker",
+            "autoRoles": "Auto roles"
           }
         },
         "status": {
@@ -217,12 +218,18 @@
           "disabled": "🔴 Disabled"
         },
         "channelNotConfigured": "#not-configured",
+        "autoRolesNotConfigured": "No auto role configured",
         "channelPickerPlaceholder": "Select a welcome channel",
         "channelPickerHint": "Use the select menu below to choose the destination channel.",
+        "rolePickerPlaceholder": "Select one or more auto roles",
+        "rolePickerHint": "Use the role select menu below to append roles to the auto-role list.",
         "buttons": {
           "toggle": "Toggle status",
           "channel": "Set channel",
           "channelCancel": "Close channel picker",
+          "roles": "Add auto roles",
+          "rolesCancel": "Close role picker",
+          "rolesClear": "Clear auto roles",
           "test": "Test"
         },
         "type": {

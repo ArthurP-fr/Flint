@@ -1,6 +1,7 @@
 import type {
   Client,
   Guild,
+  GuildMember,
   Message,
   MessageCreateOptions,
   User,
@@ -15,6 +16,7 @@ export interface MemberMessageConfig {
   enabled: boolean;
   channelId: string | null;
   messageType: MemberMessageRenderType;
+  autoRoleIds: string[];
 }
 
 export type DispatchMemberMessageFailureReason =
@@ -39,6 +41,27 @@ export interface DispatchMemberMessageInput {
   user: User;
   kind: MemberMessageKind;
   ignoreEnabled?: boolean;
+}
+
+export type AssignWelcomeAutoRolesFailureReason =
+  | "bot_not_ready"
+  | "missing_permissions"
+  | "member_not_manageable"
+  | "no_roles_configured"
+  | "no_assignable_roles"
+  | "assign_failed";
+
+export interface AssignWelcomeAutoRolesInput {
+  client: Client;
+  member: GuildMember;
+}
+
+export interface AssignWelcomeAutoRolesResult {
+  assigned: boolean;
+  reason: AssignWelcomeAutoRolesFailureReason | "assigned";
+  configuredRoleIds: string[];
+  appliedRoleIds: string[];
+  skippedRoleIds: string[];
 }
 
 export interface SendableChannel {
@@ -66,19 +89,25 @@ export interface MemberMessageRow {
   enabled: boolean;
   channel_id: string | null;
   message_type: string;
+  auto_role_ids: string | null;
 }
 
 export interface MemberMessageCustomIds {
   toggleButton: string;
   channelButton: string;
   channelCancelButton: string;
+  roleButton: string;
+  roleCancelButton: string;
+  roleClearButton: string;
   typeSelect: string;
   channelSelect: string;
+  roleSelect: string;
   testButton: string;
 }
 
 export interface MemberMessagePanelUiState {
   channelPickerOpen: boolean;
+  rolePickerOpen: boolean;
 }
 
 export interface MemberMessagePanelSession {
