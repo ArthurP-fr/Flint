@@ -1,23 +1,27 @@
-export default function HowItWorks() {
+import { getT } from "../i18n/server";
+
+export default async function HowItWorks() {
+  const t = await getT();
+
   const steps = [
     {
-      title: "Ajouter un bot",
-      desc: "Connectez votre application Discord via OAuth et enregistrez-la dans Shadow.",
+      title: t("howItWorks.steps.addBot.title"),
+      desc: t("howItWorks.steps.addBot.description"),
     },
     {
-      title: "Gérer depuis le dashboard",
-      desc: "Accédez aux commandes, aux logs et aux paramètres depuis une interface centralisée.",
+      title: t("howItWorks.steps.dashboard.title"),
+      desc: t("howItWorks.steps.dashboard.description"),
     },
     {
-      title: "Contrôler en temps réel",
-      desc: "Démarrez, arrêtez et scalez vos bots instantanément selon la demande.",
+      title: t("howItWorks.steps.realtime.title"),
+      desc: t("howItWorks.steps.realtime.description"),
     },
   ];
 
   return (
     <section>
-      <h2 className="text-2xl font-bold text-white">Comment ça marche</h2>
-      <p className="mt-2 text-gray-400 max-w-2xl">Trois étapes simples pour prendre le contrôle de vos bots.</p>
+      <h2 className="text-2xl font-bold text-white">{t("howItWorks.title")}</h2>
+      <p className="mt-2 text-gray-400 max-w-2xl">{t("howItWorks.subtitle")}</p>
 
       <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
         {steps.map((s, i) => (

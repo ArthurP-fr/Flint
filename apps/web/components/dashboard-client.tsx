@@ -1,6 +1,7 @@
 "use client";
 
 import { type FormEvent, useCallback, useEffect, useState } from "react";
+import { useT } from "../i18n/client";
 
 type User = {
   id: string;
@@ -27,15 +28,25 @@ type DashboardClientProps = {
   apiBaseUrl: string;
 };
 
-const statusLabel: Record<BotStatus, string> = {
-  stopped: "Arrete",
-  starting: "Demarrage",
-  running: "En ligne",
-  stopping: "Arret",
-  error: "Erreur",
-};
+type BotAction = "start" | "stop" | "restart";
 
 export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
+  const t = useT();
+
+  const statusLabel: Record<BotStatus, string> = {
+    stopped: t("dashboard.status.stopped"),
+    starting: t("dashboard.status.starting"),
+    running: t("dashboard.status.running"),
+    stopping: t("dashboard.status.stopping"),
+    error: t("dashboard.status.error"),
+  };
+
+  const actionLabel: Record<BotAction, string> = {
+    start: t("dashboard.actions.start"),
+    stop: t("dashboard.actions.stop"),
+    restart: t("dashboard.actions.restart"),
+  };
+
   const [user, setUser] = useState<User | null>(null);
   const [bots, setBots] = useState<Bot[]>([]);
   const [token, setToken] = useState("");
@@ -61,7 +72,7 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
       }
 
       if (!meResponse.ok) {
-        throw new Error("Impossible de recuperer la session utilisateur");
+        throw new Error(t("dashboard.errors.fetchSession"));
       }
 
       const meJson = await meResponse.json();
@@ -72,18 +83,18 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
       });
 
       if (!botsResponse.ok) {
-        throw new Error("Impossible de recuperer la liste des bots");
+        throw new Error(t("dashboard.errors.fetchBots"));
       }
 
       const botsJson = await botsResponse.json();
       setBots((botsJson.bots ?? []) as Bot[]);
     } catch (cause) {
-      const message = cause instanceof Error ? cause.message : "Erreur inattendue";
+      const message = cause instanceof Error ? cause.message : t("dashboard.errors.unexpected");
       setError(message);
     } finally {
       setLoading(false);
     }
-  }, [apiBaseUrl]);
+  }, [apiBaseUrl, t]);
 
   useEffect(() => {
     void refreshData();
@@ -119,21 +130,21 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
 
       if (!response.ok) {
         const errorJson = await response.json().catch(() => ({}));
-        throw new Error(errorJson.error ?? "Ajout du bot impossible");
+        throw new Error(errorJson.error ?? t("dashboard.errors.addBot"));
       }
 
       setToken("");
       setDisplayName("");
       await refreshData();
     } catch (cause) {
-      const message = cause instanceof Error ? cause.message : "Erreur inattendue";
+      const message = cause instanceof Error ? cause.message : t("dashboard.errors.unexpected");
       setError(message);
     } finally {
       setSubmitting(false);
     }
   };
 
-  const triggerAction = async (botId: string, action: "start" | "stop" | "restart") => {
+  const triggerAction = async (botId: string, action: BotAction) => {
     setError(null);
 
     try {
@@ -144,28 +155,28 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
 
       if (!response.ok) {
         const errorJson = await response.json().catch(() => ({}));
-        throw new Error(errorJson.error ?? `Action ${action} impossible`);
+        throw new Error(errorJson.error ?? t("dashboard.errors.actionFailed", { action: actionLabel[action] }));
       }
 
       await refreshData();
     } catch (cause) {
-      const message = cause instanceof Error ? cause.message : "Erreur inattendue";
+      const message = cause instanceof Error ? cause.message : t("dashboard.errors.unexpected");
       setError(message);
     }
   };
 
   if (loading) {
-    return <p className="muted">Chargement du dashboard...</p>;
+    return <p className="muted">{t("dashboard.loading")}</p>;
   }
 
   if (!user) {
     return (
       <div className="stack">
-        <p className="eyebrow">Session requise</p>
-        <h1>Connexion necessaire</h1>
-        <p>Ton dashboard est protege. Connecte-toi via Discord pour administrer tes bots.</p>
+        <p className="eyebrow">{t("dashboard.sessionRequired")}</p>
+        <h1>{t("dashboard.loginRequired")}</h1>
+        <p>{t("dashboard.loginDescription")}</p>
         <a className="button-primary" href={`${apiBaseUrl}/auth/discord/login`}>
-          Se connecter
+          {t("dashboard.loginCta")}
         </a>
       </div>
     );
@@ -175,12 +186,12 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
     <div className="stack">
       <header className="dashboard-header">
         <div>
-          <p className="eyebrow">Tenant {user.tenantId}</p>
+          <p className="eyebrow">{t("dashboard.tenant", { tenantId: user.tenantId })}</p>
           <h1>{user.username}</h1>
-          <p className="muted">Role: {user.role}</p>
+          <p className="muted">{t("dashboard.role", { role: user.role })}</p>
         </div>
         <button className="button-ghost" onClick={handleLogout} type="button">
-          Se deconnecter
+          {t("dashboard.logout")}
         </button>
       </header>
 
@@ -188,11 +199,11 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
 
       <section className="card-grid">
         <article className="card add-bot-card">
-          <h2>Ajouter un bot</h2>
-          <p>Le token est verifie cote API puis chiffre avant stockage en base.</p>
+          <h2>{t("dashboard.addBot.title")}</h2>
+          <p>{t("dashboard.addBot.description")}</p>
           <form className="stack-tight" onSubmit={handleAddBot}>
             <label>
-              Token bot Discord
+              {t("dashboard.addBot.tokenLabel")}
               <input
                 autoComplete="off"
                 name="token"
@@ -204,7 +215,7 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
               />
             </label>
             <label>
-              Nom d'affichage (optionnel)
+              {t("dashboard.addBot.displayNameLabel")}
               <input
                 name="displayName"
                 onChange={(event) => setDisplayName(event.target.value)}
@@ -214,40 +225,40 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
               />
             </label>
             <button className="button-primary" disabled={submitting} type="submit">
-              {submitting ? "Validation en cours..." : "Ajouter le bot"}
+              {submitting ? t("dashboard.addBot.submitPending") : t("dashboard.addBot.submit")}
             </button>
           </form>
         </article>
 
         <article className="card bots-card">
           <div className="row-between">
-            <h2>Mes bots</h2>
+            <h2>{t("dashboard.bots.title")}</h2>
             <button className="button-ghost" onClick={() => void refreshData()} type="button">
-              Rafraichir
+              {t("dashboard.bots.refresh")}
             </button>
           </div>
 
           {bots.length === 0 ? (
-            <p className="muted">Aucun bot pour ce tenant.</p>
+            <p className="muted">{t("dashboard.bots.empty")}</p>
           ) : (
             <ul className="bot-list">
               {bots.map((bot) => (
                 <li className="bot-item" key={bot.id}>
                   <div className="bot-main">
                     <p className="bot-name">{bot.displayName}</p>
-                    <p className="muted mono">Discord ID: {bot.discordBotId}</p>
+                    <p className="muted mono">{t("dashboard.bots.discordId", { discordBotId: bot.discordBotId })}</p>
                     <p className={`status status-${bot.status}`}>{statusLabel[bot.status]}</p>
-                    {bot.lastError ? <p className="error-inline">Derniere erreur: {bot.lastError}</p> : null}
+                    {bot.lastError ? <p className="error-inline">{t("dashboard.bots.lastError", { message: bot.lastError })}</p> : null}
                   </div>
                   <div className="actions">
                     <button onClick={() => void triggerAction(bot.id, "start")} type="button">
-                      Start
+                      {actionLabel.start}
                     </button>
                     <button onClick={() => void triggerAction(bot.id, "stop")} type="button">
-                      Stop
+                      {actionLabel.stop}
                     </button>
                     <button onClick={() => void triggerAction(bot.id, "restart")} type="button">
-                      Restart
+                      {actionLabel.restart}
                     </button>
                   </div>
                 </li>

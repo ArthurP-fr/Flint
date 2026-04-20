@@ -37,6 +37,43 @@ body {
     linear-gradient(140deg, var(--sand-50), #f8f7f4 55%, #fff3e3);
 }
 
+.locale-switcher-shell {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 80;
+}
+
+.locale-switcher {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(23, 20, 16, 0.74);
+  padding: 0.2rem 0.55rem;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
+}
+
+.locale-switcher select {
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 0.84rem;
+  font-weight: 700;
+  font-family: var(--font-heading), sans-serif;
+  cursor: pointer;
+}
+
+.locale-switcher select:focus {
+  outline: none;
+}
+
+.locale-switcher select:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
 .page-shell {
   min-height: 100vh;
   display: grid;
@@ -281,5 +318,16 @@ input:focus {
 
   .panel-dashboard {
     padding: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .locale-switcher-shell {
+    top: 0.7rem;
+    right: 0.7rem;
+  }
+
+  .locale-switcher select {
+    font-size: 0.78rem;
   }
 }
