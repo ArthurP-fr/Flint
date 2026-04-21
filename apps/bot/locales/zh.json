@@ -1,0 +1,468 @@
+{
+  "errors": {
+    "args": {
+      "missing": "缺少参数 {{arg}}。用法：{{usage}}",
+      "invalidInt": "参数必须是整数。收到：{{value}}",
+      "invalidNumber": "参数必须是数字。收到：{{value}}",
+      "invalidBoolean": "参数必须是布尔值。收到：{{value}}",
+      "invalidUser": "无法根据 {{value}} 找到用户",
+      "invalidChannel": "无法根据 {{value}} 找到频道",
+      "invalidRole": "无法根据 {{value}} 找到角色",
+      "tooMany": "检测到过多参数（{{count}}）：{{extras}}。用法：{{usage}}"
+    },
+    "permissions": {
+      "user": "你没有权限：{{permissions}}"
+    },
+    "execution": "执行过程中发生未知错误。",
+    "cooldown": "请等待 {{seconds}} 秒后再使用该命令。",
+    "rateLimit": "请求过于频繁。请等待 {{seconds}} 秒后重试。",
+    "executionQueued": "命令已接受并加入队列处理。"
+  },
+  "categories": {
+    "fun": "娱乐",
+    "utility": "工具",
+    "core": "基础"
+  },
+  "commands": {
+    "kiss": {
+      "name": "亲吻",
+      "description": "向用户发送一个亲吻。",
+      "args": {
+        "user": "目标用户"
+      },
+      "examples": {
+        "basic": "向一名成员发送亲吻"
+      },
+      "responses": {
+        "success": "{{from}} 向 {{to}} 发送了一个亲吻。"
+      }
+    },
+    "ping": {
+      "name": "ping",
+      "description": "检查机器人的 WebSocket 延迟。",
+      "examples": {
+        "basic": "健康检查"
+      },
+      "responses": {
+        "pong": "Pong。WebSocket 延迟：{{latency}}ms。"
+      }
+    },
+    "presence": {
+      "name": "状态",
+      "description": "使用交互面板配置机器人的状态。",
+      "examples": {
+        "slash": "打开状态交互面板"
+      },
+      "responses": {
+        "panel": "状态面板\n状态：{{status}}\n活动：{{activityType}}\n轮换：每 {{rotationIntervalSeconds}} 秒\n当前文本（{{currentTextIndex}}/{{textCount}}）：{{activityText}}\n预览：{{activityPreview}}\n文本列表：{{activityTexts}}\n变量（{{doubleBracesHint}}）：{{variables}}",
+        "notOwner": "只有命令作者可以使用此面板。",
+        "invalidSelection": "无效选择。",
+        "invalidInterval": "无效间隔。请使用 {{minSeconds}} 到 {{maxSeconds}} 秒之间的整数。",
+        "modalTimeout": "文本编辑超时。请重新点击按钮。"
+      },
+      "ui": {
+        "status": {
+          "placeholder": "选择状态",
+          "options": {
+            "online": {
+              "label": "在线",
+              "description": "显示机器人在线"
+            },
+            "idle": {
+              "label": "离开",
+              "description": "显示机器人空闲"
+            },
+            "dnd": {
+              "label": "请勿打扰",
+              "description": "显示机器人请勿打扰"
+            },
+            "invisible": {
+              "label": "隐身",
+              "description": "显示机器人离线"
+            },
+            "streaming": {
+              "label": "直播",
+              "description": "显示机器人正在直播"
+            }
+          }
+        },
+        "activity": {
+          "placeholder": "选择活动类型",
+          "options": {
+            "PLAYING": {
+              "label": "正在玩",
+              "description": "显示 正在玩..."
+            },
+            "STREAMING": {
+              "label": "直播",
+              "description": "显示 正在直播..."
+            },
+            "WATCHING": {
+              "label": "正在观看",
+              "description": "显示 正在观看..."
+            },
+            "LISTENING": {
+              "label": "正在听",
+              "description": "显示 正在听..."
+            },
+            "COMPETING": {
+              "label": "比赛中",
+              "description": "显示 比赛中..."
+            },
+            "CUSTOM": {
+              "label": "自定义状态",
+              "description": "显示自定义状态"
+            }
+          }
+        },
+        "embed": {
+          "title": "状态配置",
+          "description": "修改状态、活动类型、多条文本及其轮换。",
+          "footer": "交互面板 /presence",
+          "fields": {
+            "status": "状态",
+            "activity": "活动类型",
+            "text": "文本"
+          }
+        },
+        "textButton": "📝 修改文本",
+        "intervalButton": "⏱️ 间隔",
+        "modal": {
+          "title": "状态文本",
+          "label": "每行一个文本（使用 {{var}}）",
+          "placeholder": "维护中\n{{guild_count}} 个服务器 | {{prefix}}帮助"
+        },
+        "intervalModal": {
+          "title": "轮换间隔",
+          "label": "每个文本之间的秒数",
+          "placeholder": "例如：30"
+        }
+      }
+    },
+    "logs": {
+      "name": "日志",
+      "description": "使用交互面板配置 Discord 事件日志。",
+      "examples": {
+        "slash": "打开日志交互面板"
+      },
+      "responses": {
+        "slashOnly": "使用 /logs 打开此交互面板。",
+        "guildOnly": "此命令只能在服务器中使用。",
+        "notOwner": "只有命令作者可以使用此面板。",
+        "invalidSelection": "无效选择。",
+        "allEnabled": "所有事件日志已启用。",
+        "allDisabled": "所有事件日志已禁用。",
+        "eventEnabled": "事件 {{event}} 已启用。",
+        "eventDisabled": "事件 {{event}} 已禁用。",
+        "channelsCreated": "日志频道已准备好。新建：{{created}}，复用：{{reused}}。",
+        "channelsPartial": "日志频道部分完成。新建：{{created}}，复用：{{reused}}，失败分类：{{failed}}。",
+        "channelsFailed": "无法创建日志频道。失败分类：{{failed}}。"
+      },
+      "ui": {
+        "embed": {
+          "title": "日志配置",
+          "description": "启用或禁用 Discord 事件，并按分类路由日志频道。"
+        },
+        "status": {
+          "enabled": "已启用",
+          "disabled": "已禁用"
+        },
+        "pageLabel": "第 {{page}}/{{pageCount}} 页",
+        "enabledCountLabel": "已启用事件：{{enabledCount}}/{{totalCount}}",
+        "eventsHeader": "事件",
+        "channelLabel": "频道",
+        "channelNotConfigured": "#未配置",
+        "feedbackLabel": "最近操作",
+        "buttons": {
+          "enableAll": "✅ 启用所有日志",
+          "disableAll": "❌ 禁用所有日志",
+          "createChannels": "📁 创建日志频道",
+          "previousPage": "上一页",
+          "nextPage": "下一页",
+          "enableEvent": "启用 {{event}}",
+          "disableEvent": "禁用 {{event}}"
+        },
+        "events": {
+          "messageCreate": "消息创建",
+          "messageDelete": "消息删除",
+          "messageUpdate": "消息更新",
+          "messageBulkDelete": "批量删除消息",
+          "guildMemberAdd": "成员加入",
+          "guildMemberRemove": "成员离开",
+          "guildMemberUpdate": "成员更新",
+          "interactionCreate": "交互",
+          "channelCreate": "频道创建",
+          "channelDelete": "频道删除",
+          "channelUpdate": "频道更新",
+          "roleCreate": "角色创建",
+          "roleDelete": "角色删除",
+          "roleUpdate": "角色更新",
+          "threadCreate": "线程创建",
+          "threadDelete": "线程删除",
+          "threadUpdate": "线程更新",
+          "emojiCreate": "表情创建",
+          "emojiDelete": "表情删除",
+          "emojiUpdate": "表情更新",
+          "guildUpdate": "服务器更新",
+          "guildUnavailable": "服务器不可用",
+          "guildBanAdd": "成员被封禁",
+          "guildBanRemove": "成员解封",
+          "inviteCreate": "邀请创建",
+          "inviteDelete": "邀请删除"
+        }
+      }
+    },
+    "welcome": {
+      "name": "欢迎",
+      "description": "使用交互面板配置欢迎消息。",
+      "examples": {
+        "slash": "打开欢迎消息配置面板"
+      },
+      "responses": {
+        "guildOnly": "此命令只能在服务器中使用。",
+        "notOwner": "只有命令作者可以使用此面板。",
+        "invalidSelection": "无效选择。",
+        "testSuccess": "测试消息已发送到 {{channel}}。",
+        "testDisabled": "欢迎模块已禁用。",
+        "testMissingChannel": "未配置频道。请使用频道按钮。",
+        "testChannelUnavailable": "已配置频道不可用或不存在。",
+        "testMissingPermissions": "机器人没有权限在该频道发送消息。",
+        "testFailed": "无法发送测试消息，请稍后重试。"
+      },
+      "ui": {
+        "embed": {
+          "title": "欢迎配置",
+          "description": "设置状态、频道、消息类型并进行测试。",
+          "fields": {
+            "status": "状态",
+            "channel": "频道",
+            "type": "类型",
+            "channelPicker": "频道选择",
+            "autoRoles": "自动角色"
+          }
+        },
+        "status": {
+          "enabled": "🟢 已启用",
+          "disabled": "🔴 已禁用"
+        },
+        "channelNotConfigured": "#未配置",
+        "autoRolesNotConfigured": "未配置自动角色",
+        "channelPickerPlaceholder": "选择欢迎频道",
+        "channelPickerHint": "在下方选择菜单中选择频道。",
+        "rolePickerPlaceholder": "选择一个或多个自动角色",
+        "rolePickerHint": "在下方选择角色以加入自动列表。",
+        "buttons": {
+          "toggle": "切换状态",
+          "channel": "配置频道",
+          "channelCancel": "关闭频道选择",
+          "roles": "添加自动角色",
+          "rolesCancel": "关闭角色选择",
+          "rolesClear": "清空自动角色",
+          "test": "测试"
+        },
+        "type": {
+          "placeholder": "选择消息类型",
+          "options": {
+            "simple": {
+              "label": "简单消息",
+              "description": "发送普通文本消息"
+            },
+            "embed": {
+              "label": "嵌入消息",
+              "description": "发送欢迎嵌入消息"
+            },
+            "container": {
+              "label": "容器 (V2)",
+              "description": "发送 Components V2 容器"
+            },
+            "image": {
+              "label": "图片",
+              "description": "发送带图片的嵌入消息"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "🎉 欢迎 {{user}} 来到 **{{guild}}**！",
+        "embedTitle": "欢迎！",
+        "embedDescription": "{{user}} 刚刚加入了 **{{guild}}**。",
+        "containerTitle": "欢迎",
+        "containerDescription": "{{user}} 刚刚加入了 **{{guild}}**。",
+        "imageTitle": "欢迎",
+        "imageDescription": "加入 Discord 服务器 {{guild}}"
+      }
+    },
+    "goodbye": {
+      "name": "再见",
+      "description": "使用交互面板配置离开消息。",
+      "examples": {
+        "slash": "打开离开消息配置面板"
+      },
+      "responses": {
+        "guildOnly": "此命令只能在服务器中使用。",
+        "notOwner": "只有命令作者可以使用此面板。",
+        "invalidSelection": "无效选择。",
+        "testSuccess": "测试消息已发送到 {{channel}}。",
+        "testDisabled": "离开模块已禁用。",
+        "testMissingChannel": "未配置频道。请使用频道按钮。",
+        "testChannelUnavailable": "已配置频道不可用或不存在。",
+        "testMissingPermissions": "机器人没有权限在该频道发送消息。",
+        "testFailed": "无法发送测试消息，请稍后重试。"
+      },
+      "ui": {
+        "embed": {
+          "title": "离开配置",
+          "description": "设置状态、频道、消息类型并进行测试。",
+          "fields": {
+            "status": "状态",
+            "channel": "频道",
+            "type": "类型",
+            "channelPicker": "频道选择"
+          }
+        },
+        "status": {
+          "enabled": "🟢 已启用",
+          "disabled": "🔴 已禁用"
+        },
+        "channelNotConfigured": "#未配置",
+        "channelPickerPlaceholder": "选择离开频道",
+        "channelPickerHint": "在下方选择菜单中选择频道。",
+        "buttons": {
+          "toggle": "切换状态",
+          "channel": "配置频道",
+          "channelCancel": "关闭频道选择",
+          "test": "测试"
+        },
+        "type": {
+          "placeholder": "选择消息类型",
+          "options": {
+            "simple": {
+              "label": "简单消息",
+              "description": "发送普通文本消息"
+            },
+            "embed": {
+              "label": "嵌入消息",
+              "description": "发送离开嵌入消息"
+            },
+            "container": {
+              "label": "容器 (V2)",
+              "description": "发送 Components V2 容器"
+            },
+            "image": {
+              "label": "图片",
+              "description": "发送带图片的嵌入消息"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "👋 {{user}} 离开了 **{{guild}}**。",
+        "embedTitle": "再见",
+        "embedDescription": "{{user}} 离开了 **{{guild}}**。",
+        "containerTitle": "再见",
+        "containerDescription": "{{user}} 离开了 **{{guild}}**。",
+        "imageTitle": "再见",
+        "imageDescription": "离开 Discord 服务器 {{guild}}"
+      }
+    },
+    "help": {
+      "name": "帮助",
+      "description": "显示命令列表或某个命令的详细信息。",
+      "args": {
+        "command": "可选的命令名称或触发词"
+      },
+      "examples": {
+        "basic": "显示所有命令",
+        "single": "显示某个命令的详细信息"
+      },
+      "errors": {
+        "notFound": "没有找到匹配 {{query}} 的命令。"
+      },
+      "embed": {
+        "title": "命令帮助",
+        "description": "使用 {{usage}} 查看某个命令。",
+        "categoryEmpty": "该分类中没有命令。",
+        "detailsTitle": "命令：{{name}}",
+        "detailsDescription": "{{description}}",
+        "footer": "分类：{{source}}",
+        "fields": {
+          "usage": "用法",
+          "arguments": "参数",
+          "examples": "示例"
+        }
+      },
+      "labels": {
+        "prefix": "前缀",
+        "slash": "斜杠",
+        "required": "必填",
+        "optional": "可选",
+        "noArgs": "无参数。",
+        "noExamples": "无示例。"
+      }
+    }
+  },
+  "logsRuntime": {
+    "placeholders": {
+      "noContent": "(无内容)",
+      "unknown": "未知",
+      "none": "无"
+    },
+    "embed": {
+      "title": "事件：{{event}}",
+      "detailsField": "详情"
+    },
+    "summaries": {
+      "messageCreate": "{{user}} 在 {{channel}} 发送了消息",
+      "messageDelete": "{{channel}} 中的消息已删除",
+      "messageUpdate": "{{channel}} 中的消息已更新",
+      "messageBulkDelete": "批量删除：{{count}} 条消息被移除",
+      "guildMemberAdd": "成员加入：{{user}}",
+      "guildMemberRemove": "成员离开：{{user}}",
+      "guildMemberUpdate": "成员更新：{{user}}",
+      "interactionGeneric": "{{user}} 进行了交互",
+      "interactionSlash": "{{user}} 使用了斜杠命令 /{{command}}",
+      "interactionButton": "{{user}} 点击了按钮",
+      "interactionSelect": "{{user}} 使用了选择菜单",
+      "interactionModal": "{{user}} 提交了表单",
+      "channelCreate": "频道创建：{{channel}}",
+      "channelDelete": "频道删除：{{channel}}",
+      "channelUpdate": "频道更新：{{channel}}",
+      "roleCreate": "角色创建：{{role}}",
+      "roleDelete": "角色删除：{{role}}",
+      "roleUpdate": "角色更新：{{role}}",
+      "threadCreate": "线程创建：{{thread}}",
+      "threadDelete": "线程删除：{{thread}}",
+      "threadUpdate": "线程更新：{{thread}}",
+      "emojiCreate": "表情创建：{{emoji}}",
+      "emojiDelete": "表情删除：{{emoji}}",
+      "emojiUpdate": "表情更新：{{emoji}}",
+      "guildUpdate": "服务器更新：{{guild}}",
+      "guildUnavailable": "服务器暂时不可用：{{guild}}",
+      "guildBanAdd": "用户被封禁：{{user}}",
+      "guildBanRemove": "用户解除封禁：{{user}}",
+      "inviteCreate": "邀请创建：{{code}}",
+      "inviteDelete": "邀请删除：{{code}}"
+    },
+    "details": {
+      "messageId": "messageId={{value}}",
+      "author": "author={{tag}} ({{id}})",
+      "content": "content={{value}}",
+      "before": "before={{value}}",
+      "after": "after={{value}}",
+      "channelId": "channelId={{value}}",
+      "count": "count={{value}}",
+      "user": "user={{tag}} ({{id}})",
+      "oldNick": "oldNick={{value}}",
+      "newNick": "newNick={{value}}",
+      "interactionId": "interactionId={{value}}",
+      "type": "type={{value}}",
+      "oldName": "oldName={{value}}",
+      "newName": "newName={{value}}",
+      "roleId": "roleId={{value}}",
+      "threadId": "threadId={{value}}",
+      "emojiId": "emojiId={{value}}",
+      "guildId": "guildId={{value}}",
+      "inviter": "inviter={{value}}"
+    }
+  }
+}

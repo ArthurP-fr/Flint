@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "title": "Shadow - Discord 机器人托管（每个机器人每月 2 欧元起）",
+    "description": "多租户 SaaS 平台，用于托管和管理你的 Discord 机器人，支持自动命令、v2 组件、多语言和动态变量。"
+  },
+  "common": {
+    "brand": "Shadow"
+  },
+  "nav": {
+    "home": "首页",
+    "dashboard": "控制面板",
+    "login": "登录"
+  },
+  "localeSwitcher": {
+    "label": "语言",
+    "locales": {
+      "en": "英语",
+      "es": "西班牙语",
+      "de": "德语",
+      "ja": "日语",
+      "fr": "法语",
+      "pt": "葡萄牙语",
+      "ru": "俄语",
+      "it": "意大利语",
+      "nl": "荷兰语",
+      "pl": "波兰语",
+      "zh": "中文",
+      "hi": "印地语",
+      "ar": "阿拉伯语",
+      "bn": "孟加拉语",
+      "id": "印尼语",
+      "tr": "土耳其语"
+    }
+  },
+  "hero": {
+    "kicker": "Discord 机器人 SaaS 平台",
+    "title": "Shadow - 托管你的 Discord 机器人（每个机器人每月 2 欧元起）",
+    "description": "托管并管理你的机器人，支持自动命令（前缀与斜杠）、v2 组件、自动帮助、多语言支持和动态变量。",
+    "ctaStart": "开始使用 - 每月 2 欧元",
+    "ctaLogin": "登录",
+    "bots": {
+      "moderation": "管理",
+      "welcome": "欢迎",
+      "analytics": "分析"
+    },
+    "status": {
+      "online": "在线",
+      "stopped": "已停止"
+    },
+    "card": {
+      "title": "机器人集群实时概览",
+      "subtitle": "从统一的操作界面监控每个机器人实例。",
+      "instanceMetrics": "实例：1 | CPU 35%",
+      "manage": "管理",
+      "preview": "机器人状态实时预览"
+    }
+  },
+  "features": {
+    "title": "核心功能",
+    "subtitle": "生产环境中管理机器人所需的一切。",
+    "items": {
+      "autoCommands": {
+        "title": "自动命令",
+        "description": "每个机器人都会自动生成并同步前缀命令与斜杠命令。"
+      },
+      "componentsV2": {
+        "title": "v2 组件",
+        "description": "完全支持 v2 组件和丰富交互功能。"
+      },
+      "autoHelp": {
+        "title": "自动帮助",
+        "description": "自动生成命令帮助与文档。"
+      },
+      "multiLanguage": {
+        "title": "多语言",
+        "description": "轻松翻译消息与命令标签并启用多语言支持。"
+      },
+      "dynamicVariables": {
+        "title": "动态变量",
+        "description": "支持模板变量，例如 bot_latency、guild_count 等。"
+      },
+      "hosting": {
+        "title": "托管与扩展性",
+        "description": "每个机器人每月 2 欧元起的简单方案，包含监控与自动扩展。"
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "工作原理",
+    "subtitle": "三步即可掌控你的机器人。",
+    "steps": {
+      "addBot": {
+        "title": "添加机器人",
+        "description": "通过 OAuth 连接你的 Discord 应用并注册到 Shadow。"
+      },
+      "dashboard": {
+        "title": "在控制面板管理",
+        "description": "通过统一界面访问命令、日志和设置。"
+      },
+      "realtime": {
+        "title": "实时控制",
+        "description": "根据需求即时启动、停止或扩展你的机器人。"
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Discord 机器人托管 - 每个机器人每月 2 欧元起",
+    "github": "GitHub",
+    "copyright": "版权所有 {year} {brand}"
+  },
+  "login": {
+    "eyebrow": "Shadow - Discord 机器人托管",
+    "title": "连接你的 Discord 账号",
+    "description": "通过 OAuth2 登录以访问你的空间并托管机器人。",
+    "cta": "使用 Discord 继续"
+  },
+  "dashboard": {
+    "loading": "正在加载控制面板...",
+    "sessionRequired": "需要会话",
+    "loginRequired": "需要登录",
+    "loginDescription": "你的控制面板受保护，请通过 Discord 登录以管理机器人。",
+    "loginCta": "登录",
+    "tenant": "租户 {tenantId}",
+    "role": "角色：{role}",
+    "roles": {
+      "owner": "所有者",
+      "member": "成员"
+    },
+    "logout": "退出登录",
+    "addBot": {
+      "title": "添加机器人",
+      "description": "Token 会在 API 端验证并在存储前加密。",
+      "tokenLabel": "Discord 机器人 Token",
+      "tokenPlaceholder": "MTIz...",
+      "displayNameLabel": "显示名称（可选）",
+      "displayNamePlaceholder": "EU 支持机器人",
+      "submit": "添加机器人",
+      "submitPending": "验证中..."
+    },
+    "bots": {
+      "title": "我的机器人",
+      "refresh": "刷新",
+      "empty": "该租户暂无机器人。",
+      "discordId": "Discord ID：{discordBotId}",
+      "lastError": "最近错误：{message}"
+    },
+    "status": {
+      "stopped": "已停止",
+      "starting": "启动中",
+      "running": "运行中",
+      "stopping": "停止中",
+      "error": "错误"
+    },
+    "actions": {
+      "start": "启动",
+      "stop": "停止",
+      "restart": "重启"
+    },
+    "errors": {
+      "fetchSession": "无法获取用户会话",
+      "fetchBots": "无法获取机器人列表",
+      "unexpected": "未知错误",
+      "addBot": "无法添加机器人",
+      "actionFailed": "操作失败：{action}"
+    }
+  }
+}

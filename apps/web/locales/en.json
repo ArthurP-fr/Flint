@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "title": "Shadow - Discord bot hosting (from €2/month per bot)",
+    "description": "Multi-tenant SaaS platform to host and manage your Discord bots with automatic commands, components v2, multi-language support, and dynamic variables."
+  },
+  "common": {
+    "brand": "Shadow"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "login": "Log in"
+  },
+  "localeSwitcher": {
+    "label": "Language",
+    "locales": {
+      "en": "English",
+      "es": "Spanish",
+      "de": "German",
+      "ja": "Japanese",
+      "fr": "French",
+      "pt": "Portuguese",
+      "ru": "Russian",
+      "it": "Italian",
+      "nl": "Dutch",
+      "pl": "Polish",
+      "zh": "Chinese",
+      "hi": "Hindi",
+      "ar": "Arabic",
+      "bn": "Bengali",
+      "id": "Indonesian",
+      "tr": "Turkish"
+    }
+  },
+  "hero": {
+    "kicker": "SaaS platform for Discord bots",
+    "title": "Shadow - Host your Discord bots (from €2/month per bot)",
+    "description": "Host and manage your bots with automatic commands (prefix and slash), components v2, automatic help, multi-language support, and dynamic variables.",
+    "ctaStart": "Get started - €2/month",
+    "ctaLogin": "Log in",
+    "bots": {
+      "moderation": "Moderation",
+      "welcome": "Welcome",
+      "analytics": "Analytics"
+    },
+    "status": {
+      "online": "Online",
+      "stopped": "Stopped"
+    },
+    "card": {
+      "title": "Live fleet overview",
+      "subtitle": "Monitor every bot instance from a single operational dashboard.",
+      "instanceMetrics": "Instances: 1 | CPU 35%",
+      "manage": "Manage",
+      "preview": "Real-time preview of your bots' status"
+    }
+  },
+  "features": {
+    "title": "Key features",
+    "subtitle": "Everything you need to run your bots in production.",
+    "items": {
+      "autoCommands": {
+        "title": "Automatic commands",
+        "description": "Prefix and slash commands are automatically generated and synchronized for each bot."
+      },
+      "componentsV2": {
+        "title": "Components v2",
+        "description": "Full support for components v2 and reliable rich interactions."
+      },
+      "autoHelp": {
+        "title": "Automatic help",
+        "description": "Automatically generated command help and documentation."
+      },
+      "multiLanguage": {
+        "title": "Multi-language",
+        "description": "Translate messages and command labels and easily enable multiple languages."
+      },
+      "dynamicVariables": {
+        "title": "Dynamic variables",
+        "description": "Dynamic templates with variables like bot_latency, guild_count, and more."
+      },
+      "hosting": {
+        "title": "Hosting & scalability",
+        "description": "Simple plans at €2/month per bot with built-in monitoring and scalability."
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "subtitle": "Three simple steps to take control of your bots.",
+    "steps": {
+      "addBot": {
+        "title": "Add a bot",
+        "description": "Connect your Discord application via OAuth and register it in Shadow."
+      },
+      "dashboard": {
+        "title": "Manage from the dashboard",
+        "description": "Access commands, logs, and settings from a centralized interface."
+      },
+      "realtime": {
+        "title": "Control in real time",
+        "description": "Start, stop, and scale your bots instantly based on demand."
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Discord bot hosting - plans from €2/month per bot",
+    "github": "GitHub",
+    "copyright": "Copyright {year} {brand}"
+  },
+  "login": {
+    "eyebrow": "Shadow - Discord bot hosting",
+    "title": "Connect your Discord account",
+    "description": "Authenticate via OAuth2 to access your workspace and host your bots.",
+    "cta": "Continue with Discord"
+  },
+  "dashboard": {
+    "loading": "Loading dashboard...",
+    "sessionRequired": "Session required",
+    "loginRequired": "Login required",
+    "loginDescription": "Your dashboard is protected. Log in with Discord to manage your bots.",
+    "loginCta": "Log in",
+    "tenant": "Tenant {tenantId}",
+    "role": "Role: {role}",
+    "roles": {
+      "owner": "Owner",
+      "member": "Member"
+    },
+    "logout": "Log out",
+    "addBot": {
+      "title": "Add a bot",
+      "description": "The token is verified via the API then encrypted before storage.",
+      "tokenLabel": "Discord bot token",
+      "tokenPlaceholder": "MTIz...",
+      "displayNameLabel": "Display name (optional)",
+      "displayNamePlaceholder": "EU support bot",
+      "submit": "Add bot",
+      "submitPending": "Validation in progress..."
+    },
+    "bots": {
+      "title": "My bots",
+      "refresh": "Refresh",
+      "empty": "No bots for this tenant.",
+      "discordId": "Discord ID: {discordBotId}",
+      "lastError": "Last error: {message}"
+    },
+    "status": {
+      "stopped": "Stopped",
+      "starting": "Starting",
+      "running": "Online",
+      "stopping": "Stopping",
+      "error": "Error"
+    },
+    "actions": {
+      "start": "Start",
+      "stop": "Stop",
+      "restart": "Restart"
+    },
+    "errors": {
+      "fetchSession": "Unable to retrieve user session",
+      "fetchBots": "Unable to fetch bot list",
+      "unexpected": "Unexpected error",
+      "addBot": "Failed to add bot",
+      "actionFailed": "Action failed: {action}"
+    }
+  }
+}

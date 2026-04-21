@@ -1,0 +1,468 @@
+{
+  "errors": {
+    "args": {
+      "missing": "Argumen {{arg}} hilang. Penggunaan: {{usage}}",
+      "invalidInt": "Argumen harus berupa bilangan bulat. Diterima: {{value}}",
+      "invalidNumber": "Argumen harus berupa angka. Diterima: {{value}}",
+      "invalidBoolean": "Argumen harus berupa boolean. Diterima: {{value}}",
+      "invalidUser": "Tidak dapat menemukan pengguna dari {{value}}",
+      "invalidChannel": "Tidak dapat menemukan channel dari {{value}}",
+      "invalidRole": "Tidak dapat menemukan peran dari {{value}}",
+      "tooMany": "Terlalu banyak argumen ({{count}}) terdeteksi: {{extras}}. Penggunaan: {{usage}}"
+    },
+    "permissions": {
+      "user": "Kamu tidak memiliki izin: {{permissions}}"
+    },
+    "execution": "Terjadi kesalahan tak terduga saat eksekusi.",
+    "cooldown": "Tunggu {{seconds}} detik sebelum menggunakan perintah ini lagi.",
+    "rateLimit": "Terlalu banyak permintaan. Tunggu {{seconds}} detik sebelum mencoba lagi.",
+    "executionQueued": "Perintah diterima dan dimasukkan ke antrean pemrosesan."
+  },
+  "categories": {
+    "fun": "Fun",
+    "utility": "Utilitas",
+    "core": "Dasar"
+  },
+  "commands": {
+    "kiss": {
+      "name": "ciuman",
+      "description": "Mengirim ciuman ke seorang pengguna.",
+      "args": {
+        "user": "Pengguna target"
+      },
+      "examples": {
+        "basic": "Mengirim ciuman ke anggota"
+      },
+      "responses": {
+        "success": "{{from}} mengirim ciuman ke {{to}}."
+      }
+    },
+    "ping": {
+      "name": "ping",
+      "description": "Memeriksa latensi websocket bot.",
+      "examples": {
+        "basic": "Pemeriksaan kesehatan"
+      },
+      "responses": {
+        "pong": "Pong. Latensi websocket: {{latency}}ms."
+      }
+    },
+    "presence": {
+      "name": "presence",
+      "description": "Mengatur status bot dengan panel interaktif.",
+      "examples": {
+        "slash": "Buka panel interaktif presence"
+      },
+      "responses": {
+        "panel": "Panel presence\nStatus: {{status}}\nAktivitas: {{activityType}}\nRotasi: setiap {{rotationIntervalSeconds}}s\nTeks aktif ({{currentTextIndex}}/{{textCount}}): {{activityText}}\nPratinjau: {{activityPreview}}\nTeks: {{activityTexts}}\nVariabel ({{doubleBracesHint}}): {{variables}}",
+        "notOwner": "Hanya pembuat perintah yang dapat menggunakan panel ini.",
+        "invalidSelection": "Pilihan tidak valid.",
+        "invalidInterval": "Interval tidak valid. Gunakan angka antara {{minSeconds}} dan {{maxSeconds}} detik.",
+        "modalTimeout": "Waktu habis untuk mengubah teks. Klik tombol lagi."
+      },
+      "ui": {
+        "status": {
+          "placeholder": "Pilih status",
+          "options": {
+            "online": {
+              "label": "Online",
+              "description": "Menampilkan bot online"
+            },
+            "idle": {
+              "label": "Tidak aktif",
+              "description": "Menampilkan bot tidak aktif"
+            },
+            "dnd": {
+              "label": "Jangan ganggu",
+              "description": "Menampilkan mode jangan ganggu"
+            },
+            "invisible": {
+              "label": "Offline",
+              "description": "Menampilkan bot offline"
+            },
+            "streaming": {
+              "label": "Streaming",
+              "description": "Menampilkan bot dalam mode streaming"
+            }
+          }
+        },
+        "activity": {
+          "placeholder": "Pilih jenis aktivitas",
+          "options": {
+            "PLAYING": {
+              "label": "Bermain",
+              "description": "Menampilkan Bermain ..."
+            },
+            "STREAMING": {
+              "label": "Streaming",
+              "description": "Menampilkan Sedang live di ..."
+            },
+            "WATCHING": {
+              "label": "Menonton",
+              "description": "Menampilkan Menonton ..."
+            },
+            "LISTENING": {
+              "label": "Mendengarkan",
+              "description": "Menampilkan Mendengarkan ..."
+            },
+            "COMPETING": {
+              "label": "Kompetisi",
+              "description": "Menampilkan Kompetisi ..."
+            },
+            "CUSTOM": {
+              "label": "Status Kustom",
+              "description": "Menampilkan status kustom"
+            }
+          }
+        },
+        "embed": {
+          "title": "Konfigurasi Presence",
+          "description": "Ubah status, jenis aktivitas, beberapa teks, dan rotasinya.",
+          "footer": "Panel interaktif /presence",
+          "fields": {
+            "status": "Status",
+            "activity": "Jenis aktivitas",
+            "text": "Teks"
+          }
+        },
+        "textButton": "📝 Ubah teks",
+        "intervalButton": "⏱️ Interval",
+        "modal": {
+          "title": "Teks presence",
+          "label": "Satu teks per baris (gunakan {{var}})",
+          "placeholder": "Maintenance\n{{guild_count}} server | {{prefix}}help"
+        },
+        "intervalModal": {
+          "title": "Interval rotasi",
+          "label": "Detik antar setiap teks",
+          "placeholder": "Contoh: 30"
+        }
+      }
+    },
+    "logs": {
+      "name": "logs",
+      "description": "Mengatur log event Discord dengan panel interaktif.",
+      "examples": {
+        "slash": "Buka panel interaktif logs"
+      },
+      "responses": {
+        "slashOnly": "Gunakan /logs untuk membuka panel ini.",
+        "guildOnly": "Perintah ini harus digunakan di server.",
+        "notOwner": "Hanya pembuat perintah yang dapat menggunakan panel ini.",
+        "invalidSelection": "Pilihan tidak valid.",
+        "allEnabled": "Semua log event diaktifkan.",
+        "allDisabled": "Semua log event dinonaktifkan.",
+        "eventEnabled": "Event {{event}} diaktifkan.",
+        "eventDisabled": "Event {{event}} dinonaktifkan.",
+        "channelsCreated": "Channel log siap. Dibuat: {{created}}, digunakan ulang: {{reused}}.",
+        "channelsPartial": "Channel log sebagian siap. Dibuat: {{created}}, digunakan ulang: {{reused}}, kategori gagal: {{failed}}.",
+        "channelsFailed": "Gagal membuat channel log. Kategori gagal: {{failed}}."
+      },
+      "ui": {
+        "embed": {
+          "title": "Konfigurasi logs",
+          "description": "Aktifkan atau nonaktifkan setiap event Discord dan arahkan log per kategori channel."
+        },
+        "status": {
+          "enabled": "Aktif",
+          "disabled": "Nonaktif"
+        },
+        "pageLabel": "Halaman {{page}}/{{pageCount}}",
+        "enabledCountLabel": "Event aktif: {{enabledCount}}/{{totalCount}}",
+        "eventsHeader": "Event",
+        "channelLabel": "Channel",
+        "channelNotConfigured": "#tidak-terkonfigurasi",
+        "feedbackLabel": "Aksi terakhir",
+        "buttons": {
+          "enableAll": "✅ Aktifkan semua log",
+          "disableAll": "❌ Nonaktifkan semua log",
+          "createChannels": "📁 Buat channel log",
+          "previousPage": "Sebelumnya",
+          "nextPage": "Selanjutnya",
+          "enableEvent": "Aktifkan {{event}}",
+          "disableEvent": "Nonaktifkan {{event}}"
+        },
+        "events": {
+          "messageCreate": "Pesan dibuat",
+          "messageDelete": "Pesan dihapus",
+          "messageUpdate": "Pesan diperbarui",
+          "messageBulkDelete": "Hapus pesan massal",
+          "guildMemberAdd": "Anggota bergabung",
+          "guildMemberRemove": "Anggota keluar",
+          "guildMemberUpdate": "Anggota diperbarui",
+          "interactionCreate": "Interaksi",
+          "channelCreate": "Channel dibuat",
+          "channelDelete": "Channel dihapus",
+          "channelUpdate": "Channel diperbarui",
+          "roleCreate": "Peran dibuat",
+          "roleDelete": "Peran dihapus",
+          "roleUpdate": "Peran diperbarui",
+          "threadCreate": "Thread dibuat",
+          "threadDelete": "Thread dihapus",
+          "threadUpdate": "Thread diperbarui",
+          "emojiCreate": "Emoji dibuat",
+          "emojiDelete": "Emoji dihapus",
+          "emojiUpdate": "Emoji diperbarui",
+          "guildUpdate": "Server diperbarui",
+          "guildUnavailable": "Server tidak tersedia",
+          "guildBanAdd": "Anggota dibanned",
+          "guildBanRemove": "Ban dicabut",
+          "inviteCreate": "Undangan dibuat",
+          "inviteDelete": "Undangan dihapus"
+        }
+      }
+    },
+    "welcome": {
+      "name": "welcome",
+      "description": "Mengatur pesan sambutan dengan panel interaktif.",
+      "examples": {
+        "slash": "Buka panel konfigurasi welcome"
+      },
+      "responses": {
+        "guildOnly": "Perintah ini harus digunakan di server.",
+        "notOwner": "Hanya pembuat perintah yang dapat menggunakan panel ini.",
+        "invalidSelection": "Pilihan tidak valid.",
+        "testSuccess": "Pesan tes dikirim ke {{channel}}.",
+        "testDisabled": "Modul welcome dinonaktifkan.",
+        "testMissingChannel": "Tidak ada channel yang dikonfigurasi. Gunakan tombol Channel.",
+        "testChannelUnavailable": "Channel tidak ditemukan atau tidak kompatibel.",
+        "testMissingPermissions": "Bot tidak memiliki izin untuk mengirim pesan di channel ini.",
+        "testFailed": "Gagal mengirim pesan tes. Coba lagi nanti."
+      },
+      "ui": {
+        "embed": {
+          "title": "Konfigurasi Welcome",
+          "description": "Atur status, channel, jenis pesan, dan lakukan tes.",
+          "fields": {
+            "status": "Status",
+            "channel": "Channel",
+            "type": "Jenis",
+            "channelPicker": "Pemilihan channel",
+            "autoRoles": "Role otomatis"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Aktif",
+          "disabled": "🔴 Nonaktif"
+        },
+        "channelNotConfigured": "#tidak-terkonfigurasi",
+        "autoRolesNotConfigured": "Tidak ada role otomatis",
+        "channelPickerPlaceholder": "Pilih channel welcome",
+        "channelPickerHint": "Pilih channel dari menu di bawah.",
+        "rolePickerPlaceholder": "Pilih satu atau beberapa role otomatis",
+        "rolePickerHint": "Pilih role dari menu di bawah untuk ditambahkan.",
+        "buttons": {
+          "toggle": "Toggle status",
+          "channel": "Atur channel",
+          "channelCancel": "Tutup pilihan channel",
+          "roles": "Tambah role otomatis",
+          "rolesCancel": "Tutup pilihan role",
+          "rolesClear": "Hapus role otomatis",
+          "test": "Tes"
+        },
+        "type": {
+          "placeholder": "Pilih jenis pesan",
+          "options": {
+            "simple": {
+              "label": "Pesan sederhana",
+              "description": "Mengirim pesan teks biasa"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Mengirim embed welcome"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Mengirim container Components V2"
+            },
+            "image": {
+              "label": "Gambar",
+              "description": "Mengirim embed dengan gambar"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "🎉 Selamat datang {{user}} di **{{guild}}**!",
+        "embedTitle": "Selamat datang!",
+        "embedDescription": "{{user}} baru saja bergabung di **{{guild}}**.",
+        "containerTitle": "Selamat datang",
+        "containerDescription": "{{user}} baru saja bergabung di **{{guild}}**.",
+        "imageTitle": "Selamat datang",
+        "imageDescription": "di server Discord {{guild}}"
+      }
+    },
+    "goodbye": {
+      "name": "goodbye",
+      "description": "Mengatur pesan perpisahan dengan panel interaktif.",
+      "examples": {
+        "slash": "Buka panel konfigurasi pesan perpisahan"
+      },
+      "responses": {
+        "guildOnly": "Perintah ini harus digunakan di server.",
+        "notOwner": "Hanya pembuat perintah yang dapat menggunakan panel ini.",
+        "invalidSelection": "Pilihan tidak valid.",
+        "testSuccess": "Pesan tes dikirim ke {{channel}}.",
+        "testDisabled": "Modul goodbye dinonaktifkan.",
+        "testMissingChannel": "Tidak ada channel yang dikonfigurasi. Gunakan tombol Channel.",
+        "testChannelUnavailable": "Channel tidak ditemukan atau tidak kompatibel.",
+        "testMissingPermissions": "Bot tidak memiliki izin untuk mengirim pesan di channel ini.",
+        "testFailed": "Gagal mengirim pesan tes. Coba lagi nanti."
+      },
+      "ui": {
+        "embed": {
+          "title": "Konfigurasi Goodbye",
+          "description": "Atur status, channel, jenis pesan, dan lakukan tes.",
+          "fields": {
+            "status": "Status",
+            "channel": "Channel",
+            "type": "Jenis",
+            "channelPicker": "Pemilihan channel"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Aktif",
+          "disabled": "🔴 Nonaktif"
+        },
+        "channelNotConfigured": "#tidak-terkonfigurasi",
+        "channelPickerPlaceholder": "Pilih channel goodbye",
+        "channelPickerHint": "Pilih channel dari menu di bawah.",
+        "buttons": {
+          "toggle": "Toggle status",
+          "channel": "Atur channel",
+          "channelCancel": "Tutup pilihan channel",
+          "test": "Tes"
+        },
+        "type": {
+          "placeholder": "Pilih jenis pesan",
+          "options": {
+            "simple": {
+              "label": "Pesan sederhana",
+              "description": "Mengirim pesan teks biasa"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Mengirim embed goodbye"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Mengirim container Components V2"
+            },
+            "image": {
+              "label": "Gambar",
+              "description": "Mengirim embed dengan gambar"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "👋 {{user}} telah meninggalkan **{{guild}}**.",
+        "embedTitle": "Sampai jumpa",
+        "embedDescription": "{{user}} telah meninggalkan **{{guild}}**.",
+        "containerTitle": "Sampai jumpa",
+        "containerDescription": "{{user}} telah meninggalkan **{{guild}}**.",
+        "imageTitle": "Sampai jumpa",
+        "imageDescription": "dari server Discord {{guild}}"
+      }
+    },
+    "help": {
+      "name": "bantuan",
+      "description": "Menampilkan daftar perintah atau detail sebuah perintah.",
+      "args": {
+        "command": "Nama atau trigger perintah opsional"
+      },
+      "examples": {
+        "basic": "Menampilkan semua perintah",
+        "single": "Menampilkan detail satu perintah"
+      },
+      "errors": {
+        "notFound": "Tidak ada perintah yang cocok dengan {{query}}."
+      },
+      "embed": {
+        "title": "Bantuan Perintah",
+        "description": "Gunakan {{usage}} untuk melihat detail perintah.",
+        "categoryEmpty": "Tidak ada perintah di kategori ini.",
+        "detailsTitle": "Perintah: {{name}}",
+        "detailsDescription": "{{description}}",
+        "footer": "Kategori: {{source}}",
+        "fields": {
+          "usage": "Penggunaan",
+          "arguments": "Argumen",
+          "examples": "Contoh"
+        }
+      },
+      "labels": {
+        "prefix": "Prefix",
+        "slash": "Slash",
+        "required": "wajib",
+        "optional": "opsional",
+        "noArgs": "Tidak ada argumen.",
+        "noExamples": "Tidak ada contoh."
+      }
+    }
+  },
+  "logsRuntime": {
+    "placeholders": {
+      "noContent": "(tidak ada konten)",
+      "unknown": "tidak diketahui",
+      "none": "tidak ada"
+    },
+    "embed": {
+      "title": "Event: {{event}}",
+      "detailsField": "Detail"
+    },
+    "summaries": {
+      "messageCreate": "Pesan dikirim oleh {{user}} di {{channel}}",
+      "messageDelete": "Pesan dihapus di {{channel}}",
+      "messageUpdate": "Pesan diperbarui di {{channel}}",
+      "messageBulkDelete": "Hapus massal: {{count}} pesan dihapus",
+      "guildMemberAdd": "Anggota bergabung: {{user}}",
+      "guildMemberRemove": "Anggota keluar: {{user}}",
+      "guildMemberUpdate": "Anggota diperbarui: {{user}}",
+      "interactionGeneric": "Interaksi oleh {{user}}",
+      "interactionSlash": "Perintah slash /{{command}} oleh {{user}}",
+      "interactionButton": "Interaksi tombol oleh {{user}}",
+      "interactionSelect": "Interaksi menu oleh {{user}}",
+      "interactionModal": "Pengiriman modal oleh {{user}}",
+      "channelCreate": "Channel dibuat: {{channel}}",
+      "channelDelete": "Channel dihapus: {{channel}}",
+      "channelUpdate": "Channel diperbarui: {{channel}}",
+      "roleCreate": "Role dibuat: {{role}}",
+      "roleDelete": "Role dihapus: {{role}}",
+      "roleUpdate": "Role diperbarui: {{role}}",
+      "threadCreate": "Thread dibuat: {{thread}}",
+      "threadDelete": "Thread dihapus: {{thread}}",
+      "threadUpdate": "Thread diperbarui: {{thread}}",
+      "emojiCreate": "Emoji dibuat: {{emoji}}",
+      "emojiDelete": "Emoji dihapus: {{emoji}}",
+      "emojiUpdate": "Emoji diperbarui: {{emoji}}",
+      "guildUpdate": "Server diperbarui: {{guild}}",
+      "guildUnavailable": "Server sementara tidak tersedia: {{guild}}",
+      "guildBanAdd": "Pengguna dibanned: {{user}}",
+      "guildBanRemove": "Ban dicabut: {{user}}",
+      "inviteCreate": "Undangan dibuat: {{code}}",
+      "inviteDelete": "Undangan dihapus: {{code}}"
+    },
+    "details": {
+      "messageId": "messageId={{value}}",
+      "author": "author={{tag}} ({{id}})",
+      "content": "content={{value}}",
+      "before": "before={{value}}",
+      "after": "after={{value}}",
+      "channelId": "channelId={{value}}",
+      "count": "count={{value}}",
+      "user": "user={{tag}} ({{id}})",
+      "oldNick": "oldNick={{value}}",
+      "newNick": "newNick={{value}}",
+      "interactionId": "interactionId={{value}}",
+      "type": "type={{value}}",
+      "oldName": "oldName={{value}}",
+      "newName": "newName={{value}}",
+      "roleId": "roleId={{value}}",
+      "threadId": "threadId={{value}}",
+      "emojiId": "emojiId={{value}}",
+      "guildId": "guildId={{value}}",
+      "inviter": "inviter={{value}}"
+    }
+  }
+}

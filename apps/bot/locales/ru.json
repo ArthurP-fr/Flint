@@ -1,0 +1,468 @@
+{
+  "errors": {
+    "args": {
+      "missing": "Отсутствует аргумент {{arg}}. Использование: {{usage}}",
+      "invalidInt": "Аргумент должен быть целым числом. Получено: {{value}}",
+      "invalidNumber": "Аргумент должен быть числом. Получено: {{value}}",
+      "invalidBoolean": "Аргумент должен быть логическим значением. Получено: {{value}}",
+      "invalidUser": "Не удалось найти пользователя по {{value}}",
+      "invalidChannel": "Не удалось найти канал по {{value}}",
+      "invalidRole": "Не удалось найти роль по {{value}}",
+      "tooMany": "Слишком много аргументов ({{count}}): {{extras}}. Использование: {{usage}}"
+    },
+    "permissions": {
+      "user": "У вас нет разрешений: {{permissions}}"
+    },
+    "execution": "Во время выполнения произошла непредвиденная ошибка.",
+    "cooldown": "Подождите {{seconds}}с перед повторным использованием команды.",
+    "rateLimit": "Слишком много запросов. Подождите {{seconds}}с перед повторной попыткой.",
+    "executionQueued": "Команда принята и поставлена в очередь выполнения."
+  },
+  "categories": {
+    "fun": "Развлечения",
+    "utility": "Утилиты",
+    "core": "Основные"
+  },
+  "commands": {
+    "kiss": {
+      "name": "поцелуй",
+      "description": "Отправить поцелуй пользователю.",
+      "args": {
+        "user": "Целевой пользователь"
+      },
+      "examples": {
+        "basic": "Отправить поцелуй участнику"
+      },
+      "responses": {
+        "success": "{{from}} отправляет поцелуй {{to}}."
+      }
+    },
+    "ping": {
+      "name": "пинг",
+      "description": "Проверить задержку вебсокета бота.",
+      "examples": {
+        "basic": "Проверка работоспособности"
+      },
+      "responses": {
+        "pong": "Понг. Задержка вебсокета: {{latency}}мс."
+      }
+    },
+    "presence": {
+      "name": "статус",
+      "description": "Настроить статус бота с помощью интерактивной панели.",
+      "examples": {
+        "slash": "Открыть интерактивную панель статуса"
+      },
+      "responses": {
+        "panel": "Панель статуса\nСтатус: {{status}}\nАктивность: {{activityType}}\nРотация: каждые {{rotationIntervalSeconds}}с\nАктивный текст ({{currentTextIndex}}/{{textCount}}): {{activityText}}\nПредпросмотр: {{activityPreview}}\nТексты: {{activityTexts}}\nПеременные ({{doubleBracesHint}}): {{variables}}",
+        "notOwner": "Только автор команды может использовать эту панель.",
+        "invalidSelection": "Неверный выбор.",
+        "invalidInterval": "Неверный интервал. Используйте целое число от {{minSeconds}} до {{maxSeconds}} секунд.",
+        "modalTimeout": "Время на редактирование текста истекло. Нажмите кнопку снова."
+      },
+      "ui": {
+        "status": {
+          "placeholder": "Выберите статус",
+          "options": {
+            "online": {
+              "label": "В сети",
+              "description": "Показывает бота как онлайн"
+            },
+            "idle": {
+              "label": "Неактивен",
+              "description": "Показывает бота неактивным"
+            },
+            "dnd": {
+              "label": "Не беспокоить",
+              "description": "Показывает режим не беспокоить"
+            },
+            "invisible": {
+              "label": "Невидимый",
+              "description": "Показывает бота оффлайн"
+            },
+            "streaming": {
+              "label": "Стриминг",
+              "description": "Показывает режим трансляции"
+            }
+          }
+        },
+        "activity": {
+          "placeholder": "Выберите тип активности",
+          "options": {
+            "PLAYING": {
+              "label": "Играет в",
+              "description": "Показывает «Играет в ...»"
+            },
+            "STREAMING": {
+              "label": "Стриминг",
+              "description": "Показывает «В прямом эфире ...»"
+            },
+            "WATCHING": {
+              "label": "Смотрит",
+              "description": "Показывает «Смотрит ...»"
+            },
+            "LISTENING": {
+              "label": "Слушает",
+              "description": "Показывает «Слушает ...»"
+            },
+            "COMPETING": {
+              "label": "Соревнование",
+              "description": "Показывает «Соревнование ...»"
+            },
+            "CUSTOM": {
+              "label": "Пользовательский статус",
+              "description": "Показывает кастомный статус"
+            }
+          }
+        },
+        "embed": {
+          "title": "Настройка статуса",
+          "description": "Изменяйте статус, тип активности, тексты и их ротацию.",
+          "footer": "Интерактивная панель /presence",
+          "fields": {
+            "status": "Статус",
+            "activity": "Тип активности",
+            "text": "Текст"
+          }
+        },
+        "textButton": "📝 Изменить тексты",
+        "intervalButton": "⏱️ Интервал",
+        "modal": {
+          "title": "Тексты статуса",
+          "label": "По одной строке на текст (используйте {{var}})",
+          "placeholder": "Обслуживание\n{{guild_count}} серверов | {{prefix}}help"
+        },
+        "intervalModal": {
+          "title": "Интервал ротации",
+          "label": "Секунды между текстами",
+          "placeholder": "Пример: 30"
+        }
+      }
+    },
+    "logs": {
+      "name": "логи",
+      "description": "Настроить логи событий Discord через интерактивную панель.",
+      "examples": {
+        "slash": "Открыть панель логов"
+      },
+      "responses": {
+        "slashOnly": "Используйте /logs чтобы открыть эту панель.",
+        "guildOnly": "Эта команда должна использоваться на сервере.",
+        "notOwner": "Только автор команды может использовать эту панель.",
+        "invalidSelection": "Неверный выбор.",
+        "allEnabled": "Все логи событий включены.",
+        "allDisabled": "Все логи событий отключены.",
+        "eventEnabled": "Событие {{event}} включено.",
+        "eventDisabled": "Событие {{event}} отключено.",
+        "channelsCreated": "Каналы логов готовы. Создано: {{created}}, переиспользовано: {{reused}}.",
+        "channelsPartial": "Частично готовы каналы логов. Создано: {{created}}, переиспользовано: {{reused}}, категории с ошибкой: {{failed}}.",
+        "channelsFailed": "Не удалось создать каналы логов. Категории с ошибкой: {{failed}}."
+      },
+      "ui": {
+        "embed": {
+          "title": "Настройка логов",
+          "description": "Включайте или отключайте события Discord и распределяйте логи по каналам."
+        },
+        "status": {
+          "enabled": "Активно",
+          "disabled": "Отключено"
+        },
+        "pageLabel": "Страница {{page}}/{{pageCount}}",
+        "enabledCountLabel": "Активные события: {{enabledCount}}/{{totalCount}}",
+        "eventsHeader": "События",
+        "channelLabel": "Канал",
+        "channelNotConfigured": "#не-настроен",
+        "feedbackLabel": "Последнее действие",
+        "buttons": {
+          "enableAll": "✅ Включить все логи",
+          "disableAll": "❌ Отключить все логи",
+          "createChannels": "📁 Создать каналы логов",
+          "previousPage": "Назад",
+          "nextPage": "Вперед",
+          "enableEvent": "Включить {{event}}",
+          "disableEvent": "Отключить {{event}}"
+        },
+        "events": {
+          "messageCreate": "Сообщение создано",
+          "messageDelete": "Сообщение удалено",
+          "messageUpdate": "Сообщение обновлено",
+          "messageBulkDelete": "Массовое удаление сообщений",
+          "guildMemberAdd": "Участник присоединился",
+          "guildMemberRemove": "Участник покинул сервер",
+          "guildMemberUpdate": "Участник обновлён",
+          "interactionCreate": "Взаимодействие",
+          "channelCreate": "Канал создан",
+          "channelDelete": "Канал удалён",
+          "channelUpdate": "Канал обновлён",
+          "roleCreate": "Роль создана",
+          "roleDelete": "Роль удалена",
+          "roleUpdate": "Роль обновлена",
+          "threadCreate": "Тред создан",
+          "threadDelete": "Тред удалён",
+          "threadUpdate": "Тред обновлён",
+          "emojiCreate": "Эмодзи создано",
+          "emojiDelete": "Эмодзи удалено",
+          "emojiUpdate": "Эмодзи обновлено",
+          "guildUpdate": "Сервер обновлён",
+          "guildUnavailable": "Сервер недоступен",
+          "guildBanAdd": "Участник забанен",
+          "guildBanRemove": "Участник разбанен",
+          "inviteCreate": "Приглашение создано",
+          "inviteDelete": "Приглашение удалено"
+        }
+      }
+    },
+    "welcome": {
+      "name": "приветствие",
+      "description": "Настроить сообщения приветствия через интерактивную панель.",
+      "examples": {
+        "slash": "Открыть панель настроек приветствий"
+      },
+      "responses": {
+        "guildOnly": "Эта команда должна использоваться на сервере.",
+        "notOwner": "Только автор команды может использовать эту панель.",
+        "invalidSelection": "Неверный выбор.",
+        "testSuccess": "Тестовое сообщение отправлено в {{channel}}.",
+        "testDisabled": "Модуль приветствий отключён.",
+        "testMissingChannel": "Канал не настроен. Используйте кнопку Канал.",
+        "testChannelUnavailable": "Канал не найден или недоступен.",
+        "testMissingPermissions": "У бота нет прав на отправку сообщений в этот канал.",
+        "testFailed": "Не удалось отправить тестовое сообщение. Попробуйте позже."
+      },
+      "ui": {
+        "embed": {
+          "title": "Настройка приветствий",
+          "description": "Настройка статуса, канала, типа сообщения и тестирования.",
+          "fields": {
+            "status": "Статус",
+            "channel": "Канал",
+            "type": "Тип",
+            "channelPicker": "Выбор канала",
+            "autoRoles": "Авто-роли"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Включено",
+          "disabled": "🔴 Отключено"
+        },
+        "channelNotConfigured": "#не-настроен",
+        "autoRolesNotConfigured": "Авто-роли не настроены",
+        "channelPickerPlaceholder": "Выберите канал приветствия",
+        "channelPickerHint": "Выберите канал в меню ниже.",
+        "rolePickerPlaceholder": "Выберите роли",
+        "rolePickerHint": "Выберите роли для авто-добавления.",
+        "buttons": {
+          "toggle": "Переключить статус",
+          "channel": "Настроить канал",
+          "channelCancel": "Закрыть выбор канала",
+          "roles": "Добавить авто-роли",
+          "rolesCancel": "Закрыть выбор ролей",
+          "rolesClear": "Очистить авто-роли",
+          "test": "Тест"
+        },
+        "type": {
+          "placeholder": "Выберите тип сообщения",
+          "options": {
+            "simple": {
+              "label": "Простое сообщение",
+              "description": "Обычное текстовое сообщение"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Embed приветствие"
+            },
+            "container": {
+              "label": "Контейнер (V2)",
+              "description": "Components V2 контейнер"
+            },
+            "image": {
+              "label": "Изображение",
+              "description": "Embed с изображением"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "🎉 Добро пожаловать {{user}} на **{{guild}}**!",
+        "embedTitle": "Добро пожаловать!",
+        "embedDescription": "{{user}} присоединился к **{{guild}}**.",
+        "containerTitle": "Добро пожаловать",
+        "containerDescription": "{{user}} присоединился к **{{guild}}**.",
+        "imageTitle": "Добро пожаловать",
+        "imageDescription": "на сервер Discord {{guild}}"
+      }
+    },
+    "goodbye": {
+      "name": "прощание",
+      "description": "Настроить сообщения прощания через интерактивную панель.",
+      "examples": {
+        "slash": "Открыть панель настроек прощаний"
+      },
+      "responses": {
+        "guildOnly": "Эта команда должна использоваться на сервере.",
+        "notOwner": "Только автор команды может использовать эту панель.",
+        "invalidSelection": "Неверный выбор.",
+        "testSuccess": "Тестовое сообщение отправлено в {{channel}}.",
+        "testDisabled": "Модуль прощаний отключён.",
+        "testMissingChannel": "Канал не настроен. Используйте кнопку Канал.",
+        "testChannelUnavailable": "Канал не найден или недоступен.",
+        "testMissingPermissions": "У бота нет прав на отправку сообщений в этот канал.",
+        "testFailed": "Не удалось отправить тестовое сообщение. Попробуйте позже."
+      },
+      "ui": {
+        "embed": {
+          "title": "Настройка прощаний",
+          "description": "Настройка статуса, канала, типа сообщения и тестирования.",
+          "fields": {
+            "status": "Статус",
+            "channel": "Канал",
+            "type": "Тип",
+            "channelPicker": "Выбор канала"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Включено",
+          "disabled": "🔴 Отключено"
+        },
+        "channelNotConfigured": "#не-настроен",
+        "channelPickerPlaceholder": "Выберите канал прощаний",
+        "channelPickerHint": "Выберите канал в меню ниже.",
+        "buttons": {
+          "toggle": "Переключить статус",
+          "channel": "Настроить канал",
+          "channelCancel": "Закрыть выбор канала",
+          "test": "Тест"
+        },
+        "type": {
+          "placeholder": "Выберите тип сообщения",
+          "options": {
+            "simple": {
+              "label": "Простое сообщение",
+              "description": "Обычное текстовое сообщение"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Embed прощания"
+            },
+            "container": {
+              "label": "Контейнер (V2)",
+              "description": "Components V2 контейнер"
+            },
+            "image": {
+              "label": "Изображение",
+              "description": "Embed с изображением"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "👋 {{user}} покинул **{{guild}}**.",
+        "embedTitle": "Прощание",
+        "embedDescription": "{{user}} покинул **{{guild}}**.",
+        "containerTitle": "Прощание",
+        "containerDescription": "{{user}} покинул **{{guild}}**.",
+        "imageTitle": "Прощание",
+        "imageDescription": "с сервера Discord {{guild}}"
+      }
+    },
+    "help": {
+      "name": "помощь",
+      "description": "Показать список команд или информацию о команде.",
+      "args": {
+        "command": "Необязательное имя команды"
+      },
+      "examples": {
+        "basic": "Показать все команды",
+        "single": "Показать информацию о команде"
+      },
+      "errors": {
+        "notFound": "Команда {{query}} не найдена."
+      },
+      "embed": {
+        "title": "Справка по командам",
+        "description": "Используйте {{usage}} для просмотра команды.",
+        "categoryEmpty": "В этой категории нет команд.",
+        "detailsTitle": "Команда: {{name}}",
+        "detailsDescription": "{{description}}",
+        "footer": "Категория: {{source}}",
+        "fields": {
+          "usage": "Использование",
+          "arguments": "Аргументы",
+          "examples": "Примеры"
+        }
+      },
+      "labels": {
+        "prefix": "Префикс",
+        "slash": "Слэш",
+        "required": "обязательно",
+        "optional": "опционально",
+        "noArgs": "Нет аргументов.",
+        "noExamples": "Нет примеров."
+      }
+    }
+  },
+  "logsRuntime": {
+    "placeholders": {
+      "noContent": "(нет содержимого)",
+      "unknown": "неизвестно",
+      "none": "нет"
+    },
+    "embed": {
+      "title": "Событие: {{event}}",
+      "detailsField": "Детали"
+    },
+    "summaries": {
+      "messageCreate": "Сообщение отправлено {{user}} в {{channel}}",
+      "messageDelete": "Сообщение удалено в {{channel}}",
+      "messageUpdate": "Сообщение обновлено в {{channel}}",
+      "messageBulkDelete": "Массовое удаление: {{count}} сообщений удалено",
+      "guildMemberAdd": "Участник присоединился: {{user}}",
+      "guildMemberRemove": "Участник покинул: {{user}}",
+      "guildMemberUpdate": "Участник обновлён: {{user}}",
+      "interactionGeneric": "Взаимодействие от {{user}}",
+      "interactionSlash": "Слэш-команда /{{command}} от {{user}}",
+      "interactionButton": "Нажатие кнопки от {{user}}",
+      "interactionSelect": "Выбор в меню от {{user}}",
+      "interactionModal": "Отправка формы от {{user}}",
+      "channelCreate": "Канал создан: {{channel}}",
+      "channelDelete": "Канал удалён: {{channel}}",
+      "channelUpdate": "Канал обновлён: {{channel}}",
+      "roleCreate": "Роль создана: {{role}}",
+      "roleDelete": "Роль удалена: {{role}}",
+      "roleUpdate": "Роль обновлена: {{role}}",
+      "threadCreate": "Тред создан: {{thread}}",
+      "threadDelete": "Тред удалён: {{thread}}",
+      "threadUpdate": "Тред обновлён: {{thread}}",
+      "emojiCreate": "Эмодзи создано: {{emoji}}",
+      "emojiDelete": "Эмодзи удалено: {{emoji}}",
+      "emojiUpdate": "Эмодзи обновлено: {{emoji}}",
+      "guildUpdate": "Сервер обновлён: {{guild}}",
+      "guildUnavailable": "Сервер временно недоступен: {{guild}}",
+      "guildBanAdd": "Пользователь забанен: {{user}}",
+      "guildBanRemove": "Пользователь разбанен: {{user}}",
+      "inviteCreate": "Приглашение создано: {{code}}",
+      "inviteDelete": "Приглашение удалено: {{code}}"
+    },
+    "details": {
+      "messageId": "messageId={{value}}",
+      "author": "author={{tag}} ({{id}})",
+      "content": "content={{value}}",
+      "before": "before={{value}}",
+      "after": "after={{value}}",
+      "channelId": "channelId={{value}}",
+      "count": "count={{value}}",
+      "user": "user={{tag}} ({{id}})",
+      "oldNick": "oldNick={{value}}",
+      "newNick": "newNick={{value}}",
+      "interactionId": "interactionId={{value}}",
+      "type": "type={{value}}",
+      "oldName": "oldName={{value}}",
+      "newName": "newName={{value}}",
+      "roleId": "roleId={{value}}",
+      "threadId": "threadId={{value}}",
+      "emojiId": "emojiId={{value}}",
+      "guildId": "guildId={{value}}",
+      "inviter": "inviter={{value}}"
+    }
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "title": "Shadow - استضافة بوتات Discord (ابتداءً من 2 يورو/شهريًا لكل بوت)",
+    "description": "منصة SaaS متعددة المستخدمين لاستضافة وإدارة بوتات Discord الخاصة بك مع أوامر تلقائية، components v2، دعم متعدد اللغات ومتغيرات ديناميكية."
+  },
+  "common": {
+    "brand": "Shadow"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "dashboard": "لوحة التحكم",
+    "login": "تسجيل الدخول"
+  },
+  "localeSwitcher": {
+    "label": "اللغة",
+    "locales": {
+      "en": "الإنجليزية",
+      "es": "الإسبانية",
+      "de": "الألمانية",
+      "ja": "اليابانية",
+      "fr": "الفرنسية",
+      "pt": "البرتغالية",
+      "ru": "الروسية",
+      "it": "الإيطالية",
+      "nl": "الهولندية",
+      "pl": "البولندية",
+      "zh": "الصينية",
+      "hi": "الهندية",
+      "ar": "العربية",
+      "bn": "البنغالية",
+      "id": "الإندونيسية",
+      "tr": "التركية"
+    }
+  },
+  "hero": {
+    "kicker": "منصة SaaS لبوتات Discord",
+    "title": "Shadow - استضف بوتات Discord الخاصة بك (ابتداءً من 2 يورو/شهريًا لكل بوت)",
+    "description": "استضف وأدر بوتاتك باستخدام أوامر تلقائية (prefix و slash)، components v2، مساعدة تلقائية، دعم متعدد اللغات ومتغيرات ديناميكية.",
+    "ctaStart": "ابدأ - 2 يورو/شهريًا",
+    "ctaLogin": "تسجيل الدخول",
+    "bots": {
+      "moderation": "الإشراف",
+      "welcome": "ترحيب",
+      "analytics": "تحليلات"
+    },
+    "status": {
+      "online": "متصل",
+      "stopped": "متوقف"
+    },
+    "card": {
+      "title": "عرض مباشر للحالة",
+      "subtitle": "تابع كل نسخة من البوت من خلال واجهة تشغيل موحدة.",
+      "instanceMetrics": "النسخ: 1 | المعالج 35%",
+      "manage": "إدارة",
+      "preview": "عرض مباشر لحالة بوتاتك"
+    }
+  },
+  "features": {
+    "title": "الميزات الرئيسية",
+    "subtitle": "كل ما تحتاجه لإدارة بوتاتك في بيئة الإنتاج.",
+    "items": {
+      "autoCommands": {
+        "title": "أوامر تلقائية",
+        "description": "يتم إنشاء أوامر prefix و slash ومزامنتها تلقائيًا لكل بوت."
+      },
+      "componentsV2": {
+        "title": "Components v2",
+        "description": "دعم كامل لـ components v2 والتفاعلات المتقدمة والموثوقة."
+      },
+      "autoHelp": {
+        "title": "مساعدة تلقائية",
+        "description": "مساعدة ووثائق للأوامر يتم إنشاؤها تلقائيًا."
+      },
+      "multiLanguage": {
+        "title": "متعدد اللغات",
+        "description": "قم بترجمة الرسائل وعناوين الأوامر ثم فعّل عدة لغات بسهولة."
+      },
+      "dynamicVariables": {
+        "title": "متغيرات ديناميكية",
+        "description": "قوالب ديناميكية مع متغيرات مثل bot_latency و guild_count وغيرها."
+      },
+      "hosting": {
+        "title": "الاستضافة والتوسع",
+        "description": "خطط بسيطة تبدأ من 2 يورو/شهريًا لكل بوت مع المراقبة وقابلية التوسع."
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "كيف يعمل",
+    "subtitle": "ثلاث خطوات بسيطة للتحكم في بوتاتك.",
+    "steps": {
+      "addBot": {
+        "title": "إضافة بوت",
+        "description": "قم بربط تطبيق Discord الخاص بك عبر OAuth وقم بتسجيله في Shadow."
+      },
+      "dashboard": {
+        "title": "الإدارة من لوحة التحكم",
+        "description": "الوصول إلى الأوامر والسجلات والإعدادات من واجهة مركزية."
+      },
+      "realtime": {
+        "title": "تحكم في الوقت الحقيقي",
+        "description": "ابدأ، أوقف، وقم بتوسيع بوتاتك فورًا حسب الطلب."
+      }
+    }
+  },
+  "footer": {
+    "tagline": "استضافة بوتات Discord - خطط تبدأ من 2 يورو/شهريًا لكل بوت",
+    "github": "GitHub",
+    "copyright": "حقوق النشر {year} {brand}"
+  },
+  "login": {
+    "eyebrow": "Shadow - استضافة بوتات Discord",
+    "title": "قم بربط حساب Discord الخاص بك",
+    "description": "قم بتسجيل الدخول عبر OAuth2 للوصول إلى مساحتك واستضافة بوتاتك.",
+    "cta": "المتابعة باستخدام Discord"
+  },
+  "dashboard": {
+    "loading": "جارٍ تحميل لوحة التحكم...",
+    "sessionRequired": "جلسة مطلوبة",
+    "loginRequired": "تسجيل الدخول مطلوب",
+    "loginDescription": "لوحة التحكم الخاصة بك محمية. قم بتسجيل الدخول عبر Discord لإدارة بوتاتك.",
+    "loginCta": "تسجيل الدخول",
+    "tenant": "Tenant {tenantId}",
+    "role": "الدور: {role}",
+    "roles": {
+      "owner": "المالك",
+      "member": "عضو"
+    },
+    "logout": "تسجيل الخروج",
+    "addBot": {
+      "title": "إضافة بوت",
+      "description": "يتم التحقق من التوكن عبر API ثم تشفيره قبل التخزين.",
+      "tokenLabel": "توكن بوت Discord",
+      "tokenPlaceholder": "MTIz...",
+      "displayNameLabel": "اسم العرض (اختياري)",
+      "displayNamePlaceholder": "بوت دعم EU",
+      "submit": "إضافة البوت",
+      "submitPending": "جارٍ التحقق..."
+    },
+    "bots": {
+      "title": "بوتاتي",
+      "refresh": "تحديث",
+      "empty": "لا يوجد أي بوت لهذا tenant.",
+      "discordId": "Discord ID: {discordBotId}",
+      "lastError": "آخر خطأ: {message}"
+    },
+    "status": {
+      "stopped": "متوقف",
+      "starting": "جارٍ التشغيل",
+      "running": "متصل",
+      "stopping": "جارٍ الإيقاف",
+      "error": "خطأ"
+    },
+    "actions": {
+      "start": "تشغيل",
+      "stop": "إيقاف",
+      "restart": "إعادة تشغيل"
+    },
+    "errors": {
+      "fetchSession": "تعذر جلب جلسة المستخدم",
+      "fetchBots": "تعذر جلب قائمة البوتات",
+      "unexpected": "خطأ غير متوقع",
+      "addBot": "تعذر إضافة البوت",
+      "actionFailed": "فشل الإجراء: {action}"
+    }
+  }
+}

@@ -9,18 +9,52 @@ const DISCORD_LOCALE_MAP: Record<string, SupportedLang> = {
 	en: "en",
 	"en-us": "en",
 	"en-gb": "en",
-	fr: "fr",
-	"fr-fr": "fr",
 	es: "es",
 	"es-es": "es",
 	"es-419": "es",
+	de: "de",
+	"de-de": "de",
+	ja: "ja",
+	"ja-jp": "ja",
+	fr: "fr",
+	"fr-fr": "fr",
+	pt: "pt",
+	"pt-br": "pt",
+	"pt-pt": "pt",
+	ru: "ru",
+	"ru-ru": "ru",
+	it: "it",
+	"it-it": "it",
+	nl: "nl",
+	"nl-nl": "nl",
+	pl: "pl",
+	"pl-pl": "pl",
+	zh: "zh",
+	"zh-cn": "zh",
+	"zh-hans": "zh",
+	"zh-tw": "zh",
+	"zh-hant": "zh",
+	hi: "hi",
+	"hi-in": "hi",
+	ar: "ar",
+	"ar-sa": "ar",
+	bn: "bn",
+	"bn-bd": "bn",
+	"bn-in": "bn",
+	id: "id",
+	"id-id": "id",
+	tr: "tr",
+	"tr-tr": "tr",
 };
 
 const CURRENT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const LOCALE_DIR_CANDIDATES = [
+	path.resolve(CURRENT_DIR, "..", "..", "..", "locales"),
+	path.resolve(process.cwd(), "apps", "bot", "locales"),
+	path.resolve(process.cwd(), "locales"),
 	CURRENT_DIR,
-	path.resolve(process.cwd(), "src", "i18n"),
-	path.resolve(process.cwd(), "build", "i18n"),
+	path.resolve(process.cwd(), "src", "legacy", "i18n"),
+	path.resolve(process.cwd(), "dist", "legacy", "i18n"),
 ];
 
 const resolveLocaleFilePath = (lang: SupportedLang): string => {
@@ -36,6 +70,7 @@ const resolveLocaleFilePath = (lang: SupportedLang): string => {
 
 export class I18nService {
 	private readonly dictionaries: Record<SupportedLang, JsonObject>;
+	private readonly fallbackLang: SupportedLang = "en";
 
 	public constructor(private readonly defaultLang: SupportedLang) {
 		this.dictionaries = this.loadDictionaries();
@@ -43,7 +78,7 @@ export class I18nService {
 
 	public resolveLang(input?: string | null): SupportedLang {
 		if (!input) {
-			return this.defaultLang;
+			return this.fallbackLang;
 		}
 
 		const normalized = input.toLowerCase();
@@ -59,14 +94,22 @@ export class I18nService {
 			return fromShort;
 		}
 
-		return this.defaultLang;
+		return this.fallbackLang;
 	}
 
 	public t(lang: SupportedLang, key: string, vars: TranslationVars = {}): string {
 		const fromLang = this.lookup(this.dictionaries[lang], key);
+		const fromFallback = this.lookup(this.dictionaries[this.fallbackLang], key);
 		const fromDefault = this.lookup(this.dictionaries[this.defaultLang], key);
 
-		const template = typeof fromLang === "string" ? fromLang : typeof fromDefault === "string" ? fromDefault : key;
+		const template =
+			typeof fromLang === "string"
+				? fromLang
+				: typeof fromFallback === "string"
+					? fromFallback
+					: typeof fromDefault === "string"
+						? fromDefault
+						: key;
 
 		return this.format(template, vars);
 	}
@@ -80,6 +123,11 @@ export class I18nService {
 		const fromLang = this.lookup(this.dictionaries[lang], key);
 		if (typeof fromLang === "string" && fromLang.length > 0) {
 			return fromLang;
+		}
+
+		const fromFallback = this.lookup(this.dictionaries[this.fallbackLang], key);
+		if (typeof fromFallback === "string" && fromFallback.length > 0) {
+			return fromFallback;
 		}
 
 		const fromDefault = this.lookup(this.dictionaries[this.defaultLang], key);
@@ -99,6 +147,11 @@ export class I18nService {
 		const fromLang = this.lookup(this.dictionaries[lang], key);
 		if (this.isObject(fromLang)) {
 			return fromLang;
+		}
+
+		const fromFallback = this.lookup(this.dictionaries[this.fallbackLang], key);
+		if (this.isObject(fromFallback)) {
+			return fromFallback;
 		}
 
 		const fromDefault = this.lookup(this.dictionaries[this.defaultLang], key);

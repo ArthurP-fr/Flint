@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "title": "Shadow - Alojamiento de bots de Discord (desde 2 EUR/mes por bot)",
+    "description": "Plataforma SaaS multi-tenant para alojar y gestionar tus bots de Discord con comandos automáticos, components v2, multi-idioma y variables dinámicas."
+  },
+  "common": {
+    "brand": "Shadow"
+  },
+  "nav": {
+    "home": "Inicio",
+    "dashboard": "Panel",
+    "login": "Iniciar sesión"
+  },
+  "localeSwitcher": {
+    "label": "Idioma",
+    "locales": {
+      "en": "Inglés",
+      "es": "Español",
+      "de": "Alemán",
+      "ja": "Japonés",
+      "fr": "Francés",
+      "pt": "Portugués",
+      "ru": "Ruso",
+      "it": "Italiano",
+      "nl": "Neerlandés",
+      "pl": "Polaco",
+      "zh": "Chino",
+      "hi": "Hindi",
+      "ar": "Árabe",
+      "bn": "Bengalí",
+      "id": "Indonesio",
+      "tr": "Turco"
+    }
+  },
+  "hero": {
+    "kicker": "Plataforma SaaS para bots de Discord",
+    "title": "Shadow - Aloja tus bots de Discord (desde 2 EUR/mes por bot)",
+    "description": "Aloja y gestiona tus bots con comandos automáticos (prefix y slash), components v2, ayuda automática, soporte multi-idioma y variables dinámicas.",
+    "ctaStart": "Empezar - 2 EUR/mes",
+    "ctaLogin": "Iniciar sesión",
+    "bots": {
+      "moderation": "Moderación",
+      "welcome": "Bienvenida",
+      "analytics": "Analíticas"
+    },
+    "status": {
+      "online": "En línea",
+      "stopped": "Detenido"
+    },
+    "card": {
+      "title": "Vista en vivo de la flota",
+      "subtitle": "Sigue cada instancia de bot desde un panel operativo único.",
+      "instanceMetrics": "Instancias: 1 | CPU 35%",
+      "manage": "Gestionar",
+      "preview": "Vista en tiempo real del estado de tus bots"
+    }
+  },
+  "features": {
+    "title": "Funciones principales",
+    "subtitle": "Todo lo necesario para gestionar tus bots en producción.",
+    "items": {
+      "autoCommands": {
+        "title": "Comandos automáticos",
+        "description": "Los comandos prefix y slash se generan y sincronizan automáticamente para cada bot."
+      },
+      "componentsV2": {
+        "title": "Components v2",
+        "description": "Soporte completo de components v2 e interacciones ricas fiables."
+      },
+      "autoHelp": {
+        "title": "Ayuda automática",
+        "description": "Ayuda y documentación de comandos generadas automáticamente."
+      },
+      "multiLanguage": {
+        "title": "Multi-idioma",
+        "description": "Traduce mensajes y etiquetas de comandos y activa varios idiomas fácilmente."
+      },
+      "dynamicVariables": {
+        "title": "Variables dinámicas",
+        "description": "Plantillas dinámicas con variables como bot_latency, guild_count y más."
+      },
+      "hosting": {
+        "title": "Alojamiento y escalabilidad",
+        "description": "Planes simples desde 2 EUR/mes por bot con monitorización y escalabilidad incluidas."
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "Cómo funciona",
+    "subtitle": "Tres pasos simples para tomar el control de tus bots.",
+    "steps": {
+      "addBot": {
+        "title": "Añadir un bot",
+        "description": "Conecta tu aplicación de Discord mediante OAuth y regístrala en Shadow."
+      },
+      "dashboard": {
+        "title": "Gestionar desde el panel",
+        "description": "Accede a comandos, registros y configuración desde una interfaz centralizada."
+      },
+      "realtime": {
+        "title": "Control en tiempo real",
+        "description": "Inicia, detén y escala tus bots al instante según la demanda."
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Alojamiento de bots de Discord - planes desde 2 EUR/mes por bot",
+    "github": "GitHub",
+    "copyright": "Copyright {year} {brand}"
+  },
+  "login": {
+    "eyebrow": "Shadow - Alojamiento de bots de Discord",
+    "title": "Conecta tu cuenta de Discord",
+    "description": "Autentícate mediante OAuth2 para acceder a tu espacio y alojar tus bots.",
+    "cta": "Continuar con Discord"
+  },
+  "dashboard": {
+    "loading": "Cargando el panel...",
+    "sessionRequired": "Sesión requerida",
+    "loginRequired": "Inicio de sesión necesario",
+    "loginDescription": "Tu panel está protegido. Inicia sesión con Discord para administrar tus bots.",
+    "loginCta": "Iniciar sesión",
+    "tenant": "Tenant {tenantId}",
+    "role": "Rol: {role}",
+    "roles": {
+      "owner": "Propietario",
+      "member": "Miembro"
+    },
+    "logout": "Cerrar sesión",
+    "addBot": {
+      "title": "Añadir un bot",
+      "description": "El token se verifica en la API y luego se cifra antes de almacenarse.",
+      "tokenLabel": "Token del bot de Discord",
+      "tokenPlaceholder": "MTIz...",
+      "displayNameLabel": "Nombre visible (opcional)",
+      "displayNamePlaceholder": "Bot soporte EU",
+      "submit": "Añadir bot",
+      "submitPending": "Validando..."
+    },
+    "bots": {
+      "title": "Mis bots",
+      "refresh": "Actualizar",
+      "empty": "No hay bots para este tenant.",
+      "discordId": "ID de Discord: {discordBotId}",
+      "lastError": "Último error: {message}"
+    },
+    "status": {
+      "stopped": "Detenido",
+      "starting": "Iniciando",
+      "running": "En línea",
+      "stopping": "Deteniendo",
+      "error": "Error"
+    },
+    "actions": {
+      "start": "Iniciar",
+      "stop": "Detener",
+      "restart": "Reiniciar"
+    },
+    "errors": {
+      "fetchSession": "No se pudo obtener la sesión de usuario",
+      "fetchBots": "No se pudo obtener la lista de bots",
+      "unexpected": "Error inesperado",
+      "addBot": "No se pudo añadir el bot",
+      "actionFailed": "Acción fallida: {action}"
+    }
+  }
+}

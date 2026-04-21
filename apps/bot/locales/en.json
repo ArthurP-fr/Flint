@@ -1,0 +1,468 @@
+{
+  "errors": {
+    "args": {
+      "missing": "Missing argument {{arg}}. Usage: {{usage}}",
+      "invalidInt": "The argument must be an integer. Received: {{value}}",
+      "invalidNumber": "The argument must be a number. Received: {{value}}",
+      "invalidBoolean": "The argument must be a boolean. Received: {{value}}",
+      "invalidUser": "Unable to find a user from {{value}}",
+      "invalidChannel": "Unable to find a channel from {{value}}",
+      "invalidRole": "Unable to find a role from {{value}}",
+      "tooMany": "Too many arguments ({{count}}) detected: {{extras}}. Usage: {{usage}}"
+    },
+    "permissions": {
+      "user": "You do not have the permissions: {{permissions}}"
+    },
+    "execution": "An unexpected error occurred during execution.",
+    "cooldown": "Please wait {{seconds}}s before reusing this command.",
+    "rateLimit": "Too many requests. Please wait {{seconds}}s before trying again.",
+    "executionQueued": "Command accepted and queued for processing."
+  },
+  "categories": {
+    "fun": "Fun",
+    "utility": "Utility",
+    "core": "Core"
+  },
+  "commands": {
+    "kiss": {
+      "name": "kiss",
+      "description": "Send a kiss to a user.",
+      "args": {
+        "user": "Target user"
+      },
+      "examples": {
+        "basic": "Send a kiss to a member"
+      },
+      "responses": {
+        "success": "{{from}} sends a kiss to {{to}}."
+      }
+    },
+    "ping": {
+      "name": "ping",
+      "description": "Check the bot's websocket latency.",
+      "examples": {
+        "basic": "Health check"
+      },
+      "responses": {
+        "pong": "Pong. Websocket latency: {{latency}}ms."
+      }
+    },
+    "presence": {
+      "name": "presence",
+      "description": "Configure the bot presence with an interactive panel.",
+      "examples": {
+        "slash": "Open the interactive presence panel"
+      },
+      "responses": {
+        "panel": "Presence panel\nStatus: {{status}}\nActivity: {{activityType}}\nRotation: every {{rotationIntervalSeconds}}s\nActive text ({{currentTextIndex}}/{{textCount}}): {{activityText}}\nRendered preview: {{activityPreview}}\nTexts: {{activityTexts}}\nVariables ({{doubleBracesHint}}): {{variables}}",
+        "notOwner": "Only the command author can use this panel.",
+        "invalidSelection": "Invalid selection.",
+        "invalidInterval": "Invalid interval. Use an integer between {{minSeconds}} and {{maxSeconds}} seconds.",
+        "modalTimeout": "Time expired for text editing. Click the button again."
+      },
+      "ui": {
+        "status": {
+          "placeholder": "Choose a status",
+          "options": {
+            "online": {
+              "label": "Online",
+              "description": "Shows the bot as online"
+            },
+            "idle": {
+              "label": "Idle",
+              "description": "Shows the bot as idle"
+            },
+            "dnd": {
+              "label": "Do Not Disturb",
+              "description": "Shows the bot in do not disturb mode"
+            },
+            "invisible": {
+              "label": "Invisible",
+              "description": "Shows the bot as offline"
+            },
+            "streaming": {
+              "label": "Streaming",
+              "description": "Shows the bot in streaming mode"
+            }
+          }
+        },
+        "activity": {
+          "placeholder": "Choose an activity type",
+          "options": {
+            "PLAYING": {
+              "label": "Playing",
+              "description": "Shows Playing ..."
+            },
+            "STREAMING": {
+              "label": "Streaming",
+              "description": "Shows Live on ..."
+            },
+            "WATCHING": {
+              "label": "Watching",
+              "description": "Shows Watching ..."
+            },
+            "LISTENING": {
+              "label": "Listening",
+              "description": "Shows Listening to ..."
+            },
+            "COMPETING": {
+              "label": "Competing",
+              "description": "Shows Competing ..."
+            },
+            "CUSTOM": {
+              "label": "Custom Status",
+              "description": "Shows a custom status"
+            }
+          }
+        },
+        "embed": {
+          "title": "Presence Configuration",
+          "description": "Edit status, activity type, multiple texts and rotation.",
+          "footer": "Interactive panel /presence",
+          "fields": {
+            "status": "Status",
+            "activity": "Activity type",
+            "text": "Text"
+          }
+        },
+        "textButton": "📝 Edit texts",
+        "intervalButton": "⏱️ Interval",
+        "modal": {
+          "title": "Presence texts",
+          "label": "One text per line (use {{var}})",
+          "placeholder": "Maintenance\n{{guild_count}} servers | {{prefix}}help"
+        },
+        "intervalModal": {
+          "title": "Rotation interval",
+          "label": "Seconds between each text",
+          "placeholder": "Example: 30"
+        }
+      }
+    },
+    "logs": {
+      "name": "logs",
+      "description": "Configure Discord event logs with an interactive panel.",
+      "examples": {
+        "slash": "Open the logs interactive panel"
+      },
+      "responses": {
+        "slashOnly": "Use /logs to open this interactive panel.",
+        "guildOnly": "This command must be used in a server.",
+        "notOwner": "Only the command author can use this panel.",
+        "invalidSelection": "Invalid selection.",
+        "allEnabled": "All event logs are enabled.",
+        "allDisabled": "All event logs are disabled.",
+        "eventEnabled": "Event {{event}} enabled.",
+        "eventDisabled": "Event {{event}} disabled.",
+        "channelsCreated": "Log channels ready. Created: {{created}}, reused: {{reused}}.",
+        "channelsPartial": "Log channels partially ready. Created: {{created}}, reused: {{reused}}, failed categories: {{failed}}.",
+        "channelsFailed": "Unable to create log channels. Failed categories: {{failed}}."
+      },
+      "ui": {
+        "embed": {
+          "title": "Logs Configuration",
+          "description": "Enable or disable each Discord event and route logs by category channels."
+        },
+        "status": {
+          "enabled": "Enabled",
+          "disabled": "Disabled"
+        },
+        "pageLabel": "Page {{page}}/{{pageCount}}",
+        "enabledCountLabel": "Enabled events: {{enabledCount}}/{{totalCount}}",
+        "eventsHeader": "Events",
+        "channelLabel": "Channel",
+        "channelNotConfigured": "#not-configured",
+        "feedbackLabel": "Last action",
+        "buttons": {
+          "enableAll": "✅ Enable all logs",
+          "disableAll": "❌ Disable all logs",
+          "createChannels": "📁 Create log channels",
+          "previousPage": "Previous",
+          "nextPage": "Next",
+          "enableEvent": "Enable {{event}}",
+          "disableEvent": "Disable {{event}}"
+        },
+        "events": {
+          "messageCreate": "Message created",
+          "messageDelete": "Message deleted",
+          "messageUpdate": "Message updated",
+          "messageBulkDelete": "Bulk message delete",
+          "guildMemberAdd": "Member joined",
+          "guildMemberRemove": "Member left",
+          "guildMemberUpdate": "Member updated",
+          "interactionCreate": "Interaction",
+          "channelCreate": "Channel created",
+          "channelDelete": "Channel deleted",
+          "channelUpdate": "Channel updated",
+          "roleCreate": "Role created",
+          "roleDelete": "Role deleted",
+          "roleUpdate": "Role updated",
+          "threadCreate": "Thread created",
+          "threadDelete": "Thread deleted",
+          "threadUpdate": "Thread updated",
+          "emojiCreate": "Emoji created",
+          "emojiDelete": "Emoji deleted",
+          "emojiUpdate": "Emoji updated",
+          "guildUpdate": "Server updated",
+          "guildUnavailable": "Server unavailable",
+          "guildBanAdd": "Member banned",
+          "guildBanRemove": "Member unbanned",
+          "inviteCreate": "Invite created",
+          "inviteDelete": "Invite deleted"
+        }
+      }
+    },
+    "welcome": {
+      "name": "welcome",
+      "description": "Configure welcome messages with an interactive panel.",
+      "examples": {
+        "slash": "Open the welcome configuration panel"
+      },
+      "responses": {
+        "guildOnly": "This command must be used in a server.",
+        "notOwner": "Only the command author can use this panel.",
+        "invalidSelection": "Invalid selection.",
+        "testSuccess": "Test message sent to {{channel}}.",
+        "testDisabled": "The welcome module is disabled.",
+        "testMissingChannel": "No channel configured. Use the Channel button.",
+        "testChannelUnavailable": "The configured channel is unavailable or incompatible.",
+        "testMissingPermissions": "The bot does not have permission to send messages in this channel.",
+        "testFailed": "Unable to send test message. Please try again later."
+      },
+      "ui": {
+        "embed": {
+          "title": "Welcome Configuration",
+          "description": "Set status, channel, message type and run a test.",
+          "fields": {
+            "status": "Status",
+            "channel": "Channel",
+            "type": "Type",
+            "channelPicker": "Channel selection",
+            "autoRoles": "Auto roles"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Enabled",
+          "disabled": "🔴 Disabled"
+        },
+        "channelNotConfigured": "#not-configured",
+        "autoRolesNotConfigured": "No auto roles configured",
+        "channelPickerPlaceholder": "Select a welcome channel",
+        "channelPickerHint": "Choose the channel in the select menu below.",
+        "rolePickerPlaceholder": "Select one or more auto roles",
+        "rolePickerHint": "Choose roles in the select menu below to add them.",
+        "buttons": {
+          "toggle": "Toggle status",
+          "channel": "Set channel",
+          "channelCancel": "Close channel select",
+          "roles": "Add auto roles",
+          "rolesCancel": "Close roles select",
+          "rolesClear": "Clear auto roles",
+          "test": "Test"
+        },
+        "type": {
+          "placeholder": "Choose message type",
+          "options": {
+            "simple": {
+              "label": "Simple message",
+              "description": "Sends a plain text message"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Sends a welcome embed"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Sends a Components V2 container"
+            },
+            "image": {
+              "label": "Image",
+              "description": "Sends an embed with image"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "🎉 Welcome {{user}} to **{{guild}}**!",
+        "embedTitle": "Welcome!",
+        "embedDescription": "{{user}} just joined **{{guild}}**.",
+        "containerTitle": "Welcome",
+        "containerDescription": "{{user}} just joined **{{guild}}**.",
+        "imageTitle": "Welcome",
+        "imageDescription": "to the Discord server {{guild}}"
+      }
+    },
+    "goodbye": {
+      "name": "goodbye",
+      "description": "Configure goodbye messages with an interactive panel.",
+      "examples": {
+        "slash": "Open the goodbye configuration panel"
+      },
+      "responses": {
+        "guildOnly": "This command must be used in a server.",
+        "notOwner": "Only the command author can use this panel.",
+        "invalidSelection": "Invalid selection.",
+        "testSuccess": "Test message sent to {{channel}}.",
+        "testDisabled": "The goodbye module is disabled.",
+        "testMissingChannel": "No channel configured. Use the Channel button.",
+        "testChannelUnavailable": "The configured channel is unavailable or incompatible.",
+        "testMissingPermissions": "The bot does not have permission to send messages in this channel.",
+        "testFailed": "Unable to send test message. Please try again later."
+      },
+      "ui": {
+        "embed": {
+          "title": "Goodbye Configuration",
+          "description": "Set status, channel, message type and run a test.",
+          "fields": {
+            "status": "Status",
+            "channel": "Channel",
+            "type": "Type",
+            "channelPicker": "Channel selection"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Enabled",
+          "disabled": "🔴 Disabled"
+        },
+        "channelNotConfigured": "#not-configured",
+        "channelPickerPlaceholder": "Select a goodbye channel",
+        "channelPickerHint": "Choose the channel in the select menu below.",
+        "buttons": {
+          "toggle": "Toggle status",
+          "channel": "Set channel",
+          "channelCancel": "Close channel select",
+          "test": "Test"
+        },
+        "type": {
+          "placeholder": "Choose message type",
+          "options": {
+            "simple": {
+              "label": "Simple message",
+              "description": "Sends a plain text message"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Sends a goodbye embed"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Sends a Components V2 container"
+            },
+            "image": {
+              "label": "Image",
+              "description": "Sends an embed with image"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "👋 {{user}} left **{{guild}}**.",
+        "embedTitle": "Goodbye",
+        "embedDescription": "{{user}} left **{{guild}}**.",
+        "containerTitle": "Goodbye",
+        "containerDescription": "{{user}} left **{{guild}}**.",
+        "imageTitle": "Goodbye",
+        "imageDescription": "from the Discord server {{guild}}"
+      }
+    },
+    "help": {
+      "name": "help",
+      "description": "Show the command list or details of a command.",
+      "args": {
+        "command": "Optional command name or trigger"
+      },
+      "examples": {
+        "basic": "Show all commands",
+        "single": "Show command details"
+      },
+      "errors": {
+        "notFound": "No command matches {{query}}."
+      },
+      "embed": {
+        "title": "Command Help",
+        "description": "Use {{usage}} to inspect a command.",
+        "categoryEmpty": "No commands in this category.",
+        "detailsTitle": "Command: {{name}}",
+        "detailsDescription": "{{description}}",
+        "footer": "Category: {{source}}",
+        "fields": {
+          "usage": "Usage",
+          "arguments": "Arguments",
+          "examples": "Examples"
+        }
+      },
+      "labels": {
+        "prefix": "Prefix",
+        "slash": "Slash",
+        "required": "required",
+        "optional": "optional",
+        "noArgs": "No arguments.",
+        "noExamples": "No examples."
+      }
+    }
+  },
+  "logsRuntime": {
+    "placeholders": {
+      "noContent": "(no content)",
+      "unknown": "unknown",
+      "none": "none"
+    },
+    "embed": {
+      "title": "Event: {{event}}",
+      "detailsField": "Details"
+    },
+    "summaries": {
+      "messageCreate": "Message sent by {{user}} in {{channel}}",
+      "messageDelete": "Message deleted in {{channel}}",
+      "messageUpdate": "Message updated in {{channel}}",
+      "messageBulkDelete": "Bulk delete: {{count}} messages removed",
+      "guildMemberAdd": "Member joined: {{user}}",
+      "guildMemberRemove": "Member left: {{user}}",
+      "guildMemberUpdate": "Member updated: {{user}}",
+      "interactionGeneric": "Interaction by {{user}}",
+      "interactionSlash": "Slash command /{{command}} by {{user}}",
+      "interactionButton": "Button interaction by {{user}}",
+      "interactionSelect": "Select menu interaction by {{user}}",
+      "interactionModal": "Modal submit by {{user}}",
+      "channelCreate": "Channel created: {{channel}}",
+      "channelDelete": "Channel deleted: {{channel}}",
+      "channelUpdate": "Channel updated: {{channel}}",
+      "roleCreate": "Role created: {{role}}",
+      "roleDelete": "Role deleted: {{role}}",
+      "roleUpdate": "Role updated: {{role}}",
+      "threadCreate": "Thread created: {{thread}}",
+      "threadDelete": "Thread deleted: {{thread}}",
+      "threadUpdate": "Thread updated: {{thread}}",
+      "emojiCreate": "Emoji created: {{emoji}}",
+      "emojiDelete": "Emoji deleted: {{emoji}}",
+      "emojiUpdate": "Emoji updated: {{emoji}}",
+      "guildUpdate": "Server updated: {{guild}}",
+      "guildUnavailable": "Server temporarily unavailable: {{guild}}",
+      "guildBanAdd": "User banned: {{user}}",
+      "guildBanRemove": "User unbanned: {{user}}",
+      "inviteCreate": "Invite created: {{code}}",
+      "inviteDelete": "Invite deleted: {{code}}"
+    },
+    "details": {
+      "messageId": "messageId={{value}}",
+      "author": "author={{tag}} ({{id}})",
+      "content": "content={{value}}",
+      "before": "before={{value}}",
+      "after": "after={{value}}",
+      "channelId": "channelId={{value}}",
+      "count": "count={{value}}",
+      "user": "user={{tag}} ({{id}})",
+      "oldNick": "oldNick={{value}}",
+      "newNick": "newNick={{value}}",
+      "interactionId": "interactionId={{value}}",
+      "type": "type={{value}}",
+      "oldName": "oldName={{value}}",
+      "newName": "newName={{value}}",
+      "roleId": "roleId={{value}}",
+      "threadId": "threadId={{value}}",
+      "emojiId": "emojiId={{value}}",
+      "guildId": "guildId={{value}}",
+      "inviter": "inviter={{value}}"
+    }
+  }
+}

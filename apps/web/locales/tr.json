@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "title": "Shadow - Discord bot barındırma (bot başına ayda 2 EUR’dan itibaren)",
+    "description": "Discord botlarınızı barındırmak ve yönetmek için çok kiracılı SaaS platformu; otomatik komutlar, v2 bileşenleri, çoklu dil ve dinamik değişkenler içerir."
+  },
+  "common": {
+    "brand": "Shadow"
+  },
+  "nav": {
+    "home": "Ana sayfa",
+    "dashboard": "Panel",
+    "login": "Giriş yap"
+  },
+  "localeSwitcher": {
+    "label": "Dil",
+    "locales": {
+      "en": "İngilizce",
+      "es": "İspanyolca",
+      "de": "Almanca",
+      "ja": "Japonca",
+      "fr": "Fransızca",
+      "pt": "Portekizce",
+      "ru": "Rusça",
+      "it": "İtalyanca",
+      "nl": "Flemenkçe",
+      "pl": "Lehçe",
+      "zh": "Çince",
+      "hi": "Hintçe",
+      "ar": "Arapça",
+      "bn": "Bengalce",
+      "id": "Endonezce",
+      "tr": "Türkçe"
+    }
+  },
+  "hero": {
+    "kicker": "Discord botları için SaaS platformu",
+    "title": "Shadow - Discord botlarınızı barındırın (bot başına ayda 2 EUR’dan itibaren)",
+    "description": "Botlarınızı otomatik komutlar (prefix ve slash), v2 bileşenleri, otomatik yardım, çoklu dil desteği ve dinamik değişkenlerle barındırın ve yönetin.",
+    "ctaStart": "Başla - 2 EUR/ay",
+    "ctaLogin": "Giriş yap",
+    "bots": {
+      "moderation": "Moderasyon",
+      "welcome": "Hoş geldin",
+      "analytics": "Analitik"
+    },
+    "status": {
+      "online": "Çevrimiçi",
+      "stopped": "Durduruldu"
+    },
+    "card": {
+      "title": "Canlı filo görünümü",
+      "subtitle": "Tüm bot instance’larını tek bir operasyon panelinden izleyin.",
+      "instanceMetrics": "Instance: 1 | CPU %35",
+      "manage": "Yönet",
+      "preview": "Botlarınızın gerçek zamanlı durum önizlemesi"
+    }
+  },
+  "features": {
+    "title": "Ana özellikler",
+    "subtitle": "Botlarınızı üretimde yönetmek için ihtiyacınız olan her şey.",
+    "items": {
+      "autoCommands": {
+        "title": "Otomatik komutlar",
+        "description": "Prefix ve slash komutları her bot için otomatik olarak oluşturulur ve senkronize edilir."
+      },
+      "componentsV2": {
+        "title": "v2 bileşenleri",
+        "description": "v2 bileşenleri ve zengin etkileşimler için tam destek."
+      },
+      "autoHelp": {
+        "title": "Otomatik yardım",
+        "description": "Komutlar için otomatik oluşturulan yardım ve dokümantasyon."
+      },
+      "multiLanguage": {
+        "title": "Çoklu dil",
+        "description": "Mesajları ve komut etiketlerini çevirin, kolayca birden fazla dili etkinleştirin."
+      },
+      "dynamicVariables": {
+        "title": "Dinamik değişkenler",
+        "description": "bot_latency, guild_count gibi değişkenlerle dinamik şablonlar."
+      },
+      "hosting": {
+        "title": "Barındırma ve ölçeklenebilirlik",
+        "description": "Bot başına 2 EUR/ay basit planlar, izleme ve ölçeklenebilirlik dahil."
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "Nasıl çalışır",
+    "subtitle": "Botlarınızı kontrol altına almak için üç basit adım.",
+    "steps": {
+      "addBot": {
+        "title": "Bot ekle",
+        "description": "Discord uygulamanızı OAuth ile bağlayın ve Shadow’a kaydedin."
+      },
+      "dashboard": {
+        "title": "Panelden yönetin",
+        "description": "Komutlara, loglara ve ayarlara merkezi bir arayüzden erişin."
+      },
+      "realtime": {
+        "title": "Gerçek zamanlı kontrol",
+        "description": "Botlarınızı anında başlatın, durdurun ve ölçeklendirin."
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Discord bot barındırma - bot başına 2 EUR’dan başlayan planlar",
+    "github": "GitHub",
+    "copyright": "Telif hakkı {year} {brand}"
+  },
+  "login": {
+    "eyebrow": "Shadow - Discord bot barındırma",
+    "title": "Discord hesabınızla giriş yapın",
+    "description": "Botlarınızı barındırmak ve panelinize erişmek için OAuth2 ile kimlik doğrulaması yapın.",
+    "cta": "Discord ile devam et"
+  },
+  "dashboard": {
+    "loading": "Panel yükleniyor...",
+    "sessionRequired": "Oturum gerekli",
+    "loginRequired": "Giriş gerekli",
+    "loginDescription": "Paneliniz korunmaktadır. Botlarınızı yönetmek için Discord ile giriş yapın.",
+    "loginCta": "Giriş yap",
+    "tenant": "Tenant {tenantId}",
+    "role": "Rol: {role}",
+    "roles": {
+      "owner": "Sahip",
+      "member": "Üye"
+    },
+    "logout": "Çıkış yap",
+    "addBot": {
+      "title": "Bot ekle",
+      "description": "Token API tarafında doğrulanır ve ardından şifrelenerek saklanır.",
+      "tokenLabel": "Discord bot token",
+      "tokenPlaceholder": "MTIz...",
+      "displayNameLabel": "Görünen ad (isteğe bağlı)",
+      "displayNamePlaceholder": "EU destek botu",
+      "submit": "Botu ekle",
+      "submitPending": "Doğrulanıyor..."
+    },
+    "bots": {
+      "title": "Botlarım",
+      "refresh": "Yenile",
+      "empty": "Bu tenant için bot yok.",
+      "discordId": "Discord ID: {discordBotId}",
+      "lastError": "Son hata: {message}"
+    },
+    "status": {
+      "stopped": "Durduruldu",
+      "starting": "Başlatılıyor",
+      "running": "Çevrimiçi",
+      "stopping": "Durduruluyor",
+      "error": "Hata"
+    },
+    "actions": {
+      "start": "Başlat",
+      "stop": "Durdur",
+      "restart": "Yeniden başlat"
+    },
+    "errors": {
+      "fetchSession": "Kullanıcı oturumu alınamadı",
+      "fetchBots": "Bot listesi alınamadı",
+      "unexpected": "Beklenmeyen hata",
+      "addBot": "Bot eklenemedi",
+      "actionFailed": "İşlem başarısız: {action}"
+    }
+  }
+}

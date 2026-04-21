@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
-import { routing, type AppLocale } from "../../i18n/routing";
-import enMessages from "../../messages/en.json";
-import frMessages from "../../messages/fr.json";
+import { RTL_LOCALES, routing } from "../../i18n/routing";
 import "../globals.css";
 
 const headingFont = Space_Grotesk({
@@ -21,11 +19,6 @@ const monoFont = IBM_Plex_Mono({
   weight: ["400", "500"],
 });
 
-const metadataByLocale: Record<AppLocale, { title: string; description: string }> = {
-  en: enMessages.metadata,
-  fr: frMessages.metadata,
-};
-
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -39,7 +32,7 @@ export async function generateMetadata({
   const locale = hasLocale(routing.locales, candidateLocale)
     ? candidateLocale
     : routing.defaultLocale;
-  const metadata = metadataByLocale[locale];
+  const t = await getTranslations({ locale, namespace: "metadata" });
 
   const languages = routing.locales.reduce<Record<string, string>>(
     (accumulator, currentLocale) => {
@@ -50,8 +43,8 @@ export async function generateMetadata({
   );
 
   return {
-    title: metadata.title,
-    description: metadata.description,
+    title: t("title"),
+    description: t("description"),
     alternates: {
       canonical: `/${locale}`,
       languages,
@@ -73,9 +66,10 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
+  const direction = RTL_LOCALES.includes(locale as (typeof RTL_LOCALES)[number]) ? "rtl" : "ltr";
 
   return (
-    <html lang={locale}>
+    <html dir={direction} lang={locale}>
       <body className={`${headingFont.variable} ${monoFont.variable} antialiased`}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}

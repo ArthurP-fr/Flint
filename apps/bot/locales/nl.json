@@ -1,0 +1,468 @@
+{
+  "errors": {
+    "args": {
+      "missing": "Ontbrekend argument {{arg}}. Gebruik: {{usage}}",
+      "invalidInt": "Het argument moet een geheel getal zijn. Ontvangen: {{value}}",
+      "invalidNumber": "Het argument moet een getal zijn. Ontvangen: {{value}}",
+      "invalidBoolean": "Het argument moet een booleaanse waarde zijn. Ontvangen: {{value}}",
+      "invalidUser": "Kan geen gebruiker vinden voor {{value}}",
+      "invalidChannel": "Kan geen kanaal vinden voor {{value}}",
+      "invalidRole": "Kan geen rol vinden voor {{value}}",
+      "tooMany": "Te veel argumenten ({{count}}) gedetecteerd: {{extras}}. Gebruik: {{usage}}"
+    },
+    "permissions": {
+      "user": "Je hebt niet de volgende rechten: {{permissions}}"
+    },
+    "execution": "Er is een onverwachte fout opgetreden tijdens de uitvoering.",
+    "cooldown": "Wacht {{seconds}}s voordat je dit commando opnieuw gebruikt.",
+    "rateLimit": "Te veel verzoeken. Wacht {{seconds}}s voordat je opnieuw probeert.",
+    "executionQueued": "Commando geaccepteerd en in de wachtrij geplaatst."
+  },
+  "categories": {
+    "fun": "Fun",
+    "utility": "Hulpmiddelen",
+    "core": "Basis"
+  },
+  "commands": {
+    "kiss": {
+      "name": "kus",
+      "description": "Stuur een kus naar een gebruiker.",
+      "args": {
+        "user": "Doelgebruiker"
+      },
+      "examples": {
+        "basic": "Stuur een kus naar een lid"
+      },
+      "responses": {
+        "success": "{{from}} geeft {{to}} een kus."
+      }
+    },
+    "ping": {
+      "name": "ping",
+      "description": "Controleer de websocket-latentie van de bot.",
+      "examples": {
+        "basic": "Gezondheidscontrole"
+      },
+      "responses": {
+        "pong": "Pong. Websocket-latentie: {{latency}}ms."
+      }
+    },
+    "presence": {
+      "name": "presence",
+      "description": "Configureer de aanwezigheid van de bot met een interactief paneel.",
+      "examples": {
+        "slash": "Open het interactieve aanwezigheidspaneel"
+      },
+      "responses": {
+        "panel": "Aanwezigheidspaneel\nStatus: {{status}}\nActiviteit: {{activityType}}\nRotatie: elke {{rotationIntervalSeconds}}s\nActieve tekst ({{currentTextIndex}}/{{textCount}}): {{activityText}}\nVoorbeeldweergave: {{activityPreview}}\nTeksten: {{activityTexts}}\nVariabelen ({{doubleBracesHint}}): {{variables}}",
+        "notOwner": "Alleen de auteur van het commando kan dit paneel gebruiken.",
+        "invalidSelection": "Ongeldige selectie.",
+        "invalidInterval": "Ongeldig interval. Gebruik een geheel getal tussen {{minSeconds}} en {{maxSeconds}} seconden.",
+        "modalTimeout": "Tijd verstreken om de tekst te wijzigen. Klik opnieuw op de knop."
+      },
+      "ui": {
+        "status": {
+          "placeholder": "Kies een status",
+          "options": {
+            "online": {
+              "label": "Online",
+              "description": "Toont de bot als online"
+            },
+            "idle": {
+              "label": "Inactief",
+              "description": "Toont de bot als inactief"
+            },
+            "dnd": {
+              "label": "Niet storen",
+              "description": "Toont de bot in niet storen-modus"
+            },
+            "invisible": {
+              "label": "Offline",
+              "description": "Toont de bot als offline"
+            },
+            "streaming": {
+              "label": "Streaming",
+              "description": "Toont de bot als streaming"
+            }
+          }
+        },
+        "activity": {
+          "placeholder": "Kies een activiteitstype",
+          "options": {
+            "PLAYING": {
+              "label": "Speelt",
+              "description": "Toont Speelt ..."
+            },
+            "STREAMING": {
+              "label": "Streaming",
+              "description": "Toont Live op ..."
+            },
+            "WATCHING": {
+              "label": "Kijkt",
+              "description": "Toont Kijkt ..."
+            },
+            "LISTENING": {
+              "label": "Luistert",
+              "description": "Toont Luistert ..."
+            },
+            "COMPETING": {
+              "label": "Competitie",
+              "description": "Toont Competitie ..."
+            },
+            "CUSTOM": {
+              "label": "Aangepaste status",
+              "description": "Toont een aangepaste status"
+            }
+          }
+        },
+        "embed": {
+          "title": "Aanwezigheidsconfiguratie",
+          "description": "Wijzig status, activiteitstype, meerdere teksten en rotatie.",
+          "footer": "Interactief paneel /presence",
+          "fields": {
+            "status": "Status",
+            "activity": "Activiteitstype",
+            "text": "Tekst"
+          }
+        },
+        "textButton": "📝 Teksten bewerken",
+        "intervalButton": "⏱️ Interval",
+        "modal": {
+          "title": "Aanwezigheidsteksten",
+          "label": "Één tekst per regel (gebruik {{var}})",
+          "placeholder": "Onderhoud\n{{guild_count}} servers | {{prefix}}help"
+        },
+        "intervalModal": {
+          "title": "Rotatie-interval",
+          "label": "Seconden tussen elke tekst",
+          "placeholder": "Voorbeeld: 30"
+        }
+      }
+    },
+    "logs": {
+      "name": "logs",
+      "description": "Configureer Discord event-logs met een interactief paneel.",
+      "examples": {
+        "slash": "Open het interactieve logpaneel"
+      },
+      "responses": {
+        "slashOnly": "Gebruik /logs om dit interactieve paneel te openen.",
+        "guildOnly": "Dit commando moet in een server worden gebruikt.",
+        "notOwner": "Alleen de auteur van het commando kan dit paneel gebruiken.",
+        "invalidSelection": "Ongeldige selectie.",
+        "allEnabled": "Alle event-logs zijn ingeschakeld.",
+        "allDisabled": "Alle event-logs zijn uitgeschakeld.",
+        "eventEnabled": "Event {{event}} ingeschakeld.",
+        "eventDisabled": "Event {{event}} uitgeschakeld.",
+        "channelsCreated": "Logkanalen klaar. Gemaakt: {{created}}, hergebruikt: {{reused}}.",
+        "channelsPartial": "Logkanalen gedeeltelijk klaar. Gemaakt: {{created}}, hergebruikt: {{reused}}, gefaalde categorieën: {{failed}}.",
+        "channelsFailed": "Kan geen logkanalen maken. Gefaalde categorieën: {{failed}}."
+      },
+      "ui": {
+        "embed": {
+          "title": "Logconfiguratie",
+          "description": "Schakel Discord-events in of uit en routeer logs per categoriekanaal."
+        },
+        "status": {
+          "enabled": "Ingeschakeld",
+          "disabled": "Uitgeschakeld"
+        },
+        "pageLabel": "Pagina {{page}}/{{pageCount}}",
+        "enabledCountLabel": "Ingeschakelde events: {{enabledCount}}/{{totalCount}}",
+        "eventsHeader": "Events",
+        "channelLabel": "Kanaal",
+        "channelNotConfigured": "#niet-geconfigureerd",
+        "feedbackLabel": "Laatste actie",
+        "buttons": {
+          "enableAll": "✅ Alles inschakelen",
+          "disableAll": "❌ Alles uitschakelen",
+          "createChannels": "📁 Logkanalen maken",
+          "previousPage": "Vorige",
+          "nextPage": "Volgende",
+          "enableEvent": "Activeer {{event}}",
+          "disableEvent": "Deactiveer {{event}}"
+        },
+        "events": {
+          "messageCreate": "Bericht aangemaakt",
+          "messageDelete": "Bericht verwijderd",
+          "messageUpdate": "Bericht bewerkt",
+          "messageBulkDelete": "Bulkverwijdering berichten",
+          "guildMemberAdd": "Lid toegetreden",
+          "guildMemberRemove": "Lid verlaten",
+          "guildMemberUpdate": "Lid bijgewerkt",
+          "interactionCreate": "Interactie",
+          "channelCreate": "Kanaal aangemaakt",
+          "channelDelete": "Kanaal verwijderd",
+          "channelUpdate": "Kanaal bijgewerkt",
+          "roleCreate": "Rol aangemaakt",
+          "roleDelete": "Rol verwijderd",
+          "roleUpdate": "Rol bijgewerkt",
+          "threadCreate": "Thread aangemaakt",
+          "threadDelete": "Thread verwijderd",
+          "threadUpdate": "Thread bijgewerkt",
+          "emojiCreate": "Emoji aangemaakt",
+          "emojiDelete": "Emoji verwijderd",
+          "emojiUpdate": "Emoji bijgewerkt",
+          "guildUpdate": "Server bijgewerkt",
+          "guildUnavailable": "Server niet beschikbaar",
+          "guildBanAdd": "Lid verbannen",
+          "guildBanRemove": "Verbanning opgeheven",
+          "inviteCreate": "Uitnodiging aangemaakt",
+          "inviteDelete": "Uitnodiging verwijderd"
+        }
+      }
+    },
+    "welcome": {
+      "name": "welkom",
+      "description": "Configureer welkomstberichten met een interactief paneel.",
+      "examples": {
+        "slash": "Open het welkomstconfiguratiepaneel"
+      },
+      "responses": {
+        "guildOnly": "Dit commando moet in een server worden gebruikt.",
+        "notOwner": "Alleen de auteur van het commando kan dit paneel gebruiken.",
+        "invalidSelection": "Ongeldige selectie.",
+        "testSuccess": "Testbericht verzonden naar {{channel}}.",
+        "testDisabled": "Welkomstmodule is uitgeschakeld.",
+        "testMissingChannel": "Geen kanaal geconfigureerd. Gebruik de knop Kanaal.",
+        "testChannelUnavailable": "Het geconfigureerde kanaal is niet beschikbaar of ongeldig.",
+        "testMissingPermissions": "De bot heeft geen toestemming om berichten te sturen in dit kanaal.",
+        "testFailed": "Kon testbericht niet verzenden. Probeer later opnieuw."
+      },
+      "ui": {
+        "embed": {
+          "title": "Welcome-configuratie",
+          "description": "Stel status, kanaal, berichttype en test in.",
+          "fields": {
+            "status": "Status",
+            "channel": "Kanaal",
+            "type": "Type",
+            "channelPicker": "Kanaalkeuze",
+            "autoRoles": "Auto-rollen"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Ingeschakeld",
+          "disabled": "🔴 Uitgeschakeld"
+        },
+        "channelNotConfigured": "#niet-geconfigureerd",
+        "autoRolesNotConfigured": "Geen auto-rollen geconfigureerd",
+        "channelPickerPlaceholder": "Kies een welkomstkanaal",
+        "channelPickerHint": "Kies een kanaal in het selectiemenu hieronder.",
+        "rolePickerPlaceholder": "Kies één of meerdere auto-rollen",
+        "rolePickerHint": "Kies rollen in het selectiemenu hieronder om ze toe te voegen.",
+        "buttons": {
+          "toggle": "Status schakelen",
+          "channel": "Kanaal instellen",
+          "channelCancel": "Kanaalkeuze sluiten",
+          "roles": "Auto-rollen toevoegen",
+          "rolesCancel": "Rollenkeuze sluiten",
+          "rolesClear": "Auto-rollen wissen",
+          "test": "Testen"
+        },
+        "type": {
+          "placeholder": "Kies een berichttype",
+          "options": {
+            "simple": {
+              "label": "Eenvoudig bericht",
+              "description": "Verstuurt een standaard tekstbericht"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Verstuurt een welkomst-embed"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Verstuurt een Components V2 container"
+            },
+            "image": {
+              "label": "Afbeelding",
+              "description": "Verstuurt een embed met afbeelding"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "🎉 Welkom {{user}} op **{{guild}}**!",
+        "embedTitle": "Welkom!",
+        "embedDescription": "{{user}} is zojuist **{{guild}}** binnengekomen.",
+        "containerTitle": "Welkom",
+        "containerDescription": "{{user}} is zojuist **{{guild}}** binnengekomen.",
+        "imageTitle": "Welkom",
+        "imageDescription": "op de Discord-server {{guild}}"
+      }
+    },
+    "goodbye": {
+      "name": "afscheid",
+      "description": "Configureer afscheid-berichten met een interactief paneel.",
+      "examples": {
+        "slash": "Open het afscheid-configuratiepaneel"
+      },
+      "responses": {
+        "guildOnly": "Dit commando moet in een server worden gebruikt.",
+        "notOwner": "Alleen de auteur van het commando kan dit paneel gebruiken.",
+        "invalidSelection": "Ongeldige selectie.",
+        "testSuccess": "Testbericht verzonden naar {{channel}}.",
+        "testDisabled": "Afscheid-module is uitgeschakeld.",
+        "testMissingChannel": "Geen kanaal geconfigureerd. Gebruik de knop Kanaal.",
+        "testChannelUnavailable": "Het geconfigureerde kanaal is niet beschikbaar of ongeldig.",
+        "testMissingPermissions": "De bot heeft geen toestemming om berichten te sturen in dit kanaal.",
+        "testFailed": "Kon testbericht niet verzenden. Probeer later opnieuw."
+      },
+      "ui": {
+        "embed": {
+          "title": "Goodbye-configuratie",
+          "description": "Stel status, kanaal, berichttype en test in.",
+          "fields": {
+            "status": "Status",
+            "channel": "Kanaal",
+            "type": "Type",
+            "channelPicker": "Kanaalkeuze"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Ingeschakeld",
+          "disabled": "🔴 Uitgeschakeld"
+        },
+        "channelNotConfigured": "#niet-geconfigureerd",
+        "channelPickerPlaceholder": "Kies een afscheid-kanaal",
+        "channelPickerHint": "Kies een kanaal in het selectiemenu hieronder.",
+        "buttons": {
+          "toggle": "Status schakelen",
+          "channel": "Kanaal instellen",
+          "channelCancel": "Kanaalkeuze sluiten",
+          "test": "Testen"
+        },
+        "type": {
+          "placeholder": "Kies een berichttype",
+          "options": {
+            "simple": {
+              "label": "Eenvoudig bericht",
+              "description": "Verstuurt een standaard tekstbericht"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Verstuurt een afscheid-embed"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Verstuurt een Components V2 container"
+            },
+            "image": {
+              "label": "Afbeelding",
+              "description": "Verstuurt een embed met afbeelding"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "👋 {{user}} heeft **{{guild}}** verlaten.",
+        "embedTitle": "Afscheid",
+        "embedDescription": "{{user}} heeft **{{guild}}** verlaten.",
+        "containerTitle": "Afscheid",
+        "containerDescription": "{{user}} heeft **{{guild}}** verlaten.",
+        "imageTitle": "Afscheid",
+        "imageDescription": "van de Discord-server {{guild}}"
+      }
+    },
+    "help": {
+      "name": "help",
+      "description": "Toon de lijst met commando’s of details van een commando.",
+      "args": {
+        "command": "Optionele commando-naam of trigger"
+      },
+      "examples": {
+        "basic": "Toon alle commando’s",
+        "single": "Toon details van een commando"
+      },
+      "errors": {
+        "notFound": "Geen commando gevonden voor {{query}}."
+      },
+      "embed": {
+        "title": "Commando-hulp",
+        "description": "Gebruik {{usage}} om een commando te bekijken.",
+        "categoryEmpty": "Geen commando’s in deze categorie.",
+        "detailsTitle": "Commando: {{name}}",
+        "detailsDescription": "{{description}}",
+        "footer": "Categorie: {{source}}",
+        "fields": {
+          "usage": "Gebruik",
+          "arguments": "Argumenten",
+          "examples": "Voorbeelden"
+        }
+      },
+      "labels": {
+        "prefix": "Prefix",
+        "slash": "Slash",
+        "required": "verplicht",
+        "optional": "optioneel",
+        "noArgs": "Geen argumenten.",
+        "noExamples": "Geen voorbeelden."
+      }
+    }
+  },
+  "logsRuntime": {
+    "placeholders": {
+      "noContent": "(geen inhoud)",
+      "unknown": "onbekend",
+      "none": "geen"
+    },
+    "embed": {
+      "title": "Event: {{event}}",
+      "detailsField": "Details"
+    },
+    "summaries": {
+      "messageCreate": "Bericht verzonden door {{user}} in {{channel}}",
+      "messageDelete": "Bericht verwijderd in {{channel}}",
+      "messageUpdate": "Bericht bijgewerkt in {{channel}}",
+      "messageBulkDelete": "Bulkverwijdering: {{count}} berichten verwijderd",
+      "guildMemberAdd": "Lid toegetreden: {{user}}",
+      "guildMemberRemove": "Lid verlaten: {{user}}",
+      "guildMemberUpdate": "Lid bijgewerkt: {{user}}",
+      "interactionGeneric": "Interactie door {{user}}",
+      "interactionSlash": "Slash-commando /{{command}} door {{user}}",
+      "interactionButton": "Knopinteractie door {{user}}",
+      "interactionSelect": "Selectiemenu-interactie door {{user}}",
+      "interactionModal": "Formulier ingediend door {{user}}",
+      "channelCreate": "Kanaal aangemaakt: {{channel}}",
+      "channelDelete": "Kanaal verwijderd: {{channel}}",
+      "channelUpdate": "Kanaal bijgewerkt: {{channel}}",
+      "roleCreate": "Rol aangemaakt: {{role}}",
+      "roleDelete": "Rol verwijderd: {{role}}",
+      "roleUpdate": "Rol bijgewerkt: {{role}}",
+      "threadCreate": "Thread aangemaakt: {{thread}}",
+      "threadDelete": "Thread verwijderd: {{thread}}",
+      "threadUpdate": "Thread bijgewerkt: {{thread}}",
+      "emojiCreate": "Emoji aangemaakt: {{emoji}}",
+      "emojiDelete": "Emoji verwijderd: {{emoji}}",
+      "emojiUpdate": "Emoji bijgewerkt: {{emoji}}",
+      "guildUpdate": "Server bijgewerkt: {{guild}}",
+      "guildUnavailable": "Server tijdelijk niet beschikbaar: {{guild}}",
+      "guildBanAdd": "Gebruiker verbannen: {{user}}",
+      "guildBanRemove": "Verbanning opgeheven: {{user}}",
+      "inviteCreate": "Uitnodiging aangemaakt: {{code}}",
+      "inviteDelete": "Uitnodiging verwijderd: {{code}}"
+    },
+    "details": {
+      "messageId": "messageId={{value}}",
+      "author": "author={{tag}} ({{id}})",
+      "content": "content={{value}}",
+      "before": "before={{value}}",
+      "after": "after={{value}}",
+      "channelId": "channelId={{value}}",
+      "count": "count={{value}}",
+      "user": "user={{tag}} ({{id}})",
+      "oldNick": "oldNick={{value}}",
+      "newNick": "newNick={{value}}",
+      "interactionId": "interactionId={{value}}",
+      "type": "type={{value}}",
+      "oldName": "oldName={{value}}",
+      "newName": "newName={{value}}",
+      "roleId": "roleId={{value}}",
+      "threadId": "threadId={{value}}",
+      "emojiId": "emojiId={{value}}",
+      "guildId": "guildId={{value}}",
+      "inviter": "inviter={{value}}"
+    }
+  }
+}

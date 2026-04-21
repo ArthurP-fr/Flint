@@ -15,7 +15,24 @@ import type {
   User,
 } from "discord.js";
 
-export const SUPPORTED_LANGS = ["en", "fr", "es"] as const;
+export const SUPPORTED_LANGS = [
+  "en",
+  "es",
+  "de",
+  "ja",
+  "fr",
+  "pt",
+  "ru",
+  "it",
+  "nl",
+  "pl",
+  "zh",
+  "hi",
+  "ar",
+  "bn",
+  "id",
+  "tr",
+] as const;
 
 export type SupportedLang = (typeof SUPPORTED_LANGS)[number];
 export type CommandSource = "prefix" | "slash";

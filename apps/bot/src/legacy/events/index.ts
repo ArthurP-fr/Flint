@@ -28,7 +28,7 @@ export const registerEvents = (
 ): void => {
   registerMessageCreate(client, handlers.onPrefixMessage);
   registerInteractionCreate(client, handlers.onSlashInteraction);
-  registerLogRuntimeEvents(client, services.logEventService);
+  registerLogRuntimeEvents(client, services.logEventService, i18n);
 
   registerGuildMemberAdd(client, i18n, services.memberMessageService);
   registerGuildMemberRemove(client, i18n, services.memberMessageService);

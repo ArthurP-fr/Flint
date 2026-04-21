@@ -19,11 +19,8 @@ export const pingCommand = defineCommand({
     },
   ],
   execute: async (ctx) => {
-    const responses = (ctx.commandText.responses as Record<string, unknown> | undefined) ?? {};
-    const template = typeof responses.pong === "string" ? responses.pong : "Pong {{latency}}ms";
-
     await ctx.reply({
-      content: ctx.format(template, {
+      content: ctx.ct("responses.pong", {
         latency: ctx.client.ws.ping,
       }),
       flags: [MessageFlags.Ephemeral],

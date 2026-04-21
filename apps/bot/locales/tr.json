@@ -1,0 +1,468 @@
+{
+  "errors": {
+    "args": {
+      "missing": "Eksik argüman {{arg}}. Kullanım: {{usage}}",
+      "invalidInt": "Argüman bir tam sayı olmalı. Alınan: {{value}}",
+      "invalidNumber": "Argüman bir sayı olmalı. Alınan: {{value}}",
+      "invalidBoolean": "Argüman bir boolean olmalı. Alınan: {{value}}",
+      "invalidUser": "{{value}} üzerinden kullanıcı bulunamadı",
+      "invalidChannel": "{{value}} üzerinden kanal bulunamadı",
+      "invalidRole": "{{value}} üzerinden rol bulunamadı",
+      "tooMany": "Çok fazla argüman ({{count}}) tespit edildi: {{extras}}. Kullanım: {{usage}}"
+    },
+    "permissions": {
+      "user": "Bu izinlere sahip değilsin: {{permissions}}"
+    },
+    "execution": "Komut çalıştırılırken beklenmeyen bir hata oluştu.",
+    "cooldown": "Bu komutu tekrar kullanmak için {{seconds}} saniye bekle.",
+    "rateLimit": "Çok fazla istek. Tekrar denemeden önce {{seconds}} saniye bekle.",
+    "executionQueued": "Komut kabul edildi ve sıraya alındı."
+  },
+  "categories": {
+    "fun": "Eğlence",
+    "utility": "Araçlar",
+    "core": "Temel"
+  },
+  "commands": {
+    "kiss": {
+      "name": "öpücük",
+      "description": "Bir kullanıcıya öpücük gönder.",
+      "args": {
+        "user": "Hedef kullanıcı"
+      },
+      "examples": {
+        "basic": "Bir üyeye öpücük gönder"
+      },
+      "responses": {
+        "success": "{{from}} {{to}} kişisine bir öpücük gönderdi."
+      }
+    },
+    "ping": {
+      "name": "ping",
+      "description": "Botun websocket gecikmesini kontrol et.",
+      "examples": {
+        "basic": "Sağlık kontrolü"
+      },
+      "responses": {
+        "pong": "Pong. Websocket gecikmesi: {{latency}}ms."
+      }
+    },
+    "presence": {
+      "name": "durum",
+      "description": "Botun durumunu etkileşimli panel ile yapılandır.",
+      "examples": {
+        "slash": "Durum panelini aç"
+      },
+      "responses": {
+        "panel": "Durum paneli\nDurum: {{status}}\nAktivite: {{activityType}}\nDöngü: her {{rotationIntervalSeconds}} saniye\nAktif metin ({{currentTextIndex}}/{{textCount}}): {{activityText}}\nÖnizleme: {{activityPreview}}\nMetinler: {{activityTexts}}\nDeğişkenler ({{doubleBracesHint}}): {{variables}}",
+        "notOwner": "Bu paneli sadece komutu başlatan kişi kullanabilir.",
+        "invalidSelection": "Geçersiz seçim.",
+        "invalidInterval": "Geçersiz aralık. {{minSeconds}} ile {{maxSeconds}} saniye arasında bir tam sayı kullan.",
+        "modalTimeout": "Metin düzenleme süresi doldu. Tekrar tıkla."
+      },
+      "ui": {
+        "status": {
+          "placeholder": "Durum seç",
+          "options": {
+            "online": {
+              "label": "Çevrimiçi",
+              "description": "Botu çevrimiçi gösterir"
+            },
+            "idle": {
+              "label": "Boşta",
+              "description": "Botu boşta gösterir"
+            },
+            "dnd": {
+              "label": "Rahatsız etmeyin",
+              "description": "Botu rahatsız etmeyin modunda gösterir"
+            },
+            "invisible": {
+              "label": "Görünmez",
+              "description": "Botu çevrimdışı gösterir"
+            },
+            "streaming": {
+              "label": "Yayın",
+              "description": "Botu yayın yapıyor olarak gösterir"
+            }
+          }
+        },
+        "activity": {
+          "placeholder": "Aktivite türü seç",
+          "options": {
+            "PLAYING": {
+              "label": "Oynuyor",
+              "description": "Oynuyor ..."
+            },
+            "STREAMING": {
+              "label": "Yayın",
+              "description": "Canlı yayın ..."
+            },
+            "WATCHING": {
+              "label": "İzliyor",
+              "description": "İzliyor ..."
+            },
+            "LISTENING": {
+              "label": "Dinliyor",
+              "description": "Dinliyor ..."
+            },
+            "COMPETING": {
+              "label": "Yarışıyor",
+              "description": "Yarışıyor ..."
+            },
+            "CUSTOM": {
+              "label": "Özel durum",
+              "description": "Özel durum gösterir"
+            }
+          }
+        },
+        "embed": {
+          "title": "Durum yapılandırması",
+          "description": "Durum, aktivite türü ve metinleri düzenle.",
+          "footer": "Panel /presence",
+          "fields": {
+            "status": "Durum",
+            "activity": "Aktivite türü",
+            "text": "Metin"
+          }
+        },
+        "textButton": "📝 Metinleri düzenle",
+        "intervalButton": "⏱️ Aralık",
+        "modal": {
+          "title": "Durum metinleri",
+          "label": "Her satıra bir metin ({{var}} kullan)",
+          "placeholder": "Bakım\n{{guild_count}} sunucu | {{prefix}}yardım"
+        },
+        "intervalModal": {
+          "title": "Döngü aralığı",
+          "label": "Metinler arası saniye",
+          "placeholder": "Örnek: 30"
+        }
+      }
+    },
+    "logs": {
+      "name": "loglar",
+      "description": "Discord olay loglarını etkileşimli panel ile yapılandır.",
+      "examples": {
+        "slash": "Log panelini aç"
+      },
+      "responses": {
+        "slashOnly": "Bu paneli açmak için /logs kullan.",
+        "guildOnly": "Bu komut sadece bir sunucuda kullanılabilir.",
+        "notOwner": "Bu paneli sadece komutu başlatan kişi kullanabilir.",
+        "invalidSelection": "Geçersiz seçim.",
+        "allEnabled": "Tüm olay logları etkinleştirildi.",
+        "allDisabled": "Tüm olay logları devre dışı bırakıldı.",
+        "eventEnabled": "{{event}} etkinleştirildi.",
+        "eventDisabled": "{{event}} devre dışı bırakıldı.",
+        "channelsCreated": "Log kanalları hazır. Oluşturulan: {{created}}, yeniden kullanılan: {{reused}}.",
+        "channelsPartial": "Log kanalları kısmen hazır. Oluşturulan: {{created}}, yeniden kullanılan: {{reused}}, hatalı kategoriler: {{failed}}.",
+        "channelsFailed": "Log kanalları oluşturulamadı. Hatalı kategoriler: {{failed}}."
+      },
+      "ui": {
+        "embed": {
+          "title": "Log yapılandırması",
+          "description": "Discord olaylarını aç/kapat ve kanallara yönlendir."
+        },
+        "status": {
+          "enabled": "Aktif",
+          "disabled": "Pasif"
+        },
+        "pageLabel": "Sayfa {{page}}/{{pageCount}}",
+        "enabledCountLabel": "Aktif olaylar: {{enabledCount}}/{{totalCount}}",
+        "eventsHeader": "Olaylar",
+        "channelLabel": "Kanal",
+        "channelNotConfigured": "#yapılandırılmadı",
+        "feedbackLabel": "Son işlem",
+        "buttons": {
+          "enableAll": "✅ Tüm logları aç",
+          "disableAll": "❌ Tüm logları kapat",
+          "createChannels": "📁 Log kanallarını oluştur",
+          "previousPage": "Önceki",
+          "nextPage": "Sonraki",
+          "enableEvent": "{{event}} etkinleştir",
+          "disableEvent": "{{event}} devre dışı bırak"
+        },
+        "events": {
+          "messageCreate": "Mesaj oluşturuldu",
+          "messageDelete": "Mesaj silindi",
+          "messageUpdate": "Mesaj güncellendi",
+          "messageBulkDelete": "Toplu mesaj silme",
+          "guildMemberAdd": "Üye katıldı",
+          "guildMemberRemove": "Üye ayrıldı",
+          "guildMemberUpdate": "Üye güncellendi",
+          "interactionCreate": "Etkileşim",
+          "channelCreate": "Kanal oluşturuldu",
+          "channelDelete": "Kanal silindi",
+          "channelUpdate": "Kanal güncellendi",
+          "roleCreate": "Rol oluşturuldu",
+          "roleDelete": "Rol silindi",
+          "roleUpdate": "Rol güncellendi",
+          "threadCreate": "Konu oluşturuldu",
+          "threadDelete": "Konu silindi",
+          "threadUpdate": "Konu güncellendi",
+          "emojiCreate": "Emoji oluşturuldu",
+          "emojiDelete": "Emoji silindi",
+          "emojiUpdate": "Emoji güncellendi",
+          "guildUpdate": "Sunucu güncellendi",
+          "guildUnavailable": "Sunucu kullanılamıyor",
+          "guildBanAdd": "Üye yasaklandı",
+          "guildBanRemove": "Yasak kaldırıldı",
+          "inviteCreate": "Davet oluşturuldu",
+          "inviteDelete": "Davet silindi"
+        }
+      }
+    },
+    "welcome": {
+      "name": "karşılama",
+      "description": "Hoş geldin mesajlarını etkileşimli panel ile yapılandır.",
+      "examples": {
+        "slash": "Karşılama panelini aç"
+      },
+      "responses": {
+        "guildOnly": "Bu komut sadece bir sunucuda kullanılabilir.",
+        "notOwner": "Bu paneli sadece komutu başlatan kişi kullanabilir.",
+        "invalidSelection": "Geçersiz seçim.",
+        "testSuccess": "Test mesajı {{channel}} kanalına gönderildi.",
+        "testDisabled": "Karşılama sistemi devre dışı.",
+        "testMissingChannel": "Kanal yapılandırılmamış. Kanal butonunu kullan.",
+        "testChannelUnavailable": "Kanal bulunamadı veya kullanılamıyor.",
+        "testMissingPermissions": "Botun bu kanala mesaj gönderme izni yok.",
+        "testFailed": "Test mesajı gönderilemedi. Daha sonra tekrar dene."
+      },
+      "ui": {
+        "embed": {
+          "title": "Karşılama yapılandırması",
+          "description": "Durum, kanal ve mesaj türünü ayarla.",
+          "fields": {
+            "status": "Durum",
+            "channel": "Kanal",
+            "type": "Tür",
+            "channelPicker": "Kanal seçimi",
+            "autoRoles": "Otomatik roller"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Aktif",
+          "disabled": "🔴 Pasif"
+        },
+        "channelNotConfigured": "#yapılandırılmadı",
+        "autoRolesNotConfigured": "Otomatik rol yok",
+        "channelPickerPlaceholder": "Karşılama kanalı seç",
+        "channelPickerHint": "Aşağıdan kanal seç.",
+        "rolePickerPlaceholder": "Otomatik roller seç",
+        "rolePickerHint": "Listeye eklemek için roller seç.",
+        "buttons": {
+          "toggle": "Durum değiştir",
+          "channel": "Kanal ayarla",
+          "channelCancel": "Kanal seçimini kapat",
+          "roles": "Rol ekle",
+          "rolesCancel": "Rol seçimini kapat",
+          "rolesClear": "Rolleri temizle",
+          "test": "Test et"
+        },
+        "type": {
+          "placeholder": "Mesaj türü seç",
+          "options": {
+            "simple": {
+              "label": "Basit mesaj",
+              "description": "Normal metin mesajı gönderir"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Embed karşılama mesajı"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Components V2 container gönderir"
+            },
+            "image": {
+              "label": "Görsel",
+              "description": "Görselli embed gönderir"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "🎉 {{user}} **{{guild}}** sunucusuna hoş geldin!",
+        "embedTitle": "Hoş geldin!",
+        "embedDescription": "{{user}} **{{guild}}** sunucusuna katıldı.",
+        "containerTitle": "Hoş geldin",
+        "containerDescription": "{{user}} **{{guild}}** sunucusuna katıldı.",
+        "imageTitle": "Hoş geldin",
+        "imageDescription": "{{guild}} Discord sunucusuna hoş geldin"
+      }
+    },
+    "goodbye": {
+      "name": "veda",
+      "description": "Ayrılma mesajlarını etkileşimli panel ile yapılandır.",
+      "examples": {
+        "slash": "Veda panelini aç"
+      },
+      "responses": {
+        "guildOnly": "Bu komut sadece bir sunucuda kullanılabilir.",
+        "notOwner": "Bu paneli sadece komutu başlatan kişi kullanabilir.",
+        "invalidSelection": "Geçersiz seçim.",
+        "testSuccess": "Test mesajı {{channel}} kanalına gönderildi.",
+        "testDisabled": "Veda sistemi devre dışı.",
+        "testMissingChannel": "Kanal yapılandırılmamış. Kanal butonunu kullan.",
+        "testChannelUnavailable": "Kanal bulunamadı veya kullanılamıyor.",
+        "testMissingPermissions": "Botun bu kanala mesaj gönderme izni yok.",
+        "testFailed": "Test mesajı gönderilemedi. Daha sonra tekrar dene."
+      },
+      "ui": {
+        "embed": {
+          "title": "Veda yapılandırması",
+          "description": "Durum, kanal ve mesaj türünü ayarla.",
+          "fields": {
+            "status": "Durum",
+            "channel": "Kanal",
+            "type": "Tür",
+            "channelPicker": "Kanal seçimi"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Aktif",
+          "disabled": "🔴 Pasif"
+        },
+        "channelNotConfigured": "#yapılandırılmadı",
+        "channelPickerPlaceholder": "Veda kanalı seç",
+        "channelPickerHint": "Aşağıdan kanal seç.",
+        "buttons": {
+          "toggle": "Durum değiştir",
+          "channel": "Kanal ayarla",
+          "channelCancel": "Kanal seçimini kapat",
+          "test": "Test et"
+        },
+        "type": {
+          "placeholder": "Mesaj türü seç",
+          "options": {
+            "simple": {
+              "label": "Basit mesaj",
+              "description": "Normal metin mesajı gönderir"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Veda embed mesajı"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Components V2 container gönderir"
+            },
+            "image": {
+              "label": "Görsel",
+              "description": "Görselli embed gönderir"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "👋 {{user}} **{{guild}}** sunucusundan ayrıldı.",
+        "embedTitle": "Güle güle",
+        "embedDescription": "{{user}} **{{guild}}** sunucusundan ayrıldı.",
+        "containerTitle": "Güle güle",
+        "containerDescription": "{{user}} **{{guild}}** sunucusundan ayrıldı.",
+        "imageTitle": "Güle güle",
+        "imageDescription": "{{guild}} Discord sunucusundan ayrıldı"
+      }
+    },
+    "help": {
+      "name": "yardım",
+      "description": "Komut listesini veya detaylarını göster.",
+      "args": {
+        "command": "İsteğe bağlı komut adı"
+      },
+      "examples": {
+        "basic": "Tüm komutları göster",
+        "single": "Komut detaylarını göster"
+      },
+      "errors": {
+        "notFound": "{{query}} ile eşleşen komut bulunamadı."
+      },
+      "embed": {
+        "title": "Komut Yardımı",
+        "description": "{{usage}} kullanarak bir komutu incele.",
+        "categoryEmpty": "Bu kategoride komut yok.",
+        "detailsTitle": "Komut: {{name}}",
+        "detailsDescription": "{{description}}",
+        "footer": "Kategori: {{source}}",
+        "fields": {
+          "usage": "Kullanım",
+          "arguments": "Argümanlar",
+          "examples": "Örnekler"
+        }
+      },
+      "labels": {
+        "prefix": "Prefix",
+        "slash": "Slash",
+        "required": "zorunlu",
+        "optional": "isteğe bağlı",
+        "noArgs": "Argüman yok.",
+        "noExamples": "Örnek yok."
+      }
+    }
+  },
+  "logsRuntime": {
+    "placeholders": {
+      "noContent": "(içerik yok)",
+      "unknown": "bilinmiyor",
+      "none": "yok"
+    },
+    "embed": {
+      "title": "Olay: {{event}}",
+      "detailsField": "Detaylar"
+    },
+    "summaries": {
+      "messageCreate": "Mesaj gönderildi: {{user}} - {{channel}}",
+      "messageDelete": "Mesaj silindi: {{channel}}",
+      "messageUpdate": "Mesaj güncellendi: {{channel}}",
+      "messageBulkDelete": "{{count}} mesaj silindi",
+      "guildMemberAdd": "Üye katıldı: {{user}}",
+      "guildMemberRemove": "Üye ayrıldı: {{user}}",
+      "guildMemberUpdate": "Üye güncellendi: {{user}}",
+      "interactionGeneric": "Etkileşim: {{user}}",
+      "interactionSlash": "/{{command}} komutu: {{user}}",
+      "interactionButton": "Buton etkileşimi: {{user}}",
+      "interactionSelect": "Seçim menüsü: {{user}}",
+      "interactionModal": "Form gönderimi: {{user}}",
+      "channelCreate": "Kanal oluşturuldu: {{channel}}",
+      "channelDelete": "Kanal silindi: {{channel}}",
+      "channelUpdate": "Kanal güncellendi: {{channel}}",
+      "roleCreate": "Rol oluşturuldu: {{role}}",
+      "roleDelete": "Rol silindi: {{role}}",
+      "roleUpdate": "Rol güncellendi: {{role}}",
+      "threadCreate": "Konu oluşturuldu: {{thread}}",
+      "threadDelete": "Konu silindi: {{thread}}",
+      "threadUpdate": "Konu güncellendi: {{thread}}",
+      "emojiCreate": "Emoji oluşturuldu: {{emoji}}",
+      "emojiDelete": "Emoji silindi: {{emoji}}",
+      "emojiUpdate": "Emoji güncellendi: {{emoji}}",
+      "guildUpdate": "Sunucu güncellendi: {{guild}}",
+      "guildUnavailable": "Sunucu geçici olarak kullanılamıyor: {{guild}}",
+      "guildBanAdd": "Kullanıcı yasaklandı: {{user}}",
+      "guildBanRemove": "Yasak kaldırıldı: {{user}}",
+      "inviteCreate": "Davet oluşturuldu: {{code}}",
+      "inviteDelete": "Davet silindi: {{code}}"
+    },
+    "details": {
+      "messageId": "messageId={{value}}",
+      "author": "author={{tag}} ({{id}})",
+      "content": "content={{value}}",
+      "before": "before={{value}}",
+      "after": "after={{value}}",
+      "channelId": "channelId={{value}}",
+      "count": "count={{value}}",
+      "user": "user={{tag}} ({{id}})",
+      "oldNick": "oldNick={{value}}",
+      "newNick": "newNick={{value}}",
+      "interactionId": "interactionId={{value}}",
+      "type": "type={{value}}",
+      "oldName": "oldName={{value}}",
+      "newName": "newName={{value}}",
+      "roleId": "roleId={{value}}",
+      "threadId": "threadId={{value}}",
+      "emojiId": "emojiId={{value}}",
+      "guildId": "guildId={{value}}",
+      "inviter": "inviter={{value}}"
+    }
+  }
+}

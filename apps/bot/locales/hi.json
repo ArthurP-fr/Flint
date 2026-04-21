@@ -1,0 +1,468 @@
+{
+  "errors": {
+    "args": {
+      "missing": "आर्गुमेंट गायब है {{arg}}. उपयोग: {{usage}}",
+      "invalidInt": "आर्गुमेंट एक पूर्णांक होना चाहिए। प्राप्त हुआ: {{value}}",
+      "invalidNumber": "आर्गुमेंट एक संख्या होना चाहिए। प्राप्त हुआ: {{value}}",
+      "invalidBoolean": "आर्गुमेंट एक बूलियन होना चाहिए। प्राप्त हुआ: {{value}}",
+      "invalidUser": "{{value}} से कोई उपयोगकर्ता नहीं मिला",
+      "invalidChannel": "{{value}} से कोई चैनल नहीं मिला",
+      "invalidRole": "{{value}} से कोई भूमिका नहीं मिली",
+      "tooMany": "बहुत अधिक आर्गुमेंट्स ({{count}}) मिले: {{extras}}. उपयोग: {{usage}}"
+    },
+    "permissions": {
+      "user": "आपके पास ये अनुमतियाँ नहीं हैं: {{permissions}}"
+    },
+    "execution": "कार्य निष्पादन के दौरान एक अप्रत्याशित त्रुटि हुई।",
+    "cooldown": "इस कमांड को फिर से उपयोग करने से पहले {{seconds}} सेकंड प्रतीक्षा करें।",
+    "rateLimit": "बहुत अधिक अनुरोध। फिर से प्रयास करने से पहले {{seconds}} सेकंड प्रतीक्षा करें।",
+    "executionQueued": "कमांड स्वीकार कर ली गई है और प्रोसेसिंग कतार में डाल दी गई है।"
+  },
+  "categories": {
+    "fun": "मनोरंजन",
+    "utility": "उपयोगिता",
+    "core": "मुख्य"
+  },
+  "commands": {
+    "kiss": {
+      "name": "चुंबन",
+      "description": "किसी उपयोगकर्ता को चुंबन भेजें।",
+      "args": {
+        "user": "लक्षित उपयोगकर्ता"
+      },
+      "examples": {
+        "basic": "किसी सदस्य को चुंबन भेजें"
+      },
+      "responses": {
+        "success": "{{from}} ने {{to}} को चुंबन भेजा।"
+      }
+    },
+    "ping": {
+      "name": "पिंग",
+      "description": "बॉट की websocket latency जाँचें।",
+      "examples": {
+        "basic": "स्वास्थ्य जाँच"
+      },
+      "responses": {
+        "pong": "पोंग। websocket latency: {{latency}}ms."
+      }
+    },
+    "presence": {
+      "name": "उपस्थिति",
+      "description": "एक इंटरैक्टिव पैनल के साथ बॉट की उपस्थिति कॉन्फ़िगर करें।",
+      "examples": {
+        "slash": "उपस्थिति का इंटरैक्टिव पैनल खोलें"
+      },
+      "responses": {
+        "panel": "उपस्थिति पैनल\nस्थिति: {{status}}\nगतिविधि: {{activityType}}\nरोटेशन: हर {{rotationIntervalSeconds}}s\nसक्रिय टेक्स्ट ({{currentTextIndex}}/{{textCount}}): {{activityText}}\nरेंडर पूर्वावलोकन: {{activityPreview}}\nटेक्स्ट: {{activityTexts}}\nवेरिएबल्स ({{doubleBracesHint}}): {{variables}}",
+        "notOwner": "केवल कमांड का लेखक ही इस पैनल का उपयोग कर सकता है।",
+        "invalidSelection": "अमान्य चयन।",
+        "invalidInterval": "अमान्य अंतराल। {{minSeconds}} और {{maxSeconds}} सेकंड के बीच एक पूर्णांक उपयोग करें।",
+        "modalTimeout": "टेक्स्ट संशोधन का समय समाप्त हो गया। कृपया बटन पर फिर से क्लिक करें।"
+      },
+      "ui": {
+        "status": {
+          "placeholder": "एक स्थिति चुनें",
+          "options": {
+            "online": {
+              "label": "ऑनलाइन",
+              "description": "बॉट को ऑनलाइन दिखाता है"
+            },
+            "idle": {
+              "label": "निष्क्रिय",
+              "description": "बॉट को निष्क्रिय दिखाता है"
+            },
+            "dnd": {
+              "label": "व्यस्त न करें",
+              "description": "बॉट को डू नॉट डिस्टर्ब मोड में दिखाता है"
+            },
+            "invisible": {
+              "label": "ऑफ़लाइन",
+              "description": "बॉट को ऑफ़लाइन दिखाता है"
+            },
+            "streaming": {
+              "label": "स्ट्रीमिंग",
+              "description": "बॉट को स्ट्रीमिंग मोड में दिखाता है"
+            }
+          }
+        },
+        "activity": {
+          "placeholder": "एक गतिविधि प्रकार चुनें",
+          "options": {
+            "PLAYING": {
+              "label": "खेल रहा है",
+              "description": "दिखाता है: खेल रहा है ..."
+            },
+            "STREAMING": {
+              "label": "स्ट्रीमिंग",
+              "description": "दिखाता है: लाइव पर ..."
+            },
+            "WATCHING": {
+              "label": "देख रहा है",
+              "description": "दिखाता है: देख रहा है ..."
+            },
+            "LISTENING": {
+              "label": "सुन रहा है",
+              "description": "दिखाता है: सुन रहा है ..."
+            },
+            "COMPETING": {
+              "label": "प्रतिस्पर्धा",
+              "description": "दिखाता है: प्रतिस्पर्धा ..."
+            },
+            "CUSTOM": {
+              "label": "कस्टम स्टेटस",
+              "description": "एक कस्टम स्टेटस दिखाता है"
+            }
+          }
+        },
+        "embed": {
+          "title": "उपस्थिति कॉन्फ़िगरेशन",
+          "description": "स्थिति, गतिविधि प्रकार, कई टेक्स्ट और उनका रोटेशन बदलें।",
+          "footer": "इंटरैक्टिव पैनल /presence",
+          "fields": {
+            "status": "स्थिति",
+            "activity": "गतिविधि प्रकार",
+            "text": "टेक्स्ट"
+          }
+        },
+        "textButton": "📝 टेक्स्ट बदलें",
+        "intervalButton": "⏱️ अंतराल",
+        "modal": {
+          "title": "उपस्थिति टेक्स्ट",
+          "label": "प्रति पंक्ति एक टेक्स्ट ({{var}} का उपयोग करें)",
+          "placeholder": "मेंटेनेंस\n{{guild_count}} सर्वर | {{prefix}}मदद"
+        },
+        "intervalModal": {
+          "title": "रोटेशन अंतराल",
+          "label": "हर टेक्स्ट के बीच सेकंड",
+          "placeholder": "उदाहरण: 30"
+        }
+      }
+    },
+    "logs": {
+      "name": "लॉग्स",
+      "description": "एक इंटरैक्टिव पैनल के साथ Discord इवेंट लॉग्स कॉन्फ़िगर करें।",
+      "examples": {
+        "slash": "लॉग्स का इंटरैक्टिव पैनल खोलें"
+      },
+      "responses": {
+        "slashOnly": "इस इंटरैक्टिव पैनल को खोलने के लिए /logs का उपयोग करें।",
+        "guildOnly": "इस कमांड का उपयोग एक सर्वर में किया जाना चाहिए।",
+        "notOwner": "केवल कमांड का लेखक ही इस पैनल का उपयोग कर सकता है।",
+        "invalidSelection": "अमान्य चयन।",
+        "allEnabled": "सभी इवेंट लॉग्स सक्रिय हैं।",
+        "allDisabled": "सभी इवेंट लॉग्स निष्क्रिय हैं।",
+        "eventEnabled": "इवेंट {{event}} सक्रिय किया गया।",
+        "eventDisabled": "इवेंट {{event}} निष्क्रिय किया गया।",
+        "channelsCreated": "लॉग चैनल तैयार हैं। बनाए गए: {{created}}, पुन: उपयोग किए गए: {{reused}}।",
+        "channelsPartial": "लॉग चैनल आंशिक रूप से तैयार हैं। बनाए गए: {{created}}, पुन: उपयोग किए गए: {{reused}}, विफल श्रेणियाँ: {{failed}}।",
+        "channelsFailed": "लॉग चैनल नहीं बनाए जा सके। विफल श्रेणियाँ: {{failed}}।"
+      },
+      "ui": {
+        "embed": {
+          "title": "लॉग्स कॉन्फ़िगरेशन",
+          "description": "हर Discord इवेंट को सक्रिय या निष्क्रिय करें और श्रेणी के अनुसार लॉग्स को चैनलों में भेजें।"
+        },
+        "status": {
+          "enabled": "सक्रिय",
+          "disabled": "निष्क्रिय"
+        },
+        "pageLabel": "पृष्ठ {{page}}/{{pageCount}}",
+        "enabledCountLabel": "सक्रिय इवेंट: {{enabledCount}}/{{totalCount}}",
+        "eventsHeader": "इवेंट",
+        "channelLabel": "चैनल",
+        "channelNotConfigured": "#कॉन्फ़िगर_नहीं",
+        "feedbackLabel": "अंतिम कार्रवाई",
+        "buttons": {
+          "enableAll": "✅ सभी लॉग्स सक्रिय करें",
+          "disableAll": "❌ सभी लॉग्स निष्क्रिय करें",
+          "createChannels": "📁 लॉग चैनल बनाएँ",
+          "previousPage": "पिछला",
+          "nextPage": "अगला",
+          "enableEvent": "{{event}} सक्रिय करें",
+          "disableEvent": "{{event}} निष्क्रिय करें"
+        },
+        "events": {
+          "messageCreate": "संदेश बनाया गया",
+          "messageDelete": "संदेश हटाया गया",
+          "messageUpdate": "संदेश अपडेट किया गया",
+          "messageBulkDelete": "थोक संदेश हटाना",
+          "guildMemberAdd": "सदस्य शामिल हुआ",
+          "guildMemberRemove": "सदस्य बाहर गया",
+          "guildMemberUpdate": "सदस्य अपडेट हुआ",
+          "interactionCreate": "इंटरैक्शन",
+          "channelCreate": "चैनल बनाया गया",
+          "channelDelete": "चैनल हटाया गया",
+          "channelUpdate": "चैनल अपडेट किया गया",
+          "roleCreate": "भूमिका बनाई गई",
+          "roleDelete": "भूमिका हटाई गई",
+          "roleUpdate": "भूमिका अपडेट की गई",
+          "threadCreate": "थ्रेड बनाया गया",
+          "threadDelete": "थ्रेड हटाया गया",
+          "threadUpdate": "थ्रेड अपडेट किया गया",
+          "emojiCreate": "इमोजी बनाई गई",
+          "emojiDelete": "इमोजी हटाई गई",
+          "emojiUpdate": "इमोजी अपडेट की गई",
+          "guildUpdate": "सर्वर अपडेट हुआ",
+          "guildUnavailable": "सर्वर अनुपलब्ध",
+          "guildBanAdd": "सदस्य प्रतिबंधित किया गया",
+          "guildBanRemove": "सदस्य का प्रतिबंध हटाया गया",
+          "inviteCreate": "आमंत्रण बनाया गया",
+          "inviteDelete": "आमंत्रण हटाया गया"
+        }
+      }
+    },
+    "welcome": {
+      "name": "स्वागत",
+      "description": "एक इंटरैक्टिव पैनल के साथ स्वागत संदेश कॉन्फ़िगर करें।",
+      "examples": {
+        "slash": "स्वागत संदेशों का कॉन्फ़िगरेशन पैनल खोलें"
+      },
+      "responses": {
+        "guildOnly": "इस कमांड का उपयोग एक सर्वर में किया जाना चाहिए।",
+        "notOwner": "केवल कमांड का लेखक ही इस पैनल का उपयोग कर सकता है।",
+        "invalidSelection": "अमान्य चयन।",
+        "testSuccess": "परीक्षण संदेश {{channel}} में भेज दिया गया।",
+        "testDisabled": "स्वागत मॉड्यूल निष्क्रिय है।",
+        "testMissingChannel": "कोई चैनल कॉन्फ़िगर नहीं है। चैनल बटन का उपयोग करें।",
+        "testChannelUnavailable": "कॉन्फ़िगर किया गया चैनल नहीं मिला या संगत नहीं है।",
+        "testMissingPermissions": "इस चैनल में संदेश भेजने की अनुमति बॉट के पास नहीं है।",
+        "testFailed": "परीक्षण संदेश भेजा नहीं जा सका। बाद में पुनः प्रयास करें।"
+      },
+      "ui": {
+        "embed": {
+          "title": "स्वागत कॉन्फ़िगरेशन",
+          "description": "स्थिति, चैनल, संदेश प्रकार सेट करें और परीक्षण चलाएँ।",
+          "fields": {
+            "status": "स्थिति",
+            "channel": "चैनल",
+            "type": "प्रकार",
+            "channelPicker": "चैनल चयन",
+            "autoRoles": "स्वचालित भूमिकाएँ"
+          }
+        },
+        "status": {
+          "enabled": "🟢 सक्रिय",
+          "disabled": "🔴 निष्क्रिय"
+        },
+        "channelNotConfigured": "#कॉन्फ़िगर_नहीं",
+        "autoRolesNotConfigured": "कोई स्वचालित भूमिका कॉन्फ़िगर नहीं है",
+        "channelPickerPlaceholder": "एक स्वागत चैनल चुनें",
+        "channelPickerHint": "नीचे दिए गए चयन मेनू से चैनल चुनें।",
+        "rolePickerPlaceholder": "एक या अधिक स्वचालित भूमिकाएँ चुनें",
+        "rolePickerHint": "सूची में जोड़ने के लिए नीचे दिए गए चयन मेनू से भूमिकाएँ चुनें।",
+        "buttons": {
+          "toggle": "स्थिति टॉगल करें",
+          "channel": "चैनल कॉन्फ़िगर करें",
+          "channelCancel": "चैनल चयन बंद करें",
+          "roles": "स्वचालित भूमिकाएँ जोड़ें",
+          "rolesCancel": "भूमिका चयन बंद करें",
+          "rolesClear": "स्वचालित भूमिकाएँ साफ़ करें",
+          "test": "परीक्षण करें"
+        },
+        "type": {
+          "placeholder": "एक संदेश प्रकार चुनें",
+          "options": {
+            "simple": {
+              "label": "साधारण संदेश",
+              "description": "एक सामान्य टेक्स्ट संदेश भेजता है"
+            },
+            "embed": {
+              "label": "एंबेड",
+              "description": "एक स्वागत एंबेड भेजता है"
+            },
+            "container": {
+              "label": "कंटेनर (V2)",
+              "description": "एक Components V2 कंटेनर भेजता है"
+            },
+            "image": {
+              "label": "छवि",
+              "description": "छवि सहित एक एंबेड भेजता है"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "🎉 स्वागत है {{user}} **{{guild}}** में!",
+        "embedTitle": "स्वागत है!",
+        "embedDescription": "{{user}} अभी-अभी **{{guild}}** में शामिल हुआ है।",
+        "containerTitle": "स्वागत है",
+        "containerDescription": "{{user}} अभी-अभी **{{guild}}** में शामिल हुआ है।",
+        "imageTitle": "स्वागत है",
+        "imageDescription": "Discord सर्वर {{guild}} पर"
+      }
+    },
+    "goodbye": {
+      "name": "विदाई",
+      "description": "एक इंटरैक्टिव पैनल के साथ विदाई संदेश कॉन्फ़िगर करें।",
+      "examples": {
+        "slash": "विदाई संदेशों का कॉन्फ़िगरेशन पैनल खोलें"
+      },
+      "responses": {
+        "guildOnly": "इस कमांड का उपयोग एक सर्वर में किया जाना चाहिए।",
+        "notOwner": "केवल कमांड का लेखक ही इस पैनल का उपयोग कर सकता है।",
+        "invalidSelection": "अमान्य चयन।",
+        "testSuccess": "परीक्षण संदेश {{channel}} में भेज दिया गया।",
+        "testDisabled": "विदाई मॉड्यूल निष्क्रिय है।",
+        "testMissingChannel": "कोई चैनल कॉन्फ़िगर नहीं है। चैनल बटन का उपयोग करें।",
+        "testChannelUnavailable": "कॉन्फ़िगर किया गया चैनल नहीं मिला या संगत नहीं है।",
+        "testMissingPermissions": "इस चैनल में संदेश भेजने की अनुमति बॉट के पास नहीं है।",
+        "testFailed": "परीक्षण संदेश भेजा नहीं जा सका। बाद में पुनः प्रयास करें।"
+      },
+      "ui": {
+        "embed": {
+          "title": "विदाई कॉन्फ़िगरेशन",
+          "description": "स्थिति, चैनल, संदेश प्रकार सेट करें और परीक्षण चलाएँ।",
+          "fields": {
+            "status": "स्थिति",
+            "channel": "चैनल",
+            "type": "प्रकार",
+            "channelPicker": "चैनल चयन"
+          }
+        },
+        "status": {
+          "enabled": "🟢 सक्रिय",
+          "disabled": "🔴 निष्क्रिय"
+        },
+        "channelNotConfigured": "#कॉन्फ़िगर_नहीं",
+        "channelPickerPlaceholder": "एक विदाई चैनल चुनें",
+        "channelPickerHint": "नीचे दिए गए चयन मेनू से चैनल चुनें।",
+        "buttons": {
+          "toggle": "स्थिति टॉगल करें",
+          "channel": "चैनल कॉन्फ़िगर करें",
+          "channelCancel": "चैनल चयन बंद करें",
+          "test": "परीक्षण करें"
+        },
+        "type": {
+          "placeholder": "एक संदेश प्रकार चुनें",
+          "options": {
+            "simple": {
+              "label": "साधारण संदेश",
+              "description": "एक सामान्य टेक्स्ट संदेश भेजता है"
+            },
+            "embed": {
+              "label": "एंबेड",
+              "description": "एक विदाई एंबेड भेजता है"
+            },
+            "container": {
+              "label": "कंटेनर (V2)",
+              "description": "एक Components V2 कंटेनर भेजता है"
+            },
+            "image": {
+              "label": "छवि",
+              "description": "छवि सहित एक एंबेड भेजता है"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "👋 {{user}} **{{guild}}** से चला गया।",
+        "embedTitle": "विदाई",
+        "embedDescription": "{{user}} **{{guild}}** से चला गया।",
+        "containerTitle": "विदाई",
+        "containerDescription": "{{user}} **{{guild}}** से चला गया।",
+        "imageTitle": "विदाई",
+        "imageDescription": "Discord सर्वर {{guild}} से"
+      }
+    },
+    "help": {
+      "name": "मदद",
+      "description": "कमांड्स की सूची या किसी कमांड का विवरण दिखाएँ।",
+      "args": {
+        "command": "वैकल्पिक कमांड नाम या ट्रिगर"
+      },
+      "examples": {
+        "basic": "सभी कमांड दिखाएँ",
+        "single": "एक कमांड का विवरण दिखाएँ"
+      },
+      "errors": {
+        "notFound": "{{query}} से मेल खाने वाली कोई कमांड नहीं मिली।"
+      },
+      "embed": {
+        "title": "कमांड सहायता",
+        "description": "किसी कमांड की जाँच करने के लिए {{usage}} का उपयोग करें।",
+        "categoryEmpty": "इस श्रेणी में कोई कमांड नहीं है।",
+        "detailsTitle": "कमांड: {{name}}",
+        "detailsDescription": "{{description}}",
+        "footer": "श्रेणी: {{source}}",
+        "fields": {
+          "usage": "उपयोग",
+          "arguments": "आर्गुमेंट्स",
+          "examples": "उदाहरण"
+        }
+      },
+      "labels": {
+        "prefix": "प्रिफ़िक्स",
+        "slash": "स्लैश",
+        "required": "आवश्यक",
+        "optional": "वैकल्पिक",
+        "noArgs": "कोई आर्गुमेंट नहीं।",
+        "noExamples": "कोई उदाहरण नहीं।"
+      }
+    }
+  },
+  "logsRuntime": {
+    "placeholders": {
+      "noContent": "(कोई सामग्री नहीं)",
+      "unknown": "अज्ञात",
+      "none": "कोई नहीं"
+    },
+    "embed": {
+      "title": "इवेंट: {{event}}",
+      "detailsField": "विवरण"
+    },
+    "summaries": {
+      "messageCreate": "{{channel}} में {{user}} द्वारा भेजा गया संदेश",
+      "messageDelete": "{{channel}} में संदेश हटाया गया",
+      "messageUpdate": "{{channel}} में संदेश अपडेट किया गया",
+      "messageBulkDelete": "थोक हटाना: {{count}} संदेश हटाए गए",
+      "guildMemberAdd": "सदस्य शामिल हुआ: {{user}}",
+      "guildMemberRemove": "सदस्य बाहर गया: {{user}}",
+      "guildMemberUpdate": "सदस्य अपडेट हुआ: {{user}}",
+      "interactionGeneric": "{{user}} द्वारा इंटरैक्शन",
+      "interactionSlash": "{{user}} द्वारा स्लैश कमांड /{{command}}",
+      "interactionButton": "{{user}} द्वारा बटन इंटरैक्शन",
+      "interactionSelect": "{{user}} द्वारा चयन मेनू इंटरैक्शन",
+      "interactionModal": "{{user}} द्वारा मोडल सबमिट",
+      "channelCreate": "चैनल बनाया गया: {{channel}}",
+      "channelDelete": "चैनल हटाया गया: {{channel}}",
+      "channelUpdate": "चैनल अपडेट किया गया: {{channel}}",
+      "roleCreate": "भूमिका बनाई गई: {{role}}",
+      "roleDelete": "भूमिका हटाई गई: {{role}}",
+      "roleUpdate": "भूमिका अपडेट की गई: {{role}}",
+      "threadCreate": "थ्रेड बनाया गया: {{thread}}",
+      "threadDelete": "थ्रेड हटाया गया: {{thread}}",
+      "threadUpdate": "थ्रेड अपडेट किया गया: {{thread}}",
+      "emojiCreate": "इमोजी बनाई गई: {{emoji}}",
+      "emojiDelete": "इमोजी हटाई गई: {{emoji}}",
+      "emojiUpdate": "इमोजी अपडेट की गई: {{emoji}}",
+      "guildUpdate": "सर्वर अपडेट हुआ: {{guild}}",
+      "guildUnavailable": "सर्वर अस्थायी रूप से अनुपलब्ध: {{guild}}",
+      "guildBanAdd": "उपयोगकर्ता प्रतिबंधित: {{user}}",
+      "guildBanRemove": "उपयोगकर्ता का प्रतिबंध हटाया गया: {{user}}",
+      "inviteCreate": "आमंत्रण बनाया गया: {{code}}",
+      "inviteDelete": "आमंत्रण हटाया गया: {{code}}"
+    },
+    "details": {
+      "messageId": "messageId={{value}}",
+      "author": "author={{tag}} ({{id}})",
+      "content": "content={{value}}",
+      "before": "before={{value}}",
+      "after": "after={{value}}",
+      "channelId": "channelId={{value}}",
+      "count": "count={{value}}",
+      "user": "user={{tag}} ({{id}})",
+      "oldNick": "oldNick={{value}}",
+      "newNick": "newNick={{value}}",
+      "interactionId": "interactionId={{value}}",
+      "type": "type={{value}}",
+      "oldName": "oldName={{value}}",
+      "newName": "newName={{value}}",
+      "roleId": "roleId={{value}}",
+      "threadId": "threadId={{value}}",
+      "emojiId": "emojiId={{value}}",
+      "guildId": "guildId={{value}}",
+      "inviter": "inviter={{value}}"
+    }
+  }
+}

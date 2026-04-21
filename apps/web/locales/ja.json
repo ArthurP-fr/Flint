@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "title": "Shadow - Discordボットホスティング（ボット1台あたり月額2EURから）",
+    "description": "Discordボットをホスティング・管理するためのマルチテナントSaaSプラットフォーム。自動コマンド、v2コンポーネント、多言語対応、動的変数をサポート。"
+  },
+  "common": {
+    "brand": "Shadow"
+  },
+  "nav": {
+    "home": "ホーム",
+    "dashboard": "ダッシュボード",
+    "login": "ログイン"
+  },
+  "localeSwitcher": {
+    "label": "言語",
+    "locales": {
+      "en": "英語",
+      "es": "スペイン語",
+      "de": "ドイツ語",
+      "ja": "日本語",
+      "fr": "フランス語",
+      "pt": "ポルトガル語",
+      "ru": "ロシア語",
+      "it": "イタリア語",
+      "nl": "オランダ語",
+      "pl": "ポーランド語",
+      "zh": "中国語",
+      "hi": "ヒンディー語",
+      "ar": "アラビア語",
+      "bn": "ベンガル語",
+      "id": "インドネシア語",
+      "tr": "トルコ語"
+    }
+  },
+  "hero": {
+    "kicker": "Discordボット向けSaaSプラットフォーム",
+    "title": "Shadow - Discordボットをホスティング（ボット1台あたり月額2EURから）",
+    "description": "自動コマンド（プレフィックス・スラッシュ）、v2コンポーネント、自動ヘルプ、多言語対応、動的変数でボットをホスティング・管理できます。",
+    "ctaStart": "開始 - 月額2EUR",
+    "ctaLogin": "ログイン",
+    "bots": {
+      "moderation": "モデレーション",
+      "welcome": "ウェルカム",
+      "analytics": "分析"
+    },
+    "status": {
+      "online": "オンライン",
+      "stopped": "停止中"
+    },
+    "card": {
+      "title": "フリートのライブ概要",
+      "subtitle": "すべてのボットインスタンスを単一の操作画面から監視。",
+      "instanceMetrics": "インスタンス: 1 | CPU 35%",
+      "manage": "管理",
+      "preview": "ボットのステータスをリアルタイムで表示"
+    }
+  },
+  "features": {
+    "title": "主な機能",
+    "subtitle": "本番環境でボットを運用するために必要なすべて。",
+    "items": {
+      "autoCommands": {
+        "title": "自動コマンド",
+        "description": "プレフィックスおよびスラッシュコマンドは各ボットに対して自動生成・同期されます。"
+      },
+      "componentsV2": {
+        "title": "v2コンポーネント",
+        "description": "v2コンポーネントとリッチなインタラクションを完全サポート。"
+      },
+      "autoHelp": {
+        "title": "自動ヘルプ",
+        "description": "コマンドのヘルプとドキュメントを自動生成します。"
+      },
+      "multiLanguage": {
+        "title": "多言語対応",
+        "description": "メッセージやコマンドラベルを翻訳し、簡単に複数言語を有効化できます。"
+      },
+      "dynamicVariables": {
+        "title": "動的変数",
+        "description": "bot_latency、guild_countなどの変数を使った動的テンプレート。"
+      },
+      "hosting": {
+        "title": "ホスティングとスケーラビリティ",
+        "description": "ボット1台あたり月額2EURのシンプルなプラン。監視とスケーリングを含む。"
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "使い方",
+    "subtitle": "ボットを簡単に管理するための3ステップ。",
+    "steps": {
+      "addBot": {
+        "title": "ボットを追加",
+        "description": "DiscordアプリをOAuthで接続し、Shadowに登録します。"
+      },
+      "dashboard": {
+        "title": "ダッシュボードで管理",
+        "description": "統合されたUIからコマンド、ログ、設定にアクセスできます。"
+      },
+      "realtime": {
+        "title": "リアルタイム制御",
+        "description": "必要に応じてボットを即時起動・停止・スケールできます。"
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Discordボットホスティング - ボット1台あたり月額2EURから",
+    "github": "GitHub",
+    "copyright": "著作権 {year} {brand}"
+  },
+  "login": {
+    "eyebrow": "Shadow - Discordボットホスティング",
+    "title": "Discordアカウントに接続",
+    "description": "OAuth2で認証してダッシュボードにアクセスし、ボットをホスティングします。",
+    "cta": "Discordで続行"
+  },
+  "dashboard": {
+    "loading": "ダッシュボードを読み込み中...",
+    "sessionRequired": "セッションが必要です",
+    "loginRequired": "ログインが必要です",
+    "loginDescription": "ダッシュボードは保護されています。ボット管理のためにDiscordでログインしてください。",
+    "loginCta": "ログイン",
+    "tenant": "テナント {tenantId}",
+    "role": "ロール: {role}",
+    "roles": {
+      "owner": "オーナー",
+      "member": "メンバー"
+    },
+    "logout": "ログアウト",
+    "addBot": {
+      "title": "ボットを追加",
+      "description": "トークンはAPI側で検証され、保存前に暗号化されます。",
+      "tokenLabel": "Discordボットトークン",
+      "tokenPlaceholder": "MTIz...",
+      "displayNameLabel": "表示名（任意）",
+      "displayNamePlaceholder": "EUサポートボット",
+      "submit": "ボットを追加",
+      "submitPending": "検証中..."
+    },
+    "bots": {
+      "title": "マイボット",
+      "refresh": "更新",
+      "empty": "このテナントにはボットがありません。",
+      "discordId": "Discord ID: {discordBotId}",
+      "lastError": "最新エラー: {message}"
+    },
+    "status": {
+      "stopped": "停止中",
+      "starting": "起動中",
+      "running": "オンライン",
+      "stopping": "停止中",
+      "error": "エラー"
+    },
+    "actions": {
+      "start": "起動",
+      "stop": "停止",
+      "restart": "再起動"
+    },
+    "errors": {
+      "fetchSession": "ユーザーセッションの取得に失敗しました",
+      "fetchBots": "ボット一覧の取得に失敗しました",
+      "unexpected": "予期しないエラー",
+      "addBot": "ボットの追加に失敗しました",
+      "actionFailed": "操作失敗: {action}"
+    }
+  }
+}

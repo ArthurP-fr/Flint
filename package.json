@@ -13,6 +13,8 @@
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
+    "i18n:sync": "node ./scripts/i18n/sync-locales.mjs",
+    "i18n:check": "node ./scripts/i18n/sync-locales.mjs --check",
     "dev:api": "npm run build -w @saas/shared && npm run dev -w @saas/api",
     "dev:bot": "npm run build -w @saas/shared && npm run dev -w @saas/bot",
     "dev:web": "npm run dev -w @saas/web",

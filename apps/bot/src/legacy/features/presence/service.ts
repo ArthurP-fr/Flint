@@ -182,7 +182,7 @@ export class PresenceService {
         activities: [
           {
             type: ActivityType.Custom,
-            name: "Custom Status",
+            name: text,
             state: text,
           },
         ],

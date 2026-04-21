@@ -36,7 +36,7 @@ export interface DispatchMemberMessageResult {
 
 export interface DispatchMemberMessageInput {
   client: Client;
-  i18n?: I18nService;
+  i18n: I18nService;
   guild: Guild;
   user: User;
   kind: MemberMessageKind;

@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "title": "Shadow - Discord बॉट होस्टिंग (प्रति बॉट 2 EUR/माह से शुरू)",
+    "description": "अपने Discord बॉट्स को होस्ट और प्रबंधित करने के लिए मल्टी-टेनेंट SaaS प्लेटफ़ॉर्म, जिसमें ऑटोमैटिक कमांड्स, components v2, मल्टी-भाषा सपोर्ट और डायनामिक वेरिएबल्स शामिल हैं।"
+  },
+  "common": {
+    "brand": "Shadow"
+  },
+  "nav": {
+    "home": "मुखपृष्ठ",
+    "dashboard": "डैशबोर्ड",
+    "login": "लॉगिन करें"
+  },
+  "localeSwitcher": {
+    "label": "भाषा",
+    "locales": {
+      "en": "अंग्रेज़ी",
+      "es": "स्पेनिश",
+      "de": "जर्मन",
+      "ja": "जापानी",
+      "fr": "फ़्रेंच",
+      "pt": "पुर्तगाली",
+      "ru": "रूसी",
+      "it": "इतालवी",
+      "nl": "डच",
+      "pl": "पोलिश",
+      "zh": "चीनी",
+      "hi": "हिंदी",
+      "ar": "अरबी",
+      "bn": "बांग्ला",
+      "id": "इंडोनेशियाई",
+      "tr": "तुर्की"
+    }
+  },
+  "hero": {
+    "kicker": "Discord बॉट्स के लिए SaaS प्लेटफ़ॉर्म",
+    "title": "Shadow - अपने Discord बॉट्स होस्ट करें (प्रति बॉट 2 EUR/माह से शुरू)",
+    "description": "अपने बॉट्स को ऑटोमैटिक कमांड्स (prefix और slash), components v2, स्वचालित सहायता, मल्टी-भाषा सपोर्ट और डायनामिक वेरिएबल्स के साथ होस्ट और प्रबंधित करें।",
+    "ctaStart": "शुरू करें - 2 EUR/माह",
+    "ctaLogin": "लॉगिन करें",
+    "bots": {
+      "moderation": "मॉडरेशन",
+      "welcome": "स्वागत",
+      "analytics": "विश्लेषण"
+    },
+    "status": {
+      "online": "ऑनलाइन",
+      "stopped": "रुका हुआ"
+    },
+    "card": {
+      "title": "लाइव फ़्लीट का अवलोकन",
+      "subtitle": "एक ही ऑपरेशनल पैनल से हर बॉट इंस्टेंस को ट्रैक करें।",
+      "instanceMetrics": "इंस्टेंस: 1 | CPU 35%",
+      "manage": "प्रबंधन करें",
+      "preview": "अपने बॉट्स की स्थिति का रीयल-टाइम पूर्वावलोकन"
+    }
+  },
+  "features": {
+    "title": "मुख्य विशेषताएँ",
+    "subtitle": "प्रोडक्शन में अपने बॉट्स को नियंत्रित करने के लिए सब कुछ।",
+    "items": {
+      "autoCommands": {
+        "title": "स्वचालित कमांड्स",
+        "description": "हर बॉट के लिए prefix और slash कमांड्स स्वतः जनरेट और सिंक किए जाते हैं।"
+      },
+      "componentsV2": {
+        "title": "Components v2",
+        "description": "Components v2 और उन्नत इंटरैक्शन्स का पूर्ण सपोर्ट।"
+      },
+      "autoHelp": {
+        "title": "स्वचालित सहायता",
+        "description": "कमांड्स के लिए स्वतः डॉक्यूमेंटेशन और हेल्प जनरेट होता है।"
+      },
+      "multiLanguage": {
+        "title": "बहु-भाषा",
+        "description": "मैसेज और कमांड लेबल्स को अनुवाद करें और आसानी से कई भाषाएँ सक्षम करें।"
+      },
+      "dynamicVariables": {
+        "title": "डायनामिक वेरिएबल्स",
+        "description": "bot_latency, guild_count जैसे वेरिएबल्स के साथ डायनामिक टेम्पलेट्स।"
+      },
+      "hosting": {
+        "title": "होस्टिंग और स्केलेबिलिटी",
+        "description": "प्रति बॉट 2 EUR/माह के सरल प्लान, जिसमें मॉनिटरिंग और स्केलेबिलिटी शामिल है।"
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "यह कैसे काम करता है",
+    "subtitle": "अपने बॉट्स को नियंत्रित करने के लिए तीन सरल चरण।",
+    "steps": {
+      "addBot": {
+        "title": "बॉट जोड़ें",
+        "description": "OAuth के माध्यम से अपना Discord एप्लिकेशन कनेक्ट करें और Shadow में जोड़ें।"
+      },
+      "dashboard": {
+        "title": "डैशबोर्ड से प्रबंधन करें",
+        "description": "एक केंद्रीकृत इंटरफ़ेस से कमांड्स, लॉग्स और सेटिंग्स एक्सेस करें।"
+      },
+      "realtime": {
+        "title": "रीयल टाइम नियंत्रण करें",
+        "description": "मांग के अनुसार अपने बॉट्स को तुरंत शुरू, बंद और स्केल करें।"
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Discord बॉट होस्टिंग - प्रति बॉट 2 EUR/माह से शुरू",
+    "github": "GitHub",
+    "copyright": "Copyright {year} {brand}"
+  },
+  "login": {
+    "eyebrow": "Shadow - Discord बॉट होस्टिंग",
+    "title": "अपने Discord खाते से लॉगिन करें",
+    "description": "अपने बॉट्स को होस्ट और प्रबंधित करने के लिए OAuth2 के माध्यम से लॉगिन करें।",
+    "cta": "Discord के साथ जारी रखें"
+  },
+  "dashboard": {
+    "loading": "डैशबोर्ड लोड हो रहा है...",
+    "sessionRequired": "सेशन आवश्यक",
+    "loginRequired": "लॉगिन आवश्यक",
+    "loginDescription": "आपका डैशबोर्ड सुरक्षित है। अपने बॉट्स को प्रबंधित करने के लिए Discord से लॉगिन करें।",
+    "loginCta": "लॉगिन करें",
+    "tenant": "टेनेंट {tenantId}",
+    "role": "भूमिका: {role}",
+    "roles": {
+      "owner": "मालिक",
+      "member": "सदस्य"
+    },
+    "logout": "लॉगआउट करें",
+    "addBot": {
+      "title": "बॉट जोड़ें",
+      "description": "टोकन API द्वारा सत्यापित किया जाता है और स्टोर करने से पहले एन्क्रिप्ट किया जाता है।",
+      "tokenLabel": "Discord बॉट टोकन",
+      "tokenPlaceholder": "MTIz...",
+      "displayNameLabel": "डिस्प्ले नाम (वैकल्पिक)",
+      "displayNamePlaceholder": "सपोर्ट बॉट EU",
+      "submit": "बॉट जोड़ें",
+      "submitPending": "सत्यापन जारी है..."
+    },
+    "bots": {
+      "title": "मेरे बॉट्स",
+      "refresh": "रीफ्रेश करें",
+      "empty": "इस टेनेंट के लिए कोई बॉट नहीं है।",
+      "discordId": "Discord ID: {discordBotId}",
+      "lastError": "अंतिम त्रुटि: {message}"
+    },
+    "status": {
+      "stopped": "रुका हुआ",
+      "starting": "शुरू हो रहा है",
+      "running": "ऑनलाइन",
+      "stopping": "बंद हो रहा है",
+      "error": "त्रुटि"
+    },
+    "actions": {
+      "start": "शुरू करें",
+      "stop": "बंद करें",
+      "restart": "पुनः आरंभ करें"
+    },
+    "errors": {
+      "fetchSession": "उपयोगकर्ता सत्र प्राप्त नहीं हो सका",
+      "fetchBots": "बॉट सूची प्राप्त नहीं हो सकी",
+      "unexpected": "अप्रत्याशित त्रुटि",
+      "addBot": "बॉट जोड़ना असंभव",
+      "actionFailed": "क्रिया असफल: {action}"
+    }
+  }
+}

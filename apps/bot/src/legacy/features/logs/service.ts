@@ -30,8 +30,9 @@ import {
 } from "../../validators/logs.js";
 
 const logger = createScopedLogger("feature:logs");
-const LOG_CHANNEL_CATEGORY_NAME = "📁 ➜ Espace Logs";
-const LOG_CHANNEL_NAME_PREFIX = "📁・";
+const LOG_CHANNEL_CATEGORY_NAME = "logs";
+const LOG_CHANNEL_NAME_PREFIX = "";
+const LEGACY_LOG_CHANNEL_NAME_PREFIX = "📁・";
 
 const hasSendMethod = (value: unknown): value is { send: (payload: unknown) => Promise<unknown> } => {
   if (!value || typeof value !== "object") {
@@ -176,7 +177,10 @@ export class LogEventService {
             return false;
           }
 
-          return channel.type === ChannelType.GuildText && channel.name === legacyName;
+          return channel.type === ChannelType.GuildText && (
+            channel.name === legacyName
+            || channel.name === `${LEGACY_LOG_CHANNEL_NAME_PREFIX}${legacyName}`
+          );
         });
 
       const existing = existingByExpectedName ?? existingByLegacyName;
@@ -224,7 +228,6 @@ export class LogEventService {
           name: expectedName,
           type: ChannelType.GuildText,
           parent: logCategory.id,
-          topic: `Logs for ${category} events`,
           permissionOverwrites,
         });
 
@@ -295,7 +298,7 @@ export class LogEventService {
 
     const embed = new EmbedBuilder()
       .setColor(input.color ?? 0x5865f2)
-      .setTitle(`Event: ${input.eventKey}`)
+      .setTitle(input.title ?? input.eventKey)
       .setDescription(clampField(input.summary, 4096))
       .setTimestamp(new Date());
 
@@ -303,7 +306,7 @@ export class LogEventService {
       const detailsValue = clampField(input.details.map((line) => `- ${line}`).join("\n"), 1024);
       if (detailsValue.length > 0) {
         embed.addFields({
-          name: "Details",
+          name: input.detailsTitle ?? "details",
           value: detailsValue,
         });
       }

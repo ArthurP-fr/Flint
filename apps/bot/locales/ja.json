@@ -1,0 +1,468 @@
+{
+  "errors": {
+    "args": {
+      "missing": "引数 {{arg}} が不足しています。使用方法: {{usage}}",
+      "invalidInt": "引数は整数である必要があります。受け取った値: {{value}}",
+      "invalidNumber": "引数は数値である必要があります。受け取った値: {{value}}",
+      "invalidBoolean": "引数は真偽値である必要があります。受け取った値: {{value}}",
+      "invalidUser": "{{value}} からユーザーを見つけられません",
+      "invalidChannel": "{{value}} からチャンネルを見つけられません",
+      "invalidRole": "{{value}} からロールを見つけられません",
+      "tooMany": "引数が多すぎます（{{count}}）：{{extras}}。使用方法: {{usage}}"
+    },
+    "permissions": {
+      "user": "あなたには権限がありません: {{permissions}}"
+    },
+    "execution": "実行中に予期しないエラーが発生しました。",
+    "cooldown": "このコマンドを再使用するまで {{seconds}} 秒待ってください。",
+    "rateLimit": "リクエストが多すぎます。{{seconds}} 秒後に再試行してください。",
+    "executionQueued": "コマンドは受け付けられ、キューに追加されました。"
+  },
+  "categories": {
+    "fun": "楽しみ",
+    "utility": "ユーティリティ",
+    "core": "基本"
+  },
+  "commands": {
+    "kiss": {
+      "name": "キス",
+      "description": "ユーザーにキスを送る。",
+      "args": {
+        "user": "対象ユーザー"
+      },
+      "examples": {
+        "basic": "メンバーにキスを送る"
+      },
+      "responses": {
+        "success": "{{from}} が {{to}} にキスを送りました。"
+      }
+    },
+    "ping": {
+      "name": "ピング",
+      "description": "ボットのWebSocketレイテンシを確認する。",
+      "examples": {
+        "basic": "ヘルスチェック"
+      },
+      "responses": {
+        "pong": "Pong。WebSocket遅延: {{latency}}ms。"
+      }
+    },
+    "presence": {
+      "name": "プレゼンス",
+      "description": "インタラクティブパネルでボットのステータスを設定する。",
+      "examples": {
+        "slash": "プレゼンスパネルを開く"
+      },
+      "responses": {
+        "panel": "プレゼンスパネル\nステータス: {{status}}\nアクティビティ: {{activityType}}\nローテーション: {{rotationIntervalSeconds}}秒ごと\nアクティブテキスト（{{currentTextIndex}}/{{textCount}}）: {{activityText}}\nプレビュー: {{activityPreview}}\nテキスト: {{activityTexts}}\n変数（{{doubleBracesHint}}）: {{variables}}",
+        "notOwner": "このパネルはコマンド実行者のみ使用できます。",
+        "invalidSelection": "無効な選択です。",
+        "invalidInterval": "無効な間隔です。{{minSeconds}}〜{{maxSeconds}}秒の整数を使用してください。",
+        "modalTimeout": "テキスト編集の制限時間が切れました。もう一度ボタンをクリックしてください。"
+      },
+      "ui": {
+        "status": {
+          "placeholder": "ステータスを選択",
+          "options": {
+            "online": {
+              "label": "オンライン",
+              "description": "ボットをオンライン表示"
+            },
+            "idle": {
+              "label": "アイドル",
+              "description": "ボットをアイドル表示"
+            },
+            "dnd": {
+              "label": "取り込み中",
+              "description": "ボットを取り込み中表示"
+            },
+            "invisible": {
+              "label": "オフライン",
+              "description": "ボットをオフライン表示"
+            },
+            "streaming": {
+              "label": "ストリーミング",
+              "description": "ボットをストリーミング表示"
+            }
+          }
+        },
+        "activity": {
+          "placeholder": "アクティビティタイプを選択",
+          "options": {
+            "PLAYING": {
+              "label": "プレイ中",
+              "description": "プレイ中..."
+            },
+            "STREAMING": {
+              "label": "ストリーミング",
+              "description": "配信中..."
+            },
+            "WATCHING": {
+              "label": "視聴中",
+              "description": "見ている..."
+            },
+            "LISTENING": {
+              "label": "リスニング",
+              "description": "聴いている..."
+            },
+            "COMPETING": {
+              "label": "競技中",
+              "description": "競技中..."
+            },
+            "CUSTOM": {
+              "label": "カスタムステータス",
+              "description": "カスタムステータスを表示"
+            }
+          }
+        },
+        "embed": {
+          "title": "プレゼンス設定",
+          "description": "ステータス、アクティビティタイプ、複数テキストとローテーションを編集します。",
+          "footer": "/presence インタラクティブパネル",
+          "fields": {
+            "status": "ステータス",
+            "activity": "アクティビティタイプ",
+            "text": "テキスト"
+          }
+        },
+        "textButton": "📝 テキスト編集",
+        "intervalButton": "⏱️ 間隔",
+        "modal": {
+          "title": "プレゼンステキスト",
+          "label": "1行に1テキスト（{{var}}使用可）",
+          "placeholder": "メンテナンス\n{{guild_count}} サーバー | {{prefix}}help"
+        },
+        "intervalModal": {
+          "title": "ローテーション間隔",
+          "label": "各テキストの秒数",
+          "placeholder": "例: 30"
+        }
+      }
+    },
+    "logs": {
+      "name": "ログ",
+      "description": "Discordイベントログをインタラクティブに設定する。",
+      "examples": {
+        "slash": "ログパネルを開く"
+      },
+      "responses": {
+        "slashOnly": "/logs を使用してこのパネルを開いてください。",
+        "guildOnly": "このコマンドはサーバーでのみ使用できます。",
+        "notOwner": "このパネルはコマンド実行者のみ使用できます。",
+        "invalidSelection": "無効な選択です。",
+        "allEnabled": "すべてのイベントログが有効になりました。",
+        "allDisabled": "すべてのイベントログが無効になりました。",
+        "eventEnabled": "イベント {{event}} を有効化しました。",
+        "eventDisabled": "イベント {{event}} を無効化しました。",
+        "channelsCreated": "ログチャンネル準備完了。作成: {{created}}、再利用: {{reused}}。",
+        "channelsPartial": "ログチャンネルは一部のみ準備されました。作成: {{created}}、再利用: {{reused}}、失敗: {{failed}}。",
+        "channelsFailed": "ログチャンネルの作成に失敗しました。失敗カテゴリ: {{failed}}。"
+      },
+      "ui": {
+        "embed": {
+          "title": "ログ設定",
+          "description": "各Discordイベントのログを有効/無効化し、カテゴリ別チャンネルに送信します。"
+        },
+        "status": {
+          "enabled": "有効",
+          "disabled": "無効"
+        },
+        "pageLabel": "ページ {{page}}/{{pageCount}}",
+        "enabledCountLabel": "有効イベント: {{enabledCount}}/{{totalCount}}",
+        "eventsHeader": "イベント",
+        "channelLabel": "チャンネル",
+        "channelNotConfigured": "#未設定",
+        "feedbackLabel": "最後の操作",
+        "buttons": {
+          "enableAll": "✅ すべて有効化",
+          "disableAll": "❌ すべて無効化",
+          "createChannels": "📁 チャンネル作成",
+          "previousPage": "前へ",
+          "nextPage": "次へ",
+          "enableEvent": "{{event}} を有効化",
+          "disableEvent": "{{event}} を無効化"
+        },
+        "events": {
+          "messageCreate": "メッセージ作成",
+          "messageDelete": "メッセージ削除",
+          "messageUpdate": "メッセージ更新",
+          "messageBulkDelete": "一括メッセージ削除",
+          "guildMemberAdd": "メンバー参加",
+          "guildMemberRemove": "メンバー退出",
+          "guildMemberUpdate": "メンバー更新",
+          "interactionCreate": "インタラクション",
+          "channelCreate": "チャンネル作成",
+          "channelDelete": "チャンネル削除",
+          "channelUpdate": "チャンネル更新",
+          "roleCreate": "ロール作成",
+          "roleDelete": "ロール削除",
+          "roleUpdate": "ロール更新",
+          "threadCreate": "スレッド作成",
+          "threadDelete": "スレッド削除",
+          "threadUpdate": "スレッド更新",
+          "emojiCreate": "絵文字作成",
+          "emojiDelete": "絵文字削除",
+          "emojiUpdate": "絵文字更新",
+          "guildUpdate": "サーバー更新",
+          "guildUnavailable": "サーバー利用不可",
+          "guildBanAdd": "BAN追加",
+          "guildBanRemove": "BAN解除",
+          "inviteCreate": "招待作成",
+          "inviteDelete": "招待削除"
+        }
+      }
+    },
+    "welcome": {
+      "name": "ウェルカム",
+      "description": "ウェルカムメッセージをインタラクティブに設定する。",
+      "examples": {
+        "slash": "ウェルカム設定パネルを開く"
+      },
+      "responses": {
+        "guildOnly": "このコマンドはサーバーでのみ使用できます。",
+        "notOwner": "このパネルはコマンド実行者のみ使用できます。",
+        "invalidSelection": "無効な選択です。",
+        "testSuccess": "テストメッセージを {{channel}} に送信しました。",
+        "testDisabled": "ウェルカム機能は無効です。",
+        "testMissingChannel": "チャンネルが設定されていません。チャンネルボタンを使用してください。",
+        "testChannelUnavailable": "設定されたチャンネルが見つからないか無効です。",
+        "testMissingPermissions": "このチャンネルにメッセージを送信する権限がありません。",
+        "testFailed": "テストメッセージの送信に失敗しました。後でもう一度試してください。"
+      },
+      "ui": {
+        "embed": {
+          "title": "ウェルカム設定",
+          "description": "ステータス、チャンネル、メッセージタイプを設定し、テストを実行します。",
+          "fields": {
+            "status": "ステータス",
+            "channel": "チャンネル",
+            "type": "タイプ",
+            "channelPicker": "チャンネル選択",
+            "autoRoles": "自動ロール"
+          }
+        },
+        "status": {
+          "enabled": "🟢 有効",
+          "disabled": "🔴 無効"
+        },
+        "channelNotConfigured": "#未設定",
+        "autoRolesNotConfigured": "自動ロールは設定されていません",
+        "channelPickerPlaceholder": "ウェルカムチャンネルを選択",
+        "channelPickerHint": "下のメニューからチャンネルを選択してください。",
+        "rolePickerPlaceholder": "自動ロールを選択",
+        "rolePickerHint": "追加するロールを選択してください。",
+        "buttons": {
+          "toggle": "ステータス切替",
+          "channel": "チャンネル設定",
+          "channelCancel": "チャンネル選択を閉じる",
+          "roles": "自動ロール追加",
+          "rolesCancel": "ロール選択を閉じる",
+          "rolesClear": "自動ロールを削除",
+          "test": "テスト"
+        },
+        "type": {
+          "placeholder": "メッセージタイプを選択",
+          "options": {
+            "simple": {
+              "label": "シンプルメッセージ",
+              "description": "通常のテキストメッセージを送信"
+            },
+            "embed": {
+              "label": "埋め込み",
+              "description": "埋め込みメッセージを送信"
+            },
+            "container": {
+              "label": "コンテナ (V2)",
+              "description": "Components V2 コンテナを送信"
+            },
+            "image": {
+              "label": "画像",
+              "description": "画像付き埋め込みを送信"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "🎉 {{user}} さん、**{{guild}}** へようこそ！",
+        "embedTitle": "ようこそ！",
+        "embedDescription": "{{user}} さんが **{{guild}}** に参加しました。",
+        "containerTitle": "ようこそ",
+        "containerDescription": "{{user}} さんが **{{guild}}** に参加しました。",
+        "imageTitle": "ようこそ",
+        "imageDescription": "{{guild}} のDiscordサーバーへようこそ"
+      }
+    },
+    "goodbye": {
+      "name": "お別れ",
+      "description": "お別れメッセージをインタラクティブに設定する。",
+      "examples": {
+        "slash": "お別れ設定パネルを開く"
+      },
+      "responses": {
+        "guildOnly": "このコマンドはサーバーでのみ使用できます。",
+        "notOwner": "このパネルはコマンド実行者のみ使用できます。",
+        "invalidSelection": "無効な選択です。",
+        "testSuccess": "テストメッセージを {{channel}} に送信しました。",
+        "testDisabled": "お別れ機能は無効です。",
+        "testMissingChannel": "チャンネルが設定されていません。チャンネルボタンを使用してください。",
+        "testChannelUnavailable": "設定されたチャンネルが見つからないか無効です。",
+        "testMissingPermissions": "このチャンネルにメッセージを送信する権限がありません。",
+        "testFailed": "テストメッセージの送信に失敗しました。後でもう一度試してください。"
+      },
+      "ui": {
+        "embed": {
+          "title": "お別れ設定",
+          "description": "ステータス、チャンネル、メッセージタイプを設定し、テストを実行します。",
+          "fields": {
+            "status": "ステータス",
+            "channel": "チャンネル",
+            "type": "タイプ",
+            "channelPicker": "チャンネル選択"
+          }
+        },
+        "status": {
+          "enabled": "🟢 有効",
+          "disabled": "🔴 無効"
+        },
+        "channelNotConfigured": "#未設定",
+        "channelPickerPlaceholder": "お別れチャンネルを選択",
+        "channelPickerHint": "下のメニューからチャンネルを選択してください。",
+        "buttons": {
+          "toggle": "ステータス切替",
+          "channel": "チャンネル設定",
+          "channelCancel": "チャンネル選択を閉じる",
+          "test": "テスト"
+        },
+        "type": {
+          "placeholder": "メッセージタイプを選択",
+          "options": {
+            "simple": {
+              "label": "シンプルメッセージ",
+              "description": "通常のテキストメッセージを送信"
+            },
+            "embed": {
+              "label": "埋め込み",
+              "description": "お別れ埋め込みを送信"
+            },
+            "container": {
+              "label": "コンテナ (V2)",
+              "description": "Components V2 コンテナを送信"
+            },
+            "image": {
+              "label": "画像",
+              "description": "画像付き埋め込みを送信"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "👋 {{user}} さんが **{{guild}}** から退出しました。",
+        "embedTitle": "お別れ",
+        "embedDescription": "{{user}} さんが **{{guild}}** から退出しました。",
+        "containerTitle": "お別れ",
+        "containerDescription": "{{user}} さんが **{{guild}}** から退出しました。",
+        "imageTitle": "お別れ",
+        "imageDescription": "{{guild}} のDiscordサーバーから"
+      }
+    },
+    "help": {
+      "name": "ヘルプ",
+      "description": "コマンド一覧または詳細を表示する。",
+      "args": {
+        "command": "コマンド名（任意）"
+      },
+      "examples": {
+        "basic": "すべてのコマンドを表示",
+        "single": "コマンド詳細を表示"
+      },
+      "errors": {
+        "notFound": "{{query}} に一致するコマンドはありません。"
+      },
+      "embed": {
+        "title": "コマンドヘルプ",
+        "description": "{{usage}} を使ってコマンドを確認できます。",
+        "categoryEmpty": "このカテゴリにはコマンドがありません。",
+        "detailsTitle": "コマンド: {{name}}",
+        "detailsDescription": "{{description}}",
+        "footer": "カテゴリ: {{source}}",
+        "fields": {
+          "usage": "使用方法",
+          "arguments": "引数",
+          "examples": "例"
+        }
+      },
+      "labels": {
+        "prefix": "プレフィックス",
+        "slash": "スラッシュ",
+        "required": "必須",
+        "optional": "任意",
+        "noArgs": "引数なし",
+        "noExamples": "例なし"
+      }
+    }
+  },
+  "logsRuntime": {
+    "placeholders": {
+      "noContent": "（内容なし）",
+      "unknown": "不明",
+      "none": "なし"
+    },
+    "embed": {
+      "title": "イベント: {{event}}",
+      "detailsField": "詳細"
+    },
+    "summaries": {
+      "messageCreate": "{{user}} が {{channel}} にメッセージを送信",
+      "messageDelete": "{{channel}} でメッセージが削除されました",
+      "messageUpdate": "{{channel}} でメッセージが更新されました",
+      "messageBulkDelete": "{{count}} 件のメッセージが一括削除されました",
+      "guildMemberAdd": "{{user}} が参加しました",
+      "guildMemberRemove": "{{user}} が退出しました",
+      "guildMemberUpdate": "{{user}} が更新されました",
+      "interactionGeneric": "{{user}} によるインタラクション",
+      "interactionSlash": "{{user}} によるスラッシュコマンド /{{command}}",
+      "interactionButton": "{{user}} によるボタン操作",
+      "interactionSelect": "{{user}} によるセレクト操作",
+      "interactionModal": "{{user}} によるモーダル送信",
+      "channelCreate": "チャンネル作成: {{channel}}",
+      "channelDelete": "チャンネル削除: {{channel}}",
+      "channelUpdate": "チャンネル更新: {{channel}}",
+      "roleCreate": "ロール作成: {{role}}",
+      "roleDelete": "ロール削除: {{role}}",
+      "roleUpdate": "ロール更新: {{role}}",
+      "threadCreate": "スレッド作成: {{thread}}",
+      "threadDelete": "スレッド削除: {{thread}}",
+      "threadUpdate": "スレッド更新: {{thread}}",
+      "emojiCreate": "絵文字作成: {{emoji}}",
+      "emojiDelete": "絵文字削除: {{emoji}}",
+      "emojiUpdate": "絵文字更新: {{emoji}}",
+      "guildUpdate": "サーバー更新: {{guild}}",
+      "guildUnavailable": "サーバー一時的に利用不可: {{guild}}",
+      "guildBanAdd": "ユーザーBAN: {{user}}",
+      "guildBanRemove": "ユーザーBAN解除: {{user}}",
+      "inviteCreate": "招待作成: {{code}}",
+      "inviteDelete": "招待削除: {{code}}"
+    },
+    "details": {
+      "messageId": "messageId={{value}}",
+      "author": "author={{tag}} ({{id}})",
+      "content": "content={{value}}",
+      "before": "before={{value}}",
+      "after": "after={{value}}",
+      "channelId": "channelId={{value}}",
+      "count": "count={{value}}",
+      "user": "user={{tag}} ({{id}})",
+      "oldNick": "oldNick={{value}}",
+      "newNick": "newNick={{value}}",
+      "interactionId": "interactionId={{value}}",
+      "type": "type={{value}}",
+      "oldName": "oldName={{value}}",
+      "newName": "newName={{value}}",
+      "roleId": "roleId={{value}}",
+      "threadId": "threadId={{value}}",
+      "emojiId": "emojiId={{value}}",
+      "guildId": "guildId={{value}}",
+      "inviter": "inviter={{value}}"
+    }
+  }
+}

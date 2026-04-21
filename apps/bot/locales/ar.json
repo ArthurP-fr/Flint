@@ -1,0 +1,468 @@
+{
+  "errors": {
+    "args": {
+      "missing": "المعامل {{arg}} مفقود. الاستخدام: {{usage}}",
+      "invalidInt": "يجب أن يكون المعامل عدداً صحيحاً. تم استلام: {{value}}",
+      "invalidNumber": "يجب أن يكون المعامل رقماً. تم استلام: {{value}}",
+      "invalidBoolean": "يجب أن يكون المعامل قيمة منطقية (صواب/خطأ). تم استلام: {{value}}",
+      "invalidUser": "تعذر العثور على مستخدم من {{value}}",
+      "invalidChannel": "تعذر العثور على قناة من {{value}}",
+      "invalidRole": "تعذر العثور على دور من {{value}}",
+      "tooMany": "عدد كبير جداً من المعاملات ({{count}}) تم اكتشافها: {{extras}}. الاستخدام: {{usage}}"
+    },
+    "permissions": {
+      "user": "ليس لديك الصلاحيات التالية: {{permissions}}"
+    },
+    "execution": "حدث خطأ غير متوقع أثناء التنفيذ.",
+    "cooldown": "يرجى الانتظار {{seconds}} ثانية قبل إعادة استخدام هذا الأمر.",
+    "rateLimit": "عدد طلبات كبير جداً. يرجى الانتظار {{seconds}} ثانية قبل المحاولة مرة أخرى.",
+    "executionQueued": "تم قبول الأمر وإضافته إلى قائمة التنفيذ."
+  },
+  "categories": {
+    "fun": "ترفيه",
+    "utility": "أدوات",
+    "core": "أساسي"
+  },
+  "commands": {
+    "kiss": {
+      "name": "قبلة",
+      "description": "إرسال قبلة إلى مستخدم.",
+      "args": {
+        "user": "المستخدم المستهدف"
+      },
+      "examples": {
+        "basic": "إرسال قبلة إلى عضو"
+      },
+      "responses": {
+        "success": "{{from}} يرسل قبلة إلى {{to}}."
+      }
+    },
+    "ping": {
+      "name": "بينغ",
+      "description": "التحقق من زمن استجابة البوت.",
+      "examples": {
+        "basic": "فحص الحالة"
+      },
+      "responses": {
+        "pong": "بونغ. زمن الاستجابة: {{latency}}ms."
+      }
+    },
+    "presence": {
+      "name": "الحالة",
+      "description": "تكوين حالة البوت عبر لوحة تفاعلية.",
+      "examples": {
+        "slash": "فتح لوحة الحالة التفاعلية"
+      },
+      "responses": {
+        "panel": "لوحة الحالة\nالحالة: {{status}}\nالنشاط: {{activityType}}\nالتدوير: كل {{rotationIntervalSeconds}} ثانية\nالنص الحالي ({{currentTextIndex}}/{{textCount}}): {{activityText}}\nالمعاينة: {{activityPreview}}\nالنصوص: {{activityTexts}}\nالمتغيرات ({{doubleBracesHint}}): {{variables}}",
+        "notOwner": "فقط صاحب الأمر يمكنه استخدام هذه اللوحة.",
+        "invalidSelection": "اختيار غير صالح.",
+        "invalidInterval": "فاصل غير صالح. استخدم عدداً بين {{minSeconds}} و {{maxSeconds}} ثانية.",
+        "modalTimeout": "انتهى الوقت المخصص للتعديل. يرجى المحاولة مرة أخرى."
+      },
+      "ui": {
+        "status": {
+          "placeholder": "اختر الحالة",
+          "options": {
+            "online": {
+              "label": "متصل",
+              "description": "عرض البوت كمتصل"
+            },
+            "idle": {
+              "label": "خامل",
+              "description": "عرض البوت كخامل"
+            },
+            "dnd": {
+              "label": "عدم الإزعاج",
+              "description": "عرض البوت في وضع عدم الإزعاج"
+            },
+            "invisible": {
+              "label": "غير مرئي",
+              "description": "عرض البوت كغير متصل"
+            },
+            "streaming": {
+              "label": "بث مباشر",
+              "description": "عرض البوت في وضع البث"
+            }
+          }
+        },
+        "activity": {
+          "placeholder": "اختر نوع النشاط",
+          "options": {
+            "PLAYING": {
+              "label": "يلعب",
+              "description": "يعرض يلعب ..."
+            },
+            "STREAMING": {
+              "label": "بث",
+              "description": "يعرض مباشر على ..."
+            },
+            "WATCHING": {
+              "label": "يشاهد",
+              "description": "يعرض يشاهد ..."
+            },
+            "LISTENING": {
+              "label": "يستمع",
+              "description": "يعرض يستمع ..."
+            },
+            "COMPETING": {
+              "label": "منافسة",
+              "description": "يعرض منافسة ..."
+            },
+            "CUSTOM": {
+              "label": "حالة مخصصة",
+              "description": "يعرض حالة مخصصة"
+            }
+          }
+        },
+        "embed": {
+          "title": "إعداد الحالة",
+          "description": "تغيير الحالة ونوع النشاط والنصوص وتدويرها.",
+          "footer": "لوحة تفاعلية /presence",
+          "fields": {
+            "status": "الحالة",
+            "activity": "نوع النشاط",
+            "text": "النص"
+          }
+        },
+        "textButton": "📝 تعديل النصوص",
+        "intervalButton": "⏱️ الفاصل الزمني",
+        "modal": {
+          "title": "نصوص الحالة",
+          "label": "كل سطر نص (استخدم {{var}})",
+          "placeholder": "صيانة\n{{guild_count}} خوادم | {{prefix}}مساعدة"
+        },
+        "intervalModal": {
+          "title": "فاصل التدوير",
+          "label": "الثواني بين كل نص",
+          "placeholder": "مثال: 30"
+        }
+      }
+    },
+    "logs": {
+      "name": "السجلات",
+      "description": "تكوين سجلات أحداث ديسكورد عبر لوحة تفاعلية.",
+      "examples": {
+        "slash": "فتح لوحة السجلات التفاعلية"
+      },
+      "responses": {
+        "slashOnly": "استخدم /logs لفتح هذه اللوحة.",
+        "guildOnly": "يجب استخدام هذا الأمر داخل سيرفر.",
+        "notOwner": "فقط صاحب الأمر يمكنه استخدام هذه اللوحة.",
+        "invalidSelection": "اختيار غير صالح.",
+        "allEnabled": "تم تفعيل جميع سجلات الأحداث.",
+        "allDisabled": "تم تعطيل جميع سجلات الأحداث.",
+        "eventEnabled": "تم تفعيل الحدث {{event}}.",
+        "eventDisabled": "تم تعطيل الحدث {{event}}.",
+        "channelsCreated": "تم تجهيز قنوات السجلات. تم إنشاء: {{created}}، إعادة استخدام: {{reused}}.",
+        "channelsPartial": "تم تجهيز قنوات السجلات جزئياً. تم إنشاء: {{created}}، إعادة استخدام: {{reused}}، فشل في: {{failed}}.",
+        "channelsFailed": "تعذر إنشاء قنوات السجلات. فشل في: {{failed}}."
+      },
+      "ui": {
+        "embed": {
+          "title": "إعداد السجلات",
+          "description": "تفعيل أو تعطيل أحداث ديسكورد وتوجيه السجلات إلى القنوات."
+        },
+        "status": {
+          "enabled": "مفعل",
+          "disabled": "معطل"
+        },
+        "pageLabel": "صفحة {{page}}/{{pageCount}}",
+        "enabledCountLabel": "الأحداث المفعلة: {{enabledCount}}/{{totalCount}}",
+        "eventsHeader": "الأحداث",
+        "channelLabel": "القناة",
+        "channelNotConfigured": "#غير-محدد",
+        "feedbackLabel": "آخر إجراء",
+        "buttons": {
+          "enableAll": "تفعيل جميع السجلات",
+          "disableAll": "تعطيل جميع السجلات",
+          "createChannels": "إنشاء قنوات السجلات",
+          "previousPage": "السابق",
+          "nextPage": "التالي",
+          "enableEvent": "تفعيل {{event}}",
+          "disableEvent": "تعطيل {{event}}"
+        },
+        "events": {
+          "messageCreate": "تم إرسال رسالة",
+          "messageDelete": "تم حذف رسالة",
+          "messageUpdate": "تم تعديل رسالة",
+          "messageBulkDelete": "حذف جماعي للرسائل",
+          "guildMemberAdd": "انضم عضو",
+          "guildMemberRemove": "غادر عضو",
+          "guildMemberUpdate": "تم تحديث عضو",
+          "interactionCreate": "تفاعل",
+          "channelCreate": "تم إنشاء قناة",
+          "channelDelete": "تم حذف قناة",
+          "channelUpdate": "تم تحديث قناة",
+          "roleCreate": "تم إنشاء دور",
+          "roleDelete": "تم حذف دور",
+          "roleUpdate": "تم تحديث دور",
+          "threadCreate": "تم إنشاء خيط",
+          "threadDelete": "تم حذف خيط",
+          "threadUpdate": "تم تحديث خيط",
+          "emojiCreate": "تم إنشاء إيموجي",
+          "emojiDelete": "تم حذف إيموجي",
+          "emojiUpdate": "تم تحديث إيموجي",
+          "guildUpdate": "تم تحديث السيرفر",
+          "guildUnavailable": "السيرفر غير متاح",
+          "guildBanAdd": "تم حظر عضو",
+          "guildBanRemove": "تم إلغاء حظر عضو",
+          "inviteCreate": "تم إنشاء دعوة",
+          "inviteDelete": "تم حذف دعوة"
+        }
+      }
+    },
+    "welcome": {
+      "name": "ترحيب",
+      "description": "تكوين رسائل الترحيب عبر لوحة تفاعلية.",
+      "examples": {
+        "slash": "فتح لوحة إعداد الترحيب"
+      },
+      "responses": {
+        "guildOnly": "يجب استخدام هذا الأمر داخل سيرفر.",
+        "notOwner": "فقط صاحب الأمر يمكنه استخدام هذه اللوحة.",
+        "invalidSelection": "اختيار غير صالح.",
+        "testSuccess": "تم إرسال رسالة اختبار في {{channel}}.",
+        "testDisabled": "وحدة الترحيب معطلة.",
+        "testMissingChannel": "لا توجد قناة مهيأة. استخدم زر القناة.",
+        "testChannelUnavailable": "القناة غير موجودة أو غير صالحة.",
+        "testMissingPermissions": "البوت لا يملك صلاحية إرسال الرسائل في هذه القناة.",
+        "testFailed": "تعذر إرسال رسالة الاختبار. حاول لاحقاً."
+      },
+      "ui": {
+        "embed": {
+          "title": "إعداد الترحيب",
+          "description": "تعديل الحالة والقناة ونوع الرسالة وإجراء اختبار.",
+          "fields": {
+            "status": "الحالة",
+            "channel": "القناة",
+            "type": "النوع",
+            "channelPicker": "اختيار القناة",
+            "autoRoles": "الأدوار التلقائية"
+          }
+        },
+        "status": {
+          "enabled": "🟢 مفعل",
+          "disabled": "🔴 معطل"
+        },
+        "channelNotConfigured": "#غير-محدد",
+        "autoRolesNotConfigured": "لا توجد أدوار تلقائية",
+        "channelPickerPlaceholder": "اختر قناة الترحيب",
+        "channelPickerHint": "اختر القناة من القائمة.",
+        "rolePickerPlaceholder": "اختر أدوار تلقائية",
+        "rolePickerHint": "اختر الأدوار لإضافتها تلقائياً.",
+        "buttons": {
+          "toggle": "تبديل الحالة",
+          "channel": "تحديد القناة",
+          "channelCancel": "إغلاق اختيار القناة",
+          "roles": "إضافة أدوار تلقائية",
+          "rolesCancel": "إغلاق اختيار الأدوار",
+          "rolesClear": "مسح الأدوار التلقائية",
+          "test": "اختبار"
+        },
+        "type": {
+          "placeholder": "اختر نوع الرسالة",
+          "options": {
+            "simple": {
+              "label": "رسالة بسيطة",
+              "description": "إرسال رسالة نصية عادية"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "إرسال رسالة ترحيب بشكل embed"
+            },
+            "container": {
+              "label": "حاوية (V2)",
+              "description": "إرسال Container Components V2"
+            },
+            "image": {
+              "label": "صورة",
+              "description": "إرسال رسالة مع صورة"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "🎉 مرحباً {{user}} في **{{guild}}**!",
+        "embedTitle": "مرحباً!",
+        "embedDescription": "{{user}} انضم إلى **{{guild}}**.",
+        "containerTitle": "مرحباً",
+        "containerDescription": "{{user}} انضم إلى **{{guild}}**.",
+        "imageTitle": "مرحباً",
+        "imageDescription": "في سيرفر ديسكورد {{guild}}"
+      }
+    },
+    "goodbye": {
+      "name": "وداعاً",
+      "description": "تكوين رسائل المغادرة عبر لوحة تفاعلية.",
+      "examples": {
+        "slash": "فتح لوحة إعداد رسائل المغادرة"
+      },
+      "responses": {
+        "guildOnly": "يجب استخدام هذا الأمر داخل سيرفر.",
+        "notOwner": "فقط صاحب الأمر يمكنه استخدام هذه اللوحة.",
+        "invalidSelection": "اختيار غير صالح.",
+        "testSuccess": "تم إرسال رسالة اختبار في {{channel}}.",
+        "testDisabled": "وحدة المغادرة معطلة.",
+        "testMissingChannel": "لا توجد قناة مهيأة. استخدم زر القناة.",
+        "testChannelUnavailable": "القناة غير موجودة أو غير صالحة.",
+        "testMissingPermissions": "البوت لا يملك صلاحية إرسال الرسائل في هذه القناة.",
+        "testFailed": "تعذر إرسال رسالة الاختبار. حاول لاحقاً."
+      },
+      "ui": {
+        "embed": {
+          "title": "إعداد المغادرة",
+          "description": "تعديل الحالة والقناة ونوع الرسالة وإجراء اختبار.",
+          "fields": {
+            "status": "الحالة",
+            "channel": "القناة",
+            "type": "النوع",
+            "channelPicker": "اختيار القناة"
+          }
+        },
+        "status": {
+          "enabled": "🟢 مفعل",
+          "disabled": "🔴 معطل"
+        },
+        "channelNotConfigured": "#غير-محدد",
+        "channelPickerPlaceholder": "اختر قناة المغادرة",
+        "channelPickerHint": "اختر القناة من القائمة.",
+        "buttons": {
+          "toggle": "تبديل الحالة",
+          "channel": "تحديد القناة",
+          "channelCancel": "إغلاق اختيار القناة",
+          "test": "اختبار"
+        },
+        "type": {
+          "placeholder": "اختر نوع الرسالة",
+          "options": {
+            "simple": {
+              "label": "رسالة بسيطة",
+              "description": "إرسال رسالة نصية عادية"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "إرسال رسالة مغادرة بشكل embed"
+            },
+            "container": {
+              "label": "حاوية (V2)",
+              "description": "إرسال Container Components V2"
+            },
+            "image": {
+              "label": "صورة",
+              "description": "إرسال رسالة مع صورة"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "👋 {{user}} غادر **{{guild}}**.",
+        "embedTitle": "وداعاً",
+        "embedDescription": "{{user}} غادر **{{guild}}**.",
+        "containerTitle": "وداعاً",
+        "containerDescription": "{{user}} غادر **{{guild}}**.",
+        "imageTitle": "وداعاً",
+        "imageDescription": "من سيرفر ديسكورد {{guild}}"
+      }
+    },
+    "help": {
+      "name": "مساعدة",
+      "description": "عرض قائمة الأوامر أو تفاصيل أمر معين.",
+      "args": {
+        "command": "اسم الأمر أو اختياري"
+      },
+      "examples": {
+        "basic": "عرض جميع الأوامر",
+        "single": "عرض تفاصيل أمر"
+      },
+      "errors": {
+        "notFound": "لا يوجد أمر يطابق {{query}}."
+      },
+      "embed": {
+        "title": "مساعدة الأوامر",
+        "description": "استخدم {{usage}} لفحص أمر.",
+        "categoryEmpty": "لا توجد أوامر في هذه الفئة.",
+        "detailsTitle": "الأمر: {{name}}",
+        "detailsDescription": "{{description}}",
+        "footer": "الفئة: {{source}}",
+        "fields": {
+          "usage": "الاستخدام",
+          "arguments": "المعاملات",
+          "examples": "أمثلة"
+        }
+      },
+      "labels": {
+        "prefix": "بادئة",
+        "slash": "سلاش",
+        "required": "إجباري",
+        "optional": "اختياري",
+        "noArgs": "لا توجد معاملات.",
+        "noExamples": "لا توجد أمثلة."
+      }
+    }
+  },
+  "logsRuntime": {
+    "placeholders": {
+      "noContent": "(لا يوجد محتوى)",
+      "unknown": "غير معروف",
+      "none": "لا شيء"
+    },
+    "embed": {
+      "title": "حدث: {{event}}",
+      "detailsField": "التفاصيل"
+    },
+    "summaries": {
+      "messageCreate": "تم إرسال رسالة بواسطة {{user}} في {{channel}}",
+      "messageDelete": "تم حذف رسالة في {{channel}}",
+      "messageUpdate": "تم تعديل رسالة في {{channel}}",
+      "messageBulkDelete": "حذف جماعي: {{count}} رسالة",
+      "guildMemberAdd": "انضم عضو: {{user}}",
+      "guildMemberRemove": "غادر عضو: {{user}}",
+      "guildMemberUpdate": "تم تحديث عضو: {{user}}",
+      "interactionGeneric": "تفاعل بواسطة {{user}}",
+      "interactionSlash": "أمر /{{command}} بواسطة {{user}}",
+      "interactionButton": "تفاعل زر بواسطة {{user}}",
+      "interactionSelect": "تفاعل قائمة بواسطة {{user}}",
+      "interactionModal": "إرسال نموذج بواسطة {{user}}",
+      "channelCreate": "تم إنشاء قناة: {{channel}}",
+      "channelDelete": "تم حذف قناة: {{channel}}",
+      "channelUpdate": "تم تحديث قناة: {{channel}}",
+      "roleCreate": "تم إنشاء دور: {{role}}",
+      "roleDelete": "تم حذف دور: {{role}}",
+      "roleUpdate": "تم تحديث دور: {{role}}",
+      "threadCreate": "تم إنشاء خيط: {{thread}}",
+      "threadDelete": "تم حذف خيط: {{thread}}",
+      "threadUpdate": "تم تحديث خيط: {{thread}}",
+      "emojiCreate": "تم إنشاء إيموجي: {{emoji}}",
+      "emojiDelete": "تم حذف إيموجي: {{emoji}}",
+      "emojiUpdate": "تم تحديث إيموجي: {{emoji}}",
+      "guildUpdate": "تم تحديث السيرفر: {{guild}}",
+      "guildUnavailable": "السيرفر غير متاح مؤقتاً: {{guild}}",
+      "guildBanAdd": "تم حظر مستخدم: {{user}}",
+      "guildBanRemove": "تم إلغاء حظر مستخدم: {{user}}",
+      "inviteCreate": "تم إنشاء دعوة: {{code}}",
+      "inviteDelete": "تم حذف دعوة: {{code}}"
+    },
+    "details": {
+      "messageId": "messageId={{value}}",
+      "author": "author={{tag}} ({{id}})",
+      "content": "content={{value}}",
+      "before": "before={{value}}",
+      "after": "after={{value}}",
+      "channelId": "channelId={{value}}",
+      "count": "count={{value}}",
+      "user": "user={{tag}} ({{id}})",
+      "oldNick": "oldNick={{value}}",
+      "newNick": "newNick={{value}}",
+      "interactionId": "interactionId={{value}}",
+      "type": "type={{value}}",
+      "oldName": "oldName={{value}}",
+      "newName": "newName={{value}}",
+      "roleId": "roleId={{value}}",
+      "threadId": "threadId={{value}}",
+      "emojiId": "emojiId={{value}}",
+      "guildId": "guildId={{value}}",
+      "inviter": "inviter={{value}}"
+    }
+  }
+}

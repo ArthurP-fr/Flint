@@ -1,0 +1,468 @@
+{
+  "errors": {
+    "args": {
+      "missing": "Fehlendes Argument {{arg}}. Verwendung: {{usage}}",
+      "invalidInt": "Das Argument muss eine ganze Zahl sein. Erhalten: {{value}}",
+      "invalidNumber": "Das Argument muss eine Zahl sein. Erhalten: {{value}}",
+      "invalidBoolean": "Das Argument muss ein Boolescher Wert sein. Erhalten: {{value}}",
+      "invalidUser": "Benutzer konnte aus {{value}} nicht gefunden werden",
+      "invalidChannel": "Kanal konnte aus {{value}} nicht gefunden werden",
+      "invalidRole": "Rolle konnte aus {{value}} nicht gefunden werden",
+      "tooMany": "Zu viele Argumente ({{count}}) erkannt: {{extras}}. Verwendung: {{usage}}"
+    },
+    "permissions": {
+      "user": "Du hast nicht die Berechtigungen: {{permissions}}"
+    },
+    "execution": "Beim Ausführen ist ein unerwarteter Fehler aufgetreten.",
+    "cooldown": "Bitte warte {{seconds}}s, bevor du diesen Befehl erneut verwendest.",
+    "rateLimit": "Zu viele Anfragen. Bitte warte {{seconds}}s, bevor du es erneut versuchst.",
+    "executionQueued": "Befehl akzeptiert und in die Warteschlange aufgenommen."
+  },
+  "categories": {
+    "fun": "Spaß",
+    "utility": "Hilfsfunktionen",
+    "core": "Kern"
+  },
+  "commands": {
+    "kiss": {
+      "name": "kuss",
+      "description": "Einem Benutzer einen Kuss senden.",
+      "args": {
+        "user": "Zielbenutzer"
+      },
+      "examples": {
+        "basic": "Einem Mitglied einen Kuss senden"
+      },
+      "responses": {
+        "success": "{{from}} sendet {{to}} einen Kuss."
+      }
+    },
+    "ping": {
+      "name": "ping",
+      "description": "WebSocket-Latenz des Bots prüfen.",
+      "examples": {
+        "basic": "Gesundheitsprüfung"
+      },
+      "responses": {
+        "pong": "Pong. WebSocket-Latenz: {{latency}}ms."
+      }
+    },
+    "presence": {
+      "name": "präsenz",
+      "description": "Bot-Präsenz über ein interaktives Panel konfigurieren.",
+      "examples": {
+        "slash": "Interaktives Präsenz-Panel öffnen"
+      },
+      "responses": {
+        "panel": "Präsenz-Panel\nStatus: {{status}}\nAktivität: {{activityType}}\nRotation: alle {{rotationIntervalSeconds}}s\nAktiver Text ({{currentTextIndex}}/{{textCount}}): {{activityText}}\nVorschau: {{activityPreview}}\nTexte: {{activityTexts}}\nVariablen ({{doubleBracesHint}}): {{variables}}",
+        "notOwner": "Nur der Befehlsersteller kann dieses Panel verwenden.",
+        "invalidSelection": "Ungültige Auswahl.",
+        "invalidInterval": "Ungültiges Intervall. Verwende eine ganze Zahl zwischen {{minSeconds}} und {{maxSeconds}} Sekunden.",
+        "modalTimeout": "Zeitüberschreitung bei der Textbearbeitung. Klicke erneut auf den Button."
+      },
+      "ui": {
+        "status": {
+          "placeholder": "Status auswählen",
+          "options": {
+            "online": {
+              "label": "Online",
+              "description": "Bot als online anzeigen"
+            },
+            "idle": {
+              "label": "Inaktiv",
+              "description": "Bot als inaktiv anzeigen"
+            },
+            "dnd": {
+              "label": "Nicht stören",
+              "description": "Bot im Nicht-stören-Modus anzeigen"
+            },
+            "invisible": {
+              "label": "Offline",
+              "description": "Bot als offline anzeigen"
+            },
+            "streaming": {
+              "label": "Streaming",
+              "description": "Bot im Streaming-Modus anzeigen"
+            }
+          }
+        },
+        "activity": {
+          "placeholder": "Aktivitätstyp auswählen",
+          "options": {
+            "PLAYING": {
+              "label": "Spielt",
+              "description": "Zeigt: Spielt ..."
+            },
+            "STREAMING": {
+              "label": "Streaming",
+              "description": "Zeigt: Live auf ..."
+            },
+            "WATCHING": {
+              "label": "Schaut",
+              "description": "Zeigt: Schaut ..."
+            },
+            "LISTENING": {
+              "label": "Hört",
+              "description": "Zeigt: Hört ..."
+            },
+            "COMPETING": {
+              "label": "Wettbewerb",
+              "description": "Zeigt: Wettbewerb ..."
+            },
+            "CUSTOM": {
+              "label": "Benutzerstatus",
+              "description": "Zeigt einen benutzerdefinierten Status"
+            }
+          }
+        },
+        "embed": {
+          "title": "Präsenz-Konfiguration",
+          "description": "Status, Aktivitätstyp, mehrere Texte und Rotation ändern.",
+          "footer": "Interaktives Panel /presence",
+          "fields": {
+            "status": "Status",
+            "activity": "Aktivitätstyp",
+            "text": "Text"
+          }
+        },
+        "textButton": "📝 Texte bearbeiten",
+        "intervalButton": "⏱️ Intervall",
+        "modal": {
+          "title": "Präsenztexte",
+          "label": "Ein Text pro Zeile (nutze {{var}})",
+          "placeholder": "Wartung\n{{guild_count}} Server | {{prefix}}hilfe"
+        },
+        "intervalModal": {
+          "title": "Rotationsintervall",
+          "label": "Sekunden zwischen jedem Text",
+          "placeholder": "Beispiel: 30"
+        }
+      }
+    },
+    "logs": {
+      "name": "logs",
+      "description": "Discord-Event-Logs mit einem interaktiven Panel konfigurieren.",
+      "examples": {
+        "slash": "Interaktives Logs-Panel öffnen"
+      },
+      "responses": {
+        "slashOnly": "Verwende /logs, um dieses interaktive Panel zu öffnen.",
+        "guildOnly": "Dieser Befehl muss in einem Server verwendet werden.",
+        "notOwner": "Nur der Befehlsersteller kann dieses Panel verwenden.",
+        "invalidSelection": "Ungültige Auswahl.",
+        "allEnabled": "Alle Event-Logs sind aktiviert.",
+        "allDisabled": "Alle Event-Logs sind deaktiviert.",
+        "eventEnabled": "Event {{event}} aktiviert.",
+        "eventDisabled": "Event {{event}} deaktiviert.",
+        "channelsCreated": "Log-Kanäle bereit. Erstellt: {{created}}, wiederverwendet: {{reused}}.",
+        "channelsPartial": "Log-Kanäle teilweise bereit. Erstellt: {{created}}, wiederverwendet: {{reused}}, fehlgeschlagen: {{failed}}.",
+        "channelsFailed": "Log-Kanäle konnten nicht erstellt werden. Fehlgeschlagen: {{failed}}."
+      },
+      "ui": {
+        "embed": {
+          "title": "Log-Konfiguration",
+          "description": "Aktiviere oder deaktiviere Discord-Events und leite Logs in Kategorien weiter."
+        },
+        "status": {
+          "enabled": "Aktiv",
+          "disabled": "Deaktiviert"
+        },
+        "pageLabel": "Seite {{page}}/{{pageCount}}",
+        "enabledCountLabel": "Aktive Events: {{enabledCount}}/{{totalCount}}",
+        "eventsHeader": "Events",
+        "channelLabel": "Kanal",
+        "channelNotConfigured": "#nicht-konfiguriert",
+        "feedbackLabel": "Letzte Aktion",
+        "buttons": {
+          "enableAll": "✅ Alle Logs aktivieren",
+          "disableAll": "❌ Alle Logs deaktivieren",
+          "createChannels": "📁 Log-Kanäle erstellen",
+          "previousPage": "Zurück",
+          "nextPage": "Weiter",
+          "enableEvent": "{{event}} aktivieren",
+          "disableEvent": "{{event}} deaktivieren"
+        },
+        "events": {
+          "messageCreate": "Nachricht erstellt",
+          "messageDelete": "Nachricht gelöscht",
+          "messageUpdate": "Nachricht aktualisiert",
+          "messageBulkDelete": "Mehrfachlöschung",
+          "guildMemberAdd": "Mitglied beigetreten",
+          "guildMemberRemove": "Mitglied verlassen",
+          "guildMemberUpdate": "Mitglied aktualisiert",
+          "interactionCreate": "Interaktion",
+          "channelCreate": "Kanal erstellt",
+          "channelDelete": "Kanal gelöscht",
+          "channelUpdate": "Kanal aktualisiert",
+          "roleCreate": "Rolle erstellt",
+          "roleDelete": "Rolle gelöscht",
+          "roleUpdate": "Rolle aktualisiert",
+          "threadCreate": "Thread erstellt",
+          "threadDelete": "Thread gelöscht",
+          "threadUpdate": "Thread aktualisiert",
+          "emojiCreate": "Emoji erstellt",
+          "emojiDelete": "Emoji gelöscht",
+          "emojiUpdate": "Emoji aktualisiert",
+          "guildUpdate": "Server aktualisiert",
+          "guildUnavailable": "Server nicht verfügbar",
+          "guildBanAdd": "Mitglied gebannt",
+          "guildBanRemove": "Mitglied entbannt",
+          "inviteCreate": "Einladung erstellt",
+          "inviteDelete": "Einladung gelöscht"
+        }
+      }
+    },
+    "welcome": {
+      "name": "willkommen",
+      "description": "Willkommensnachrichten mit einem interaktiven Panel konfigurieren.",
+      "examples": {
+        "slash": "Willkommens-Konfigurationspanel öffnen"
+      },
+      "responses": {
+        "guildOnly": "Dieser Befehl muss in einem Server verwendet werden.",
+        "notOwner": "Nur der Befehlsersteller kann dieses Panel verwenden.",
+        "invalidSelection": "Ungültige Auswahl.",
+        "testSuccess": "Testnachricht in {{channel}} gesendet.",
+        "testDisabled": "Willkommensmodul ist deaktiviert.",
+        "testMissingChannel": "Kein Kanal konfiguriert. Nutze den Kanal-Button.",
+        "testChannelUnavailable": "Der konfigurierte Kanal ist nicht verfügbar.",
+        "testMissingPermissions": "Der Bot hat keine Berechtigung, Nachrichten in diesem Kanal zu senden.",
+        "testFailed": "Testnachricht konnte nicht gesendet werden."
+      },
+      "ui": {
+        "embed": {
+          "title": "Willkommens-Konfiguration",
+          "description": "Status, Kanal, Nachrichtentyp und Test konfigurieren.",
+          "fields": {
+            "status": "Status",
+            "channel": "Kanal",
+            "type": "Typ",
+            "channelPicker": "Kanal auswählen",
+            "autoRoles": "Auto-Rollen"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Aktiv",
+          "disabled": "🔴 Deaktiviert"
+        },
+        "channelNotConfigured": "#nicht-konfiguriert",
+        "autoRolesNotConfigured": "Keine Auto-Rollen konfiguriert",
+        "channelPickerPlaceholder": "Willkommenskanal auswählen",
+        "channelPickerHint": "Wähle den Kanal im Menü aus.",
+        "rolePickerPlaceholder": "Auto-Rollen auswählen",
+        "rolePickerHint": "Wähle Rollen aus dem Menü.",
+        "buttons": {
+          "toggle": "Status umschalten",
+          "channel": "Kanal konfigurieren",
+          "channelCancel": "Kanal-Auswahl schließen",
+          "roles": "Auto-Rollen hinzufügen",
+          "rolesCancel": "Rollen-Auswahl schließen",
+          "rolesClear": "Auto-Rollen löschen",
+          "test": "Testen"
+        },
+        "type": {
+          "placeholder": "Nachrichtentyp auswählen",
+          "options": {
+            "simple": {
+              "label": "Einfache Nachricht",
+              "description": "Sendet eine Textnachricht"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Sendet ein Willkommens-Embed"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Sendet einen Components V2 Container"
+            },
+            "image": {
+              "label": "Bild",
+              "description": "Sendet ein Embed mit Bild"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "🎉 Willkommen {{user}} auf **{{guild}}**!",
+        "embedTitle": "Willkommen!",
+        "embedDescription": "{{user}} ist **{{guild}}** beigetreten.",
+        "containerTitle": "Willkommen",
+        "containerDescription": "{{user}} ist **{{guild}}** beigetreten.",
+        "imageTitle": "Willkommen",
+        "imageDescription": "auf dem Discord-Server {{guild}}"
+      }
+    },
+    "goodbye": {
+      "name": "aufwiedersehen",
+      "description": "Abschiedsnachrichten mit einem interaktiven Panel konfigurieren.",
+      "examples": {
+        "slash": "Abschieds-Konfigurationspanel öffnen"
+      },
+      "responses": {
+        "guildOnly": "Dieser Befehl muss in einem Server verwendet werden.",
+        "notOwner": "Nur der Befehlsersteller kann dieses Panel verwenden.",
+        "invalidSelection": "Ungültige Auswahl.",
+        "testSuccess": "Testnachricht in {{channel}} gesendet.",
+        "testDisabled": "Abschiedsmodul ist deaktiviert.",
+        "testMissingChannel": "Kein Kanal konfiguriert. Nutze den Kanal-Button.",
+        "testChannelUnavailable": "Der konfigurierte Kanal ist nicht verfügbar.",
+        "testMissingPermissions": "Der Bot hat keine Berechtigung, Nachrichten in diesem Kanal zu senden.",
+        "testFailed": "Testnachricht konnte nicht gesendet werden."
+      },
+      "ui": {
+        "embed": {
+          "title": "Abschieds-Konfiguration",
+          "description": "Status, Kanal, Nachrichtentyp und Test konfigurieren.",
+          "fields": {
+            "status": "Status",
+            "channel": "Kanal",
+            "type": "Typ",
+            "channelPicker": "Kanal auswählen"
+          }
+        },
+        "status": {
+          "enabled": "🟢 Aktiv",
+          "disabled": "🔴 Deaktiviert"
+        },
+        "channelNotConfigured": "#nicht-konfiguriert",
+        "channelPickerPlaceholder": "Abschiedskanal auswählen",
+        "channelPickerHint": "Wähle den Kanal im Menü aus.",
+        "buttons": {
+          "toggle": "Status umschalten",
+          "channel": "Kanal konfigurieren",
+          "channelCancel": "Kanal-Auswahl schließen",
+          "test": "Testen"
+        },
+        "type": {
+          "placeholder": "Nachrichtentyp auswählen",
+          "options": {
+            "simple": {
+              "label": "Einfache Nachricht",
+              "description": "Sendet eine Textnachricht"
+            },
+            "embed": {
+              "label": "Embed",
+              "description": "Sendet ein Abschieds-Embed"
+            },
+            "container": {
+              "label": "Container (V2)",
+              "description": "Sendet einen Components V2 Container"
+            },
+            "image": {
+              "label": "Bild",
+              "description": "Sendet ein Embed mit Bild"
+            }
+          }
+        }
+      },
+      "templates": {
+        "simple": "👋 {{user}} hat **{{guild}}** verlassen.",
+        "embedTitle": "Auf Wiedersehen",
+        "embedDescription": "{{user}} hat **{{guild}}** verlassen.",
+        "containerTitle": "Auf Wiedersehen",
+        "containerDescription": "{{user}} hat **{{guild}}** verlassen.",
+        "imageTitle": "Auf Wiedersehen",
+        "imageDescription": "vom Discord-Server {{guild}}"
+      }
+    },
+    "help": {
+      "name": "hilfe",
+      "description": "Liste der Befehle oder Details eines Befehls anzeigen.",
+      "args": {
+        "command": "Optionaler Befehlsname oder Trigger"
+      },
+      "examples": {
+        "basic": "Alle Befehle anzeigen",
+        "single": "Details eines Befehls anzeigen"
+      },
+      "errors": {
+        "notFound": "Kein Befehl entspricht {{query}}."
+      },
+      "embed": {
+        "title": "Befehls-Hilfe",
+        "description": "Nutze {{usage}}, um einen Befehl zu prüfen.",
+        "categoryEmpty": "Keine Befehle in dieser Kategorie.",
+        "detailsTitle": "Befehl: {{name}}",
+        "detailsDescription": "{{description}}",
+        "footer": "Kategorie: {{source}}",
+        "fields": {
+          "usage": "Verwendung",
+          "arguments": "Argumente",
+          "examples": "Beispiele"
+        }
+      },
+      "labels": {
+        "prefix": "Prefix",
+        "slash": "Slash",
+        "required": "erforderlich",
+        "optional": "optional",
+        "noArgs": "Keine Argumente.",
+        "noExamples": "Keine Beispiele."
+      }
+    }
+  },
+  "logsRuntime": {
+    "placeholders": {
+      "noContent": "(kein Inhalt)",
+      "unknown": "unbekannt",
+      "none": "keine"
+    },
+    "embed": {
+      "title": "Event: {{event}}",
+      "detailsField": "Details"
+    },
+    "summaries": {
+      "messageCreate": "Nachricht von {{user}} in {{channel}} gesendet",
+      "messageDelete": "Nachricht in {{channel}} gelöscht",
+      "messageUpdate": "Nachricht in {{channel}} aktualisiert",
+      "messageBulkDelete": "Mehrfachlöschung: {{count}} Nachrichten entfernt",
+      "guildMemberAdd": "Mitglied beigetreten: {{user}}",
+      "guildMemberRemove": "Mitglied verlassen: {{user}}",
+      "guildMemberUpdate": "Mitglied aktualisiert: {{user}}",
+      "interactionGeneric": "Interaktion von {{user}}",
+      "interactionSlash": "Slash-Befehl /{{command}} von {{user}}",
+      "interactionButton": "Button-Interaktion von {{user}}",
+      "interactionSelect": "Auswahlmenü-Interaktion von {{user}}",
+      "interactionModal": "Modal gesendet von {{user}}",
+      "channelCreate": "Kanal erstellt: {{channel}}",
+      "channelDelete": "Kanal gelöscht: {{channel}}",
+      "channelUpdate": "Kanal aktualisiert: {{channel}}",
+      "roleCreate": "Rolle erstellt: {{role}}",
+      "roleDelete": "Rolle gelöscht: {{role}}",
+      "roleUpdate": "Rolle aktualisiert: {{role}}",
+      "threadCreate": "Thread erstellt: {{thread}}",
+      "threadDelete": "Thread gelöscht: {{thread}}",
+      "threadUpdate": "Thread aktualisiert: {{thread}}",
+      "emojiCreate": "Emoji erstellt: {{emoji}}",
+      "emojiDelete": "Emoji gelöscht: {{emoji}}",
+      "emojiUpdate": "Emoji aktualisiert: {{emoji}}",
+      "guildUpdate": "Server aktualisiert: {{guild}}",
+      "guildUnavailable": "Server vorübergehend nicht verfügbar: {{guild}}",
+      "guildBanAdd": "Benutzer gebannt: {{user}}",
+      "guildBanRemove": "Benutzer entbannt: {{user}}",
+      "inviteCreate": "Einladung erstellt: {{code}}",
+      "inviteDelete": "Einladung gelöscht: {{code}}"
+    },
+    "details": {
+      "messageId": "messageId={{value}}",
+      "author": "author={{tag}} ({{id}})",
+      "content": "content={{value}}",
+      "before": "before={{value}}",
+      "after": "after={{value}}",
+      "channelId": "channelId={{value}}",
+      "count": "count={{value}}",
+      "user": "user={{tag}} ({{id}})",
+      "oldNick": "oldNick={{value}}",
+      "newNick": "newNick={{value}}",
+      "interactionId": "interactionId={{value}}",
+      "type": "type={{value}}",
+      "oldName": "oldName={{value}}",
+      "newName": "newName={{value}}",
+      "roleId": "roleId={{value}}",
+      "threadId": "threadId={{value}}",
+      "emojiId": "emojiId={{value}}",
+      "guildId": "guildId={{value}}",
+      "inviter": "inviter={{value}}"
+    }
+  }
+}

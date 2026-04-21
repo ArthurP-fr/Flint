@@ -83,6 +83,10 @@ const eventStatusLabel = (ctx: CommandExecutionContext, enabled: boolean): strin
   return enabled ? ctx.ct("ui.status.enabled") : ctx.ct("ui.status.disabled");
 };
 
+const eventLabel = (ctx: CommandExecutionContext, eventKey: LogEventKey): string => {
+  return ctx.ct(`ui.events.${eventKey}`);
+};
+
 const panelContent = (
   ctx: CommandExecutionContext,
   state: LogEventStateByKey,
@@ -105,7 +109,7 @@ const panelContent = (
   for (const definition of currentEvents) {
     const eventConfig = state[definition.key];
     const channelDisplay = eventConfig.channelId ? `<#${eventConfig.channelId}>` : ctx.ct("ui.channelNotConfigured");
-    lines.push(`- ${definition.key} | ${eventStatusLabel(ctx, eventConfig.enabled)} | ${ctx.ct("ui.channelLabel")}: ${channelDisplay}`);
+    lines.push(`- ${eventLabel(ctx, definition.key)} | ${eventStatusLabel(ctx, eventConfig.enabled)} | ${ctx.ct("ui.channelLabel")}: ${channelDisplay}`);
   }
 
   if (uiState.feedback) {
@@ -164,9 +168,10 @@ const buildContainer = (
   for (const definitionChunk of chunk(currentEvents, 5)) {
     const rowButtons = definitionChunk.map((definition) => {
       const eventConfig = state[definition.key];
+      const localizedEvent = eventLabel(ctx, definition.key);
       const label = eventConfig.enabled
-        ? ctx.ct("ui.buttons.disableEvent", { event: definition.key })
-        : ctx.ct("ui.buttons.enableEvent", { event: definition.key });
+        ? ctx.ct("ui.buttons.disableEvent", { event: localizedEvent })
+        : ctx.ct("ui.buttons.enableEvent", { event: localizedEvent });
 
       return new ButtonBuilder()
         .setCustomId(customIds.toggleButtonsByEvent[definition.key])
@@ -331,9 +336,10 @@ export const createLogsCommandExecute = (logEventService: LogEventService) => {
         if (eventKey) {
           state[eventKey].enabled = !state[eventKey].enabled;
           await logEventService.persistGuildState(ctx.client, guild.id, state);
+          const localizedEvent = eventLabel(ctx, eventKey);
           uiState.feedback = state[eventKey].enabled
-            ? ctx.ct("responses.eventEnabled", { event: eventKey })
-            : ctx.ct("responses.eventDisabled", { event: eventKey });
+            ? ctx.ct("responses.eventEnabled", { event: localizedEvent })
+            : ctx.ct("responses.eventDisabled", { event: localizedEvent });
 
           await interaction.update({
             flags: MessageFlags.IsComponentsV2,

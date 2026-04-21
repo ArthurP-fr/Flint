@@ -69,6 +69,8 @@ export interface LogRuntimeDispatchInput {
   summary: string;
   details?: string[];
   color?: number;
+  title?: string;
+  detailsTitle?: string;
 }
 
 export interface LogPanelCustomIds {

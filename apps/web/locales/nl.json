@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "title": "Shadow - Hosting van Discord-bots (vanaf 2 EUR/maand per bot)",
+    "description": "Multi-tenant SaaS-platform om je Discord-bots te hosten en te beheren met automatische commando's, components v2, meertaligheid en dynamische variabelen."
+  },
+  "common": {
+    "brand": "Shadow"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "login": "Inloggen"
+  },
+  "localeSwitcher": {
+    "label": "Taal",
+    "locales": {
+      "en": "Engels",
+      "es": "Spaans",
+      "de": "Duits",
+      "ja": "Japans",
+      "fr": "Frans",
+      "pt": "Portugees",
+      "ru": "Russisch",
+      "it": "Italiaans",
+      "nl": "Nederlands",
+      "pl": "Pools",
+      "zh": "Chinees",
+      "hi": "Hindi",
+      "ar": "Arabisch",
+      "bn": "Bengaals",
+      "id": "Indonesisch",
+      "tr": "Turks"
+    }
+  },
+  "hero": {
+    "kicker": "SaaS-platform voor Discord-bots",
+    "title": "Shadow - Host je Discord-bots (vanaf 2 EUR/maand per bot)",
+    "description": "Host en beheer je bots met automatische commando's (prefix en slash), components v2, automatische hulp, meertalige ondersteuning en dynamische variabelen.",
+    "ctaStart": "Begin - 2 EUR/maand",
+    "ctaLogin": "Inloggen",
+    "bots": {
+      "moderation": "Moderatie",
+      "welcome": "Welkom",
+      "analytics": "Analytics"
+    },
+    "status": {
+      "online": "Online",
+      "stopped": "Gestopt"
+    },
+    "card": {
+      "title": "Live overzicht van de vloot",
+      "subtitle": "Volg elke bot-instantie vanuit één operationeel dashboard.",
+      "instanceMetrics": "Instanties: 1 | CPU 35%",
+      "manage": "Beheren",
+      "preview": "Realtime overzicht van de status van je bots"
+    }
+  },
+  "features": {
+    "title": "Belangrijkste functies",
+    "subtitle": "Alles wat je nodig hebt om je bots in productie te beheren.",
+    "items": {
+      "autoCommands": {
+        "title": "Automatische commando's",
+        "description": "Prefix- en slash-commando's worden automatisch gegenereerd en gesynchroniseerd voor elke bot."
+      },
+      "componentsV2": {
+        "title": "Components v2",
+        "description": "Volledige ondersteuning voor components v2 en betrouwbare interactieve elementen."
+      },
+      "autoHelp": {
+        "title": "Automatische hulp",
+        "description": "Automatisch gegenereerde hulp en documentatie voor commando's."
+      },
+      "multiLanguage": {
+        "title": "Meertalig",
+        "description": "Vertaal berichten en commandolabels en activeer eenvoudig meerdere talen."
+      },
+      "dynamicVariables": {
+        "title": "Dynamische variabelen",
+        "description": "Dynamische templates met variabelen zoals bot_latency, guild_count en meer."
+      },
+      "hosting": {
+        "title": "Hosting en schaalbaarheid",
+        "description": "Eenvoudige plannen vanaf 2 EUR/maand per bot met monitoring en schaalbaarheid inbegrepen."
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "Hoe het werkt",
+    "subtitle": "Drie eenvoudige stappen om je bots te beheren.",
+    "steps": {
+      "addBot": {
+        "title": "Bot toevoegen",
+        "description": "Koppel je Discord-app via OAuth en registreer deze in Shadow."
+      },
+      "dashboard": {
+        "title": "Beheer via dashboard",
+        "description": "Toegang tot commando's, logs en instellingen via één centrale interface."
+      },
+      "realtime": {
+        "title": "Realtime controle",
+        "description": "Start, stop en schaal je bots direct op basis van de vraag."
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Discord-bot hosting - plannen vanaf 2 EUR/maand per bot",
+    "github": "GitHub",
+    "copyright": "Copyright {year} {brand}"
+  },
+  "login": {
+    "eyebrow": "Shadow - Hosting van Discord-bots",
+    "title": "Verbind je Discord-account",
+    "description": "Authenticeer via OAuth2 om toegang te krijgen tot je omgeving en je bots te hosten.",
+    "cta": "Doorgaan met Discord"
+  },
+  "dashboard": {
+    "loading": "Dashboard laden...",
+    "sessionRequired": "Sessie vereist",
+    "loginRequired": "Inloggen vereist",
+    "loginDescription": "Je dashboard is beveiligd. Log in via Discord om je bots te beheren.",
+    "loginCta": "Inloggen",
+    "tenant": "Tenant {tenantId}",
+    "role": "Rol: {role}",
+    "roles": {
+      "owner": "Eigenaar",
+      "member": "Lid"
+    },
+    "logout": "Uitloggen",
+    "addBot": {
+      "title": "Bot toevoegen",
+      "description": "De token wordt aan de API-kant gecontroleerd en versleuteld opgeslagen.",
+      "tokenLabel": "Discord bot-token",
+      "tokenPlaceholder": "MTIz...",
+      "displayNameLabel": "Weergavenaam (optioneel)",
+      "displayNamePlaceholder": "EU support bot",
+      "submit": "Bot toevoegen",
+      "submitPending": "Bezig met valideren..."
+    },
+    "bots": {
+      "title": "Mijn bots",
+      "refresh": "Vernieuwen",
+      "empty": "Geen bots voor deze tenant.",
+      "discordId": "Discord ID: {discordBotId}",
+      "lastError": "Laatste fout: {message}"
+    },
+    "status": {
+      "stopped": "Gestopt",
+      "starting": "Starten",
+      "running": "Online",
+      "stopping": "Stoppen",
+      "error": "Fout"
+    },
+    "actions": {
+      "start": "Starten",
+      "stop": "Stoppen",
+      "restart": "Herstarten"
+    },
+    "errors": {
+      "fetchSession": "Kan gebruikerssessie niet ophalen",
+      "fetchBots": "Kan botlijst niet ophalen",
+      "unexpected": "Onverwachte fout",
+      "addBot": "Bot toevoegen mislukt",
+      "actionFailed": "Actie mislukt: {action}"
+    }
+  }
+}

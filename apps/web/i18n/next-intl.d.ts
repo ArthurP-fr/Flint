@@ -1,6 +1,6 @@
 import "next-intl";
 
-import enMessages from "../messages/en.json";
+import enMessages from "../locales/en.json";
 
 import { routing } from "./routing";
 

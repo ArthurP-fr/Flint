@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "title": "Shadow - Hosting botów Discord (od 2 EUR/miesiąc za bota)",
+    "description": "Wielodostępna platforma SaaS do hostowania i zarządzania botami Discord z automatycznymi komendami, komponentami v2, wielojęzycznością i dynamicznymi zmiennymi."
+  },
+  "common": {
+    "brand": "Shadow"
+  },
+  "nav": {
+    "home": "Strona główna",
+    "dashboard": "Panel",
+    "login": "Zaloguj się"
+  },
+  "localeSwitcher": {
+    "label": "Język",
+    "locales": {
+      "en": "Angielski",
+      "es": "Hiszpański",
+      "de": "Niemiecki",
+      "ja": "Japoński",
+      "fr": "Francuski",
+      "pt": "Portugalski",
+      "ru": "Rosyjski",
+      "it": "Włoski",
+      "nl": "Holenderski",
+      "pl": "Polski",
+      "zh": "Chiński",
+      "hi": "Hinduski",
+      "ar": "Arabski",
+      "bn": "Bengalski",
+      "id": "Indonezyjski",
+      "tr": "Turecki"
+    }
+  },
+  "hero": {
+    "kicker": "Platforma SaaS dla botów Discord",
+    "title": "Shadow - Hostuj swoje boty Discord (od 2 EUR/miesiąc za bota)",
+    "description": "Hostuj i zarządzaj swoimi botami z automatycznymi komendami (prefix i slash), komponentami v2, automatyczną pomocą, wsparciem wielojęzycznym i dynamicznymi zmiennymi.",
+    "ctaStart": "Rozpocznij - 2 EUR/miesiąc",
+    "ctaLogin": "Zaloguj się",
+    "bots": {
+      "moderation": "Moderacja",
+      "welcome": "Powitanie",
+      "analytics": "Analityka"
+    },
+    "status": {
+      "online": "Online",
+      "stopped": "Zatrzymany"
+    },
+    "card": {
+      "title": "Podgląd floty na żywo",
+      "subtitle": "Śledź każdą instancję bota z jednego panelu operacyjnego.",
+      "instanceMetrics": "Instancje: 1 | CPU 35%",
+      "manage": "Zarządzaj",
+      "preview": "Podgląd w czasie rzeczywistym statusu botów"
+    }
+  },
+  "features": {
+    "title": "Główne funkcje",
+    "subtitle": "Wszystko czego potrzebujesz do zarządzania botami w produkcji.",
+    "items": {
+      "autoCommands": {
+        "title": "Automatyczne komendy",
+        "description": "Komendy prefix i slash są automatycznie generowane i synchronizowane dla każdego bota."
+      },
+      "componentsV2": {
+        "title": "Komponenty v2",
+        "description": "Pełne wsparcie dla komponentów v2 i niezawodnych interakcji."
+      },
+      "autoHelp": {
+        "title": "Automatyczna pomoc",
+        "description": "Automatycznie generowana pomoc i dokumentacja komend."
+      },
+      "multiLanguage": {
+        "title": "Wielojęzyczność",
+        "description": "Tłumacz wiadomości i etykiety komend oraz łatwo aktywuj wiele języków."
+      },
+      "dynamicVariables": {
+        "title": "Zmienne dynamiczne",
+        "description": "Dynamiczne szablony ze zmiennymi takimi jak bot_latency, guild_count i inne."
+      },
+      "hosting": {
+        "title": "Hosting i skalowalność",
+        "description": "Proste plany od 2 EUR/miesiąc za bota z monitoringiem i skalowaniem w cenie."
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "Jak to działa",
+    "subtitle": "Trzy proste kroki, aby przejąć kontrolę nad botami.",
+    "steps": {
+      "addBot": {
+        "title": "Dodaj bota",
+        "description": "Połącz swoją aplikację Discord przez OAuth i zarejestruj ją w Shadow."
+      },
+      "dashboard": {
+        "title": "Zarządzaj z panelu",
+        "description": "Uzyskaj dostęp do komend, logów i ustawień z jednego centralnego interfejsu."
+      },
+      "realtime": {
+        "title": "Kontroluj w czasie rzeczywistym",
+        "description": "Uruchamiaj, zatrzymuj i skaluj boty natychmiast w zależności od potrzeb."
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Hosting botów Discord - plany od 2 EUR/miesiąc za bota",
+    "github": "GitHub",
+    "copyright": "Prawa autorskie {year} {brand}"
+  },
+  "login": {
+    "eyebrow": "Shadow - Hosting botów Discord",
+    "title": "Połącz swoje konto Discord",
+    "description": "Zaloguj się przez OAuth2, aby uzyskać dostęp do swojego panelu i hostować boty.",
+    "cta": "Kontynuuj z Discordem"
+  },
+  "dashboard": {
+    "loading": "Ładowanie panelu...",
+    "sessionRequired": "Wymagana sesja",
+    "loginRequired": "Wymagane logowanie",
+    "loginDescription": "Twój panel jest chroniony. Zaloguj się przez Discord, aby zarządzać botami.",
+    "loginCta": "Zaloguj się",
+    "tenant": "Tenant {tenantId}",
+    "role": "Rola: {role}",
+    "roles": {
+      "owner": "Właściciel",
+      "member": "Członek"
+    },
+    "logout": "Wyloguj się",
+    "addBot": {
+      "title": "Dodaj bota",
+      "description": "Token jest weryfikowany po stronie API i szyfrowany przed zapisaniem.",
+      "tokenLabel": "Token bota Discord",
+      "tokenPlaceholder": "MTIz...",
+      "displayNameLabel": "Nazwa wyświetlana (opcjonalnie)",
+      "displayNamePlaceholder": "Bot wsparcia EU",
+      "submit": "Dodaj bota",
+      "submitPending": "Weryfikacja..."
+    },
+    "bots": {
+      "title": "Moje boty",
+      "refresh": "Odśwież",
+      "empty": "Brak botów dla tego tenanta.",
+      "discordId": "Discord ID: {discordBotId}",
+      "lastError": "Ostatni błąd: {message}"
+    },
+    "status": {
+      "stopped": "Zatrzymany",
+      "starting": "Uruchamianie",
+      "running": "Online",
+      "stopping": "Zatrzymywanie",
+      "error": "Błąd"
+    },
+    "actions": {
+      "start": "Uruchom",
+      "stop": "Zatrzymaj",
+      "restart": "Uruchom ponownie"
+    },
+    "errors": {
+      "fetchSession": "Nie można pobrać sesji użytkownika",
+      "fetchBots": "Nie można pobrać listy botów",
+      "unexpected": "Nieoczekiwany błąd",
+      "addBot": "Nie można dodać bota",
+      "actionFailed": "Akcja nie powiodła się: {action}"
+    }
+  }
+}

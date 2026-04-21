@@ -59,70 +59,19 @@ const messageColor = (kind: MemberMessageKind): number => {
   return kind === "welcome" ? 0x57f287 : 0xed4245;
 };
 
-const defaultTemplate = (
-  kind: MemberMessageKind,
-  suffix: TemplateSuffix,
-  vars: Record<string, string>,
-): string => {
-  if (kind === "welcome") {
-    switch (suffix) {
-      case "simple":
-        return `🎉 Welcome ${vars.user} to **${vars.guild}**!`;
-      case "embedTitle":
-        return "Welcome!";
-      case "embedDescription":
-        return `${vars.user} just joined **${vars.guild}**.`;
-      case "containerTitle":
-        return "Welcome";
-      case "containerDescription":
-        return `${vars.user} just joined **${vars.guild}**.`;
-      case "imageTitle":
-        return "New member";
-      case "imageDescription":
-        return `Glad to have you here, ${vars.user}!`;
-      default:
-        return "";
-    }
-  }
-
-  switch (suffix) {
-    case "simple":
-      return `👋 ${vars.user} left **${vars.guild}**.`;
-    case "embedTitle":
-      return "Goodbye";
-    case "embedDescription":
-      return `${vars.user} has left **${vars.guild}**.`;
-    case "containerTitle":
-      return "Goodbye";
-    case "containerDescription":
-      return `${vars.user} has left **${vars.guild}**.`;
-    case "imageTitle":
-      return "Member left";
-    case "imageDescription":
-      return `${vars.user} has left the server.`;
-    default:
-      return "";
-  }
-};
-
 const resolveTemplate = (
-  i18n: I18nService | undefined,
+  i18n: I18nService,
   lang: SupportedLang,
   kind: MemberMessageKind,
   suffix: TemplateSuffix,
   vars: Record<string, string>,
 ): string => {
-  if (!i18n) {
-    return defaultTemplate(kind, suffix, vars);
-  }
-
   const key = `commands.${kind}.templates.${suffix}`;
-  const translated = i18n.t(lang, key, vars);
-  return translated === key ? defaultTemplate(kind, suffix, vars) : translated;
+  return i18n.t(lang, key, vars);
 };
 
 const resolveNonEmptyTemplate = (
-  i18n: I18nService | undefined,
+  i18n: I18nService,
   lang: SupportedLang,
   kind: MemberMessageKind,
   suffix: TemplateSuffix,
@@ -133,8 +82,9 @@ const resolveNonEmptyTemplate = (
     return resolved;
   }
 
-  const fallback = defaultTemplate(kind, suffix, vars).trim();
-  return fallback.length > 0 ? fallback : suffix;
+  const key = `commands.${kind}.templates.${suffix}`;
+  const fallback = i18n.t("en", key, vars).trim();
+  return fallback.length > 0 ? fallback : key;
 };
 
 const resolveAssignableRoleId = async (member: GuildMember, roleId: string): Promise<string | null> => {
@@ -151,7 +101,7 @@ const resolveAssignableRoleId = async (member: GuildMember, roleId: string): Pro
 };
 
 const buildMemberMessagePayload = async (
-  i18n: I18nService | undefined,
+  i18n: I18nService,
   lang: SupportedLang,
   kind: MemberMessageKind,
   renderType: MemberMessageRenderType,
@@ -392,7 +342,7 @@ export class MemberMessageService {
       }
     }
 
-    const lang = input.i18n?.resolveLang(input.guild.preferredLocale ?? null) ?? "en";
+    const lang = input.i18n.resolveLang(input.guild.preferredLocale ?? null);
     const payload = await buildMemberMessagePayload(input.i18n, lang, input.kind, config.messageType, input.guild, input.user);
 
     try {

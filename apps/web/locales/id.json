@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "title": "Shadow - Hosting bot Discord (mulai dari 2 EUR/bulan per bot)",
+    "description": "Platform SaaS multi-tenant untuk meng-host dan mengelola bot Discord Anda dengan perintah otomatis, components v2, multi-bahasa, dan variabel dinamis."
+  },
+  "common": {
+    "brand": "Shadow"
+  },
+  "nav": {
+    "home": "Beranda",
+    "dashboard": "Dasbor",
+    "login": "Masuk"
+  },
+  "localeSwitcher": {
+    "label": "Bahasa",
+    "locales": {
+      "en": "Inggris",
+      "es": "Spanyol",
+      "de": "Jerman",
+      "ja": "Jepang",
+      "fr": "Prancis",
+      "pt": "Portugis",
+      "ru": "Rusia",
+      "it": "Italia",
+      "nl": "Belanda",
+      "pl": "Polandia",
+      "zh": "Tionghoa",
+      "hi": "Hindi",
+      "ar": "Arab",
+      "bn": "Bengali",
+      "id": "Indonesia",
+      "tr": "Turki"
+    }
+  },
+  "hero": {
+    "kicker": "Platform SaaS untuk bot Discord",
+    "title": "Shadow - Hosting bot Discord Anda (mulai dari 2 EUR/bulan per bot)",
+    "description": "Hosting dan kelola bot Anda dengan perintah otomatis (prefix dan slash), components v2, bantuan otomatis, dukungan multi-bahasa, dan variabel dinamis.",
+    "ctaStart": "Mulai - 2 EUR/bulan",
+    "ctaLogin": "Masuk",
+    "bots": {
+      "moderation": "Moderasi",
+      "welcome": "Selamat datang",
+      "analytics": "Analitik"
+    },
+    "status": {
+      "online": "Online",
+      "stopped": "Berhenti"
+    },
+    "card": {
+      "title": "Pratinjau langsung fleet",
+      "subtitle": "Pantau setiap instance bot dari satu dashboard operasional.",
+      "instanceMetrics": "Instansi: 1 | CPU 35%",
+      "manage": "Kelola",
+      "preview": "Pratinjau real-time status bot Anda"
+    }
+  },
+  "features": {
+    "title": "Fitur utama",
+    "subtitle": "Semua yang Anda butuhkan untuk mengelola bot dalam produksi.",
+    "items": {
+      "autoCommands": {
+        "title": "Perintah otomatis",
+        "description": "Perintah prefix dan slash dibuat serta disinkronkan secara otomatis untuk setiap bot."
+      },
+      "componentsV2": {
+        "title": "Components v2",
+        "description": "Dukungan penuh untuk components v2 dan interaksi kaya yang andal."
+      },
+      "autoHelp": {
+        "title": "Bantuan otomatis",
+        "description": "Dokumentasi dan bantuan perintah dibuat secara otomatis."
+      },
+      "multiLanguage": {
+        "title": "Multi-bahasa",
+        "description": "Terjemahkan pesan dan label perintah lalu aktifkan beberapa bahasa dengan mudah."
+      },
+      "dynamicVariables": {
+        "title": "Variabel dinamis",
+        "description": "Template dinamis dengan variabel seperti bot_latency, guild_count, dan lainnya."
+      },
+      "hosting": {
+        "title": "Hosting dan skalabilitas",
+        "description": "Paket sederhana mulai 2 EUR/bulan per bot dengan monitoring dan skalabilitas."
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "Cara kerja",
+    "subtitle": "Tiga langkah sederhana untuk mengontrol bot Anda.",
+    "steps": {
+      "addBot": {
+        "title": "Tambah bot",
+        "description": "Hubungkan aplikasi Discord Anda melalui OAuth dan daftarkan di Shadow."
+      },
+      "dashboard": {
+        "title": "Kelola dari dashboard",
+        "description": "Akses perintah, log, dan pengaturan dari satu antarmuka terpusat."
+      },
+      "realtime": {
+        "title": "Kontrol real-time",
+        "description": "Jalankan, hentikan, dan skalakan bot Anda secara instan sesuai kebutuhan."
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Hosting bot Discord - mulai dari 2 EUR/bulan per bot",
+    "github": "GitHub",
+    "copyright": "Hak cipta {year} {brand}"
+  },
+  "login": {
+    "eyebrow": "Shadow - Hosting bot Discord",
+    "title": "Hubungkan akun Discord Anda",
+    "description": "Login melalui OAuth2 untuk mengakses dashboard dan meng-host bot Anda.",
+    "cta": "Lanjutkan dengan Discord"
+  },
+  "dashboard": {
+    "loading": "Memuat dashboard...",
+    "sessionRequired": "Sesi diperlukan",
+    "loginRequired": "Login diperlukan",
+    "loginDescription": "Dashboard Anda dilindungi. Masuk melalui Discord untuk mengelola bot Anda.",
+    "loginCta": "Masuk",
+    "tenant": "Tenant {tenantId}",
+    "role": "Peran: {role}",
+    "roles": {
+      "owner": "Pemilik",
+      "member": "Anggota"
+    },
+    "logout": "Keluar",
+    "addBot": {
+      "title": "Tambah bot",
+      "description": "Token diverifikasi di sisi API lalu dienkripsi sebelum disimpan.",
+      "tokenLabel": "Token bot Discord",
+      "tokenPlaceholder": "MTIz...",
+      "displayNameLabel": "Nama tampilan (opsional)",
+      "displayNamePlaceholder": "Bot support EU",
+      "submit": "Tambah bot",
+      "submitPending": "Memvalidasi..."
+    },
+    "bots": {
+      "title": "Bot saya",
+      "refresh": "Segarkan",
+      "empty": "Tidak ada bot untuk tenant ini.",
+      "discordId": "ID Discord: {discordBotId}",
+      "lastError": "Error terakhir: {message}"
+    },
+    "status": {
+      "stopped": "Berhenti",
+      "starting": "Memulai",
+      "running": "Online",
+      "stopping": "Menghentikan",
+      "error": "Error"
+    },
+    "actions": {
+      "start": "Mulai",
+      "stop": "Hentikan",
+      "restart": "Restart"
+    },
+    "errors": {
+      "fetchSession": "Tidak dapat mengambil sesi pengguna",
+      "fetchBots": "Tidak dapat mengambil daftar bot",
+      "unexpected": "Kesalahan tidak terduga",
+      "addBot": "Gagal menambahkan bot",
+      "actionFailed": "Aksi gagal: {action}"
+    }
+  }
+}
