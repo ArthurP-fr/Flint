@@ -14,22 +14,22 @@
   "localeSwitcher": {
     "label": "Sprache",
     "locales": {
-      "en": "Englisch",
-      "es": "Spanisch",
+      "en": "English",
+      "es": "Español",
       "de": "Deutsch",
-      "ja": "Japanisch",
-      "fr": "Französisch",
-      "pt": "Portugiesisch",
-      "ru": "Russisch",
-      "it": "Italienisch",
-      "nl": "Niederländisch",
-      "pl": "Polnisch",
-      "zh": "Chinesisch",
-      "hi": "Hindi",
-      "ar": "Arabisch",
-      "bn": "Bengalisch",
-      "id": "Indonesisch",
-      "tr": "Türkisch"
+      "ja": "日本語",
+      "fr": "Français",
+      "pt": "Português",
+      "ru": "Русский",
+      "it": "Italiano",
+      "nl": "Nederlands",
+      "pl": "Polski",
+      "zh": "中文",
+      "hi": "हिन्दी",
+      "ar": "العربية",
+      "bn": "বাংলা",
+      "id": "Bahasa Indonesia",
+      "tr": "Türkçe"
     }
   },
   "hero": {
