@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "Shadow - Discord bot barındırma (bot başına ayda 2 EUR’dan itibaren)",
+    "title": "Flint - Discord bot barındırma (bot başına ayda 2 EUR’dan itibaren)",
     "description": "Discord botlarınızı barındırmak ve yönetmek için çok kiracılı SaaS platformu; otomatik komutlar, v2 bileşenleri, çoklu dil ve dinamik değişkenler içerir."
   },
   "common": {
-    "brand": "Shadow"
+    "brand": "Flint"
   },
   "nav": {
     "home": "Ana sayfa",
@@ -34,7 +34,7 @@
   },
   "hero": {
     "kicker": "Discord botları için SaaS platformu",
-    "title": "Shadow - Discord botlarınızı barındırın (bot başına ayda 2 EUR’dan itibaren)",
+    "title": "Flint - Discord botlarınızı barındırın (bot başına ayda 2 EUR’dan itibaren)",
     "description": "Botlarınızı otomatik komutlar (prefix ve slash), v2 bileşenleri, otomatik yardım, çoklu dil desteği ve dinamik değişkenlerle barındırın ve yönetin.",
     "ctaStart": "Başla - 2 EUR/ay",
     "ctaLogin": "Giriş yap",
@@ -91,7 +91,7 @@
     "steps": {
       "addBot": {
         "title": "Bot ekle",
-        "description": "Discord uygulamanızı OAuth ile bağlayın ve Shadow’a kaydedin."
+        "description": "Discord uygulamanızı OAuth ile bağlayın ve Flint’a kaydedin."
       },
       "dashboard": {
         "title": "Panelden yönetin",
@@ -109,7 +109,7 @@
     "copyright": "Telif hakkı {year} {brand}"
   },
   "login": {
-    "eyebrow": "Shadow - Discord bot barındırma",
+    "eyebrow": "Flint - Discord bot barındırma",
     "title": "Discord hesabınızla giriş yapın",
     "description": "Botlarınızı barındırmak ve panelinize erişmek için OAuth2 ile kimlik doğrulaması yapın.",
     "cta": "Discord ile devam et"

@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "Shadow - Discord bot hosting (from €2/month per bot)",
+    "title": "Flint - Discord bot hosting (from €2/month per bot)",
     "description": "Multi-tenant SaaS platform to host and manage your Discord bots with automatic commands, components v2, multi-language support, and dynamic variables."
   },
   "common": {
-    "brand": "Shadow"
+    "brand": "Flint"
   },
   "nav": {
     "home": "Home",
@@ -34,7 +34,7 @@
   },
   "hero": {
     "kicker": "SaaS platform for Discord bots",
-    "title": "Shadow - Host your Discord bots (from €2/month per bot)",
+    "title": "Flint - Host your Discord bots (from €2/month per bot)",
     "description": "Host and manage your bots with automatic commands (prefix and slash), components v2, automatic help, multi-language support, and dynamic variables.",
     "ctaStart": "Get started - €2/month",
     "ctaLogin": "Log in",
@@ -91,7 +91,7 @@
     "steps": {
       "addBot": {
         "title": "Add a bot",
-        "description": "Connect your Discord application via OAuth and register it in Shadow."
+        "description": "Connect your Discord application via OAuth and register it in Flint."
       },
       "dashboard": {
         "title": "Manage from the dashboard",
@@ -109,7 +109,7 @@
     "copyright": "Copyright {year} {brand}"
   },
   "login": {
-    "eyebrow": "Shadow - Discord bot hosting",
+    "eyebrow": "Flint - Discord bot hosting",
     "title": "Connect your Discord account",
     "description": "Authenticate via OAuth2 to access your workspace and host your bots.",
     "cta": "Continue with Discord"

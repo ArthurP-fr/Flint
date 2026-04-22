@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "Shadow - Discordボットホスティング（ボット1台あたり月額2EURから）",
+    "title": "Flint - Discordボットホスティング（ボット1台あたり月額2EURから）",
     "description": "Discordボットをホスティング・管理するためのマルチテナントSaaSプラットフォーム。自動コマンド、v2コンポーネント、多言語対応、動的変数をサポート。"
   },
   "common": {
-    "brand": "Shadow"
+    "brand": "Flint"
   },
   "nav": {
     "home": "ホーム",
@@ -34,7 +34,7 @@
   },
   "hero": {
     "kicker": "Discordボット向けSaaSプラットフォーム",
-    "title": "Shadow - Discordボットをホスティング（ボット1台あたり月額2EURから）",
+    "title": "Flint - Discordボットをホスティング（ボット1台あたり月額2EURから）",
     "description": "自動コマンド（プレフィックス・スラッシュ）、v2コンポーネント、自動ヘルプ、多言語対応、動的変数でボットをホスティング・管理できます。",
     "ctaStart": "開始 - 月額2EUR",
     "ctaLogin": "ログイン",
@@ -91,7 +91,7 @@
     "steps": {
       "addBot": {
         "title": "ボットを追加",
-        "description": "DiscordアプリをOAuthで接続し、Shadowに登録します。"
+        "description": "DiscordアプリをOAuthで接続し、Flintに登録します。"
       },
       "dashboard": {
         "title": "ダッシュボードで管理",
@@ -109,7 +109,7 @@
     "copyright": "著作権 {year} {brand}"
   },
   "login": {
-    "eyebrow": "Shadow - Discordボットホスティング",
+    "eyebrow": "Flint - Discordボットホスティング",
     "title": "Discordアカウントに接続",
     "description": "OAuth2で認証してダッシュボードにアクセスし、ボットをホスティングします。",
     "cta": "Discordで続行"

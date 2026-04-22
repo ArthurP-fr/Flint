@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "Shadow - Hosting bot Discord (mulai dari 2 EUR/bulan per bot)",
+    "title": "Flint - Hosting bot Discord (mulai dari 2 EUR/bulan per bot)",
     "description": "Platform SaaS multi-tenant untuk meng-host dan mengelola bot Discord Anda dengan perintah otomatis, components v2, multi-bahasa, dan variabel dinamis."
   },
   "common": {
-    "brand": "Shadow"
+    "brand": "Flint"
   },
   "nav": {
     "home": "Beranda",
@@ -34,7 +34,7 @@
   },
   "hero": {
     "kicker": "Platform SaaS untuk bot Discord",
-    "title": "Shadow - Hosting bot Discord Anda (mulai dari 2 EUR/bulan per bot)",
+    "title": "Flint - Hosting bot Discord Anda (mulai dari 2 EUR/bulan per bot)",
     "description": "Hosting dan kelola bot Anda dengan perintah otomatis (prefix dan slash), components v2, bantuan otomatis, dukungan multi-bahasa, dan variabel dinamis.",
     "ctaStart": "Mulai - 2 EUR/bulan",
     "ctaLogin": "Masuk",
@@ -91,7 +91,7 @@
     "steps": {
       "addBot": {
         "title": "Tambah bot",
-        "description": "Hubungkan aplikasi Discord Anda melalui OAuth dan daftarkan di Shadow."
+        "description": "Hubungkan aplikasi Discord Anda melalui OAuth dan daftarkan di Flint."
       },
       "dashboard": {
         "title": "Kelola dari dashboard",
@@ -109,7 +109,7 @@
     "copyright": "Hak cipta {year} {brand}"
   },
   "login": {
-    "eyebrow": "Shadow - Hosting bot Discord",
+    "eyebrow": "Flint - Hosting bot Discord",
     "title": "Hubungkan akun Discord Anda",
     "description": "Login melalui OAuth2 untuk mengakses dashboard dan meng-host bot Anda.",
     "cta": "Lanjutkan dengan Discord"

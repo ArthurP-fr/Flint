@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "Shadow - استضافة بوتات Discord (ابتداءً من 2 يورو/شهريًا لكل بوت)",
+    "title": "Flint - استضافة بوتات Discord (ابتداءً من 2 يورو/شهريًا لكل بوت)",
     "description": "منصة SaaS متعددة المستخدمين لاستضافة وإدارة بوتات Discord الخاصة بك مع أوامر تلقائية، components v2، دعم متعدد اللغات ومتغيرات ديناميكية."
   },
   "common": {
-    "brand": "Shadow"
+    "brand": "Flint"
   },
   "nav": {
     "home": "الرئيسية",
@@ -34,7 +34,7 @@
   },
   "hero": {
     "kicker": "منصة SaaS لبوتات Discord",
-    "title": "Shadow - استضف بوتات Discord الخاصة بك (ابتداءً من 2 يورو/شهريًا لكل بوت)",
+    "title": "Flint - استضف بوتات Discord الخاصة بك (ابتداءً من 2 يورو/شهريًا لكل بوت)",
     "description": "استضف وأدر بوتاتك باستخدام أوامر تلقائية (prefix و slash)، components v2، مساعدة تلقائية، دعم متعدد اللغات ومتغيرات ديناميكية.",
     "ctaStart": "ابدأ - 2 يورو/شهريًا",
     "ctaLogin": "تسجيل الدخول",
@@ -91,7 +91,7 @@
     "steps": {
       "addBot": {
         "title": "إضافة بوت",
-        "description": "قم بربط تطبيق Discord الخاص بك عبر OAuth وقم بتسجيله في Shadow."
+        "description": "قم بربط تطبيق Discord الخاص بك عبر OAuth وقم بتسجيله في Flint."
       },
       "dashboard": {
         "title": "الإدارة من لوحة التحكم",
@@ -109,7 +109,7 @@
     "copyright": "حقوق النشر {year} {brand}"
   },
   "login": {
-    "eyebrow": "Shadow - استضافة بوتات Discord",
+    "eyebrow": "Flint - استضافة بوتات Discord",
     "title": "قم بربط حساب Discord الخاص بك",
     "description": "قم بتسجيل الدخول عبر OAuth2 للوصول إلى مساحتك واستضافة بوتاتك.",
     "cta": "المتابعة باستخدام Discord"

@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "Shadow - Discord 机器人托管（每个机器人每月 2 欧元起）",
+    "title": "Flint - Discord 机器人托管（每个机器人每月 2 欧元起）",
     "description": "多租户 SaaS 平台，用于托管和管理你的 Discord 机器人，支持自动命令、v2 组件、多语言和动态变量。"
   },
   "common": {
-    "brand": "Shadow"
+    "brand": "Flint"
   },
   "nav": {
     "home": "首页",
@@ -34,7 +34,7 @@
   },
   "hero": {
     "kicker": "Discord 机器人 SaaS 平台",
-    "title": "Shadow - 托管你的 Discord 机器人（每个机器人每月 2 欧元起）",
+    "title": "Flint - 托管你的 Discord 机器人（每个机器人每月 2 欧元起）",
     "description": "托管并管理你的机器人，支持自动命令（前缀与斜杠）、v2 组件、自动帮助、多语言支持和动态变量。",
     "ctaStart": "开始使用 - 每月 2 欧元",
     "ctaLogin": "登录",
@@ -91,7 +91,7 @@
     "steps": {
       "addBot": {
         "title": "添加机器人",
-        "description": "通过 OAuth 连接你的 Discord 应用并注册到 Shadow。"
+        "description": "通过 OAuth 连接你的 Discord 应用并注册到 Flint。"
       },
       "dashboard": {
         "title": "在控制面板管理",
@@ -109,7 +109,7 @@
     "copyright": "版权所有 {year} {brand}"
   },
   "login": {
-    "eyebrow": "Shadow - Discord 机器人托管",
+    "eyebrow": "Flint - Discord 机器人托管",
     "title": "连接你的 Discord 账号",
     "description": "通过 OAuth2 登录以访问你的空间并托管机器人。",
     "cta": "使用 Discord 继续"

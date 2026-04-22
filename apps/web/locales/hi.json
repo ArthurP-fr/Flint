@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "Shadow - Discord बॉट होस्टिंग (प्रति बॉट 2 EUR/माह से शुरू)",
+    "title": "Flint - Discord बॉट होस्टिंग (प्रति बॉट 2 EUR/माह से शुरू)",
     "description": "अपने Discord बॉट्स को होस्ट और प्रबंधित करने के लिए मल्टी-टेनेंट SaaS प्लेटफ़ॉर्म, जिसमें ऑटोमैटिक कमांड्स, components v2, मल्टी-भाषा सपोर्ट और डायनामिक वेरिएबल्स शामिल हैं।"
   },
   "common": {
-    "brand": "Shadow"
+    "brand": "Flint"
   },
   "nav": {
     "home": "मुखपृष्ठ",
@@ -34,7 +34,7 @@
   },
   "hero": {
     "kicker": "Discord बॉट्स के लिए SaaS प्लेटफ़ॉर्म",
-    "title": "Shadow - अपने Discord बॉट्स होस्ट करें (प्रति बॉट 2 EUR/माह से शुरू)",
+    "title": "Flint - अपने Discord बॉट्स होस्ट करें (प्रति बॉट 2 EUR/माह से शुरू)",
     "description": "अपने बॉट्स को ऑटोमैटिक कमांड्स (prefix और slash), components v2, स्वचालित सहायता, मल्टी-भाषा सपोर्ट और डायनामिक वेरिएबल्स के साथ होस्ट और प्रबंधित करें।",
     "ctaStart": "शुरू करें - 2 EUR/माह",
     "ctaLogin": "लॉगिन करें",
@@ -91,7 +91,7 @@
     "steps": {
       "addBot": {
         "title": "बॉट जोड़ें",
-        "description": "OAuth के माध्यम से अपना Discord एप्लिकेशन कनेक्ट करें और Shadow में जोड़ें।"
+        "description": "OAuth के माध्यम से अपना Discord एप्लिकेशन कनेक्ट करें और Flint में जोड़ें।"
       },
       "dashboard": {
         "title": "डैशबोर्ड से प्रबंधन करें",
@@ -109,7 +109,7 @@
     "copyright": "Copyright {year} {brand}"
   },
   "login": {
-    "eyebrow": "Shadow - Discord बॉट होस्टिंग",
+    "eyebrow": "Flint - Discord बॉट होस्टिंग",
     "title": "अपने Discord खाते से लॉगिन करें",
     "description": "अपने बॉट्स को होस्ट और प्रबंधित करने के लिए OAuth2 के माध्यम से लॉगिन करें।",
     "cta": "Discord के साथ जारी रखें"

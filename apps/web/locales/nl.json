@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "Shadow - Hosting van Discord-bots (vanaf 2 EUR/maand per bot)",
+    "title": "Flint - Hosting van Discord-bots (vanaf 2 EUR/maand per bot)",
     "description": "Multi-tenant SaaS-platform om je Discord-bots te hosten en te beheren met automatische commando's, components v2, meertaligheid en dynamische variabelen."
   },
   "common": {
-    "brand": "Shadow"
+    "brand": "Flint"
   },
   "nav": {
     "home": "Home",
@@ -34,7 +34,7 @@
   },
   "hero": {
     "kicker": "SaaS-platform voor Discord-bots",
-    "title": "Shadow - Host je Discord-bots (vanaf 2 EUR/maand per bot)",
+    "title": "Flint - Host je Discord-bots (vanaf 2 EUR/maand per bot)",
     "description": "Host en beheer je bots met automatische commando's (prefix en slash), components v2, automatische hulp, meertalige ondersteuning en dynamische variabelen.",
     "ctaStart": "Begin - 2 EUR/maand",
     "ctaLogin": "Inloggen",
@@ -91,7 +91,7 @@
     "steps": {
       "addBot": {
         "title": "Bot toevoegen",
-        "description": "Koppel je Discord-app via OAuth en registreer deze in Shadow."
+        "description": "Koppel je Discord-app via OAuth en registreer deze in Flint."
       },
       "dashboard": {
         "title": "Beheer via dashboard",
@@ -109,7 +109,7 @@
     "copyright": "Copyright {year} {brand}"
   },
   "login": {
-    "eyebrow": "Shadow - Hosting van Discord-bots",
+    "eyebrow": "Flint - Hosting van Discord-bots",
     "title": "Verbind je Discord-account",
     "description": "Authenticeer via OAuth2 om toegang te krijgen tot je omgeving en je bots te hosten.",
     "cta": "Doorgaan met Discord"

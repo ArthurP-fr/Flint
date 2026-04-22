@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "Shadow - Alojamiento de bots de Discord (desde 2 EUR/mes por bot)",
+    "title": "Flint - Alojamiento de bots de Discord (desde 2 EUR/mes por bot)",
     "description": "Plataforma SaaS multi-tenant para alojar y gestionar tus bots de Discord con comandos automáticos, components v2, multi-idioma y variables dinámicas."
   },
   "common": {
-    "brand": "Shadow"
+    "brand": "Flint"
   },
   "nav": {
     "home": "Inicio",
@@ -34,7 +34,7 @@
   },
   "hero": {
     "kicker": "Plataforma SaaS para bots de Discord",
-    "title": "Shadow - Aloja tus bots de Discord (desde 2 EUR/mes por bot)",
+    "title": "Flint - Aloja tus bots de Discord (desde 2 EUR/mes por bot)",
     "description": "Aloja y gestiona tus bots con comandos automáticos (prefix y slash), components v2, ayuda automática, soporte multi-idioma y variables dinámicas.",
     "ctaStart": "Empezar - 2 EUR/mes",
     "ctaLogin": "Iniciar sesión",
@@ -91,7 +91,7 @@
     "steps": {
       "addBot": {
         "title": "Añadir un bot",
-        "description": "Conecta tu aplicación de Discord mediante OAuth y regístrala en Shadow."
+        "description": "Conecta tu aplicación de Discord mediante OAuth y regístrala en Flint."
       },
       "dashboard": {
         "title": "Gestionar desde el panel",
@@ -109,7 +109,7 @@
     "copyright": "Copyright {year} {brand}"
   },
   "login": {
-    "eyebrow": "Shadow - Alojamiento de bots de Discord",
+    "eyebrow": "Flint - Alojamiento de bots de Discord",
     "title": "Conecta tu cuenta de Discord",
     "description": "Autentícate mediante OAuth2 para acceder a tu espacio y alojar tus bots.",
     "cta": "Continuar con Discord"
