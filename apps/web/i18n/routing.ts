@@ -24,7 +24,7 @@ export const RTL_LOCALES = ["ar"] as const;
 export const routing = defineRouting({
   locales: [...APP_LOCALES],
   defaultLocale: "en",
-  localePrefix: "always",
+  localePrefix: "as-needed",
   localeDetection: true,
 });
 
