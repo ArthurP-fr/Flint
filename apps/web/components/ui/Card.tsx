@@ -14,11 +14,17 @@ export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   );
 }
 
-export function CardHeader({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
+export function CardHeader({
+  className,
+  ...props
+}: HTMLAttributes<HTMLDivElement>) {
   return <div className={cn("mb-5 space-y-2", className)} {...props} />;
 }
 
-export function CardTitle({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) {
+export function CardTitle({
+  className,
+  ...props
+}: HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h2
       className={cn(
@@ -36,12 +42,18 @@ export function CardDescription({
 }: HTMLAttributes<HTMLParagraphElement>) {
   return (
     <p
-      className={cn("text-sm leading-relaxed text-[var(--foreground-muted)]", className)}
+      className={cn(
+        "text-sm leading-relaxed text-[var(--foreground-muted)]",
+        className,
+      )}
       {...props}
     />
   );
 }
 
-export function CardContent({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
+export function CardContent({
+  className,
+  ...props
+}: HTMLAttributes<HTMLDivElement>) {
   return <div className={cn("space-y-4", className)} {...props} />;
 }

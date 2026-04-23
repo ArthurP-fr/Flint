@@ -47,8 +47,10 @@ const createCustomIds = (): PresenceCustomIds => {
 const statusLabel = (ctx: CommandExecutionContext, status: string): string =>
   ctx.ct(`ui.status.options.${status}.label`);
 
-const activityLabel = (ctx: CommandExecutionContext, activityType: string): string =>
-  ctx.ct(`ui.activity.options.${activityType}.label`);
+const activityLabel = (
+  ctx: CommandExecutionContext,
+  activityType: string,
+): string => ctx.ct(`ui.activity.options.${activityType}.label`);
 
 const panelContent = (
   ctx: CommandExecutionContext,
@@ -60,8 +62,13 @@ const panelContent = (
 
   const templateText = service.getActiveTemplateText(state, runtimeState);
   const activityPreview = service.renderPreview(ctx.client, templateText);
-  const activityTexts = state.activity.texts.map((text, index) => `${index + 1}. ${text}`).join(" | ");
-  const currentIndex = Math.min(runtimeState.activePresenceTextIndex + 1, state.activity.texts.length);
+  const activityTexts = state.activity.texts
+    .map((text, index) => `${index + 1}. ${text}`)
+    .join(" | ");
+  const currentIndex = Math.min(
+    runtimeState.activePresenceTextIndex + 1,
+    state.activity.texts.length,
+  );
 
   const summary = ctx.ct("responses.panel", {
     status: statusLabel(ctx, state.status),
@@ -138,16 +145,23 @@ const buildContainer = (
     new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(statusSelect),
   );
   container.addActionRowComponents(
-    new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(activitySelect),
+    new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+      activitySelect,
+    ),
   );
   container.addActionRowComponents(
-    new ActionRowBuilder<ButtonBuilder>().addComponents(textButton, intervalButton),
+    new ActionRowBuilder<ButtonBuilder>().addComponents(
+      textButton,
+      intervalButton,
+    ),
   );
 
   return container;
 };
 
-export const createPresenceCommandExecute = (presenceService: PresenceService) => {
+export const createPresenceCommandExecute = (
+  presenceService: PresenceService,
+) => {
   return async (ctx: CommandExecutionContext): Promise<void> => {
     const state = await presenceService.loadState(ctx.client);
     presenceService.applyState(ctx.client, state);
@@ -172,13 +186,20 @@ export const createPresenceCommandExecute = (presenceService: PresenceService) =
       await replyMessage
         .edit({
           flags: MessageFlags.IsComponentsV2,
-          components: [buildContainer(ctx, presenceService, state, customIds, true)],
+          components: [
+            buildContainer(ctx, presenceService, state, customIds, true),
+          ],
         })
         .catch(() => undefined);
     };
 
-    const collector = replyMessage.createMessageComponentCollector({ time: 15 * 60_000 });
-    await presenceService.replacePanelSession(sessionKey, { collector, disable: disablePanel });
+    const collector = replyMessage.createMessageComponentCollector({
+      time: 15 * 60_000,
+    });
+    await presenceService.replacePanelSession(sessionKey, {
+      collector,
+      disable: disablePanel,
+    });
 
     collector.on("collect", async (interaction) => {
       if (interaction.user.id !== ownerId) {
@@ -194,7 +215,10 @@ export const createPresenceCommandExecute = (presenceService: PresenceService) =
           if (interaction.customId === customIds.statusSelect) {
             const nextStatus = interaction.values[0];
             if (!nextStatus || !isPresenceStatusValue(nextStatus)) {
-              await interaction.reply({ content: ctx.ct("responses.invalidSelection"), flags: [MessageFlags.Ephemeral] });
+              await interaction.reply({
+                content: ctx.ct("responses.invalidSelection"),
+                flags: [MessageFlags.Ephemeral],
+              });
               return;
             }
 
@@ -202,7 +226,9 @@ export const createPresenceCommandExecute = (presenceService: PresenceService) =
             await presenceService.persistAndApply(ctx.client, state);
             await interaction.update({
               flags: MessageFlags.IsComponentsV2,
-              components: [buildContainer(ctx, presenceService, state, customIds)],
+              components: [
+                buildContainer(ctx, presenceService, state, customIds),
+              ],
             });
             return;
           }
@@ -210,7 +236,10 @@ export const createPresenceCommandExecute = (presenceService: PresenceService) =
           if (interaction.customId === customIds.activitySelect) {
             const nextType = interaction.values[0];
             if (!nextType || !isPresenceActivityTypeValue(nextType)) {
-              await interaction.reply({ content: ctx.ct("responses.invalidSelection"), flags: [MessageFlags.Ephemeral] });
+              await interaction.reply({
+                content: ctx.ct("responses.invalidSelection"),
+                flags: [MessageFlags.Ephemeral],
+              });
               return;
             }
 
@@ -218,12 +247,17 @@ export const createPresenceCommandExecute = (presenceService: PresenceService) =
             await presenceService.persistAndApply(ctx.client, state);
             await interaction.update({
               flags: MessageFlags.IsComponentsV2,
-              components: [buildContainer(ctx, presenceService, state, customIds)],
+              components: [
+                buildContainer(ctx, presenceService, state, customIds),
+              ],
             });
             return;
           }
 
-          await interaction.reply({ content: ctx.ct("responses.invalidSelection"), flags: [MessageFlags.Ephemeral] });
+          await interaction.reply({
+            content: ctx.ct("responses.invalidSelection"),
+            flags: [MessageFlags.Ephemeral],
+          });
           return;
         }
 
@@ -251,12 +285,14 @@ export const createPresenceCommandExecute = (presenceService: PresenceService) =
               const submitted = await interaction.awaitModalSubmit({
                 time: 120_000,
                 filter: (modalInteraction) =>
-                  modalInteraction.customId === customIds.textModal
-                  && modalInteraction.user.id === ownerId,
+                  modalInteraction.customId === customIds.textModal &&
+                  modalInteraction.user.id === ownerId,
               });
 
               const nextTexts = sanitizeActivityTexts(
-                submitted.fields.getTextInputValue(customIds.textInput).split(/\r?\n/g),
+                submitted.fields
+                  .getTextInputValue(customIds.textInput)
+                  .split(/\r?\n/g),
               );
 
               state.activity.texts = nextTexts;
@@ -269,13 +305,17 @@ export const createPresenceCommandExecute = (presenceService: PresenceService) =
 
               await replyMessage.edit({
                 flags: MessageFlags.IsComponentsV2,
-                components: [buildContainer(ctx, presenceService, state, customIds)],
+                components: [
+                  buildContainer(ctx, presenceService, state, customIds),
+                ],
               });
             } catch {
-              await interaction.followUp({
-                content: ctx.ct("responses.modalTimeout"),
-                flags: [MessageFlags.Ephemeral],
-              }).catch(() => undefined);
+              await interaction
+                .followUp({
+                  content: ctx.ct("responses.modalTimeout"),
+                  flags: [MessageFlags.Ephemeral],
+                })
+                .catch(() => undefined);
             }
 
             return;
@@ -304,11 +344,13 @@ export const createPresenceCommandExecute = (presenceService: PresenceService) =
               const submitted = await interaction.awaitModalSubmit({
                 time: 120_000,
                 filter: (modalInteraction) =>
-                  modalInteraction.customId === customIds.intervalModal
-                  && modalInteraction.user.id === ownerId,
+                  modalInteraction.customId === customIds.intervalModal &&
+                  modalInteraction.user.id === ownerId,
               });
 
-              const rawSeconds = submitted.fields.getTextInputValue(customIds.intervalInput).trim();
+              const rawSeconds = submitted.fields
+                .getTextInputValue(customIds.intervalInput)
+                .trim();
               if (!/^\d+$/.test(rawSeconds)) {
                 await submitted.reply({
                   content: ctx.ct("responses.invalidInterval", {
@@ -339,33 +381,47 @@ export const createPresenceCommandExecute = (presenceService: PresenceService) =
 
               await replyMessage.edit({
                 flags: MessageFlags.IsComponentsV2,
-                components: [buildContainer(ctx, presenceService, state, customIds)],
+                components: [
+                  buildContainer(ctx, presenceService, state, customIds),
+                ],
               });
             } catch {
-              await interaction.followUp({
-                content: ctx.ct("responses.modalTimeout"),
-                flags: [MessageFlags.Ephemeral],
-              }).catch(() => undefined);
+              await interaction
+                .followUp({
+                  content: ctx.ct("responses.modalTimeout"),
+                  flags: [MessageFlags.Ephemeral],
+                })
+                .catch(() => undefined);
             }
 
             return;
           }
 
-          await interaction.reply({ content: ctx.ct("responses.invalidSelection"), flags: [MessageFlags.Ephemeral] });
+          await interaction.reply({
+            content: ctx.ct("responses.invalidSelection"),
+            flags: [MessageFlags.Ephemeral],
+          });
           return;
         }
 
-        await interaction.reply({ content: ctx.ct("responses.invalidSelection"), flags: [MessageFlags.Ephemeral] });
+        await interaction.reply({
+          content: ctx.ct("responses.invalidSelection"),
+          flags: [MessageFlags.Ephemeral],
+        });
       } catch (error) {
         log.error({ err: error }, "interaction failed");
         const fallback = ctx.t("errors.execution");
 
         if (!interaction.replied && !interaction.deferred) {
-          await interaction.reply({ content: fallback, flags: [MessageFlags.Ephemeral] }).catch(() => undefined);
+          await interaction
+            .reply({ content: fallback, flags: [MessageFlags.Ephemeral] })
+            .catch(() => undefined);
           return;
         }
 
-        await interaction.followUp({ content: fallback, flags: [MessageFlags.Ephemeral] }).catch(() => undefined);
+        await interaction
+          .followUp({ content: fallback, flags: [MessageFlags.Ephemeral] })
+          .catch(() => undefined);
       }
     });
 

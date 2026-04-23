@@ -36,7 +36,10 @@ export interface CommandJobPublisher {
 export class LocalCommandDispatchPort implements CommandDispatchPort {
   public constructor(private readonly executor: CommandExecutor) {}
 
-  public async dispatch(command: BotCommand, ctx: CommandExecutionContext): Promise<void> {
+  public async dispatch(
+    command: BotCommand,
+    ctx: CommandExecutionContext,
+  ): Promise<void> {
     await this.executor.run(command, ctx);
   }
 }
@@ -47,7 +50,10 @@ export class WorkerCommandDispatchPort implements CommandDispatchPort {
     private readonly logger: AppLogger,
   ) {}
 
-  public async dispatch(command: BotCommand, ctx: CommandExecutionContext): Promise<void> {
+  public async dispatch(
+    command: BotCommand,
+    ctx: CommandExecutionContext,
+  ): Promise<void> {
     const job = toExecutionJob(command, ctx);
 
     await this.publisher.publish(job);
@@ -65,14 +71,20 @@ export class WorkerCommandDispatchPort implements CommandDispatchPort {
   }
 }
 
-const toExecutionJob = (command: BotCommand, ctx: CommandExecutionContext): CommandExecutionJob => {
+const toExecutionJob = (
+  command: BotCommand,
+  ctx: CommandExecutionContext,
+): CommandExecutionJob => {
   const botId = ctx.transport.client.user?.id;
   if (!botId) {
     throw new Error("runtime bot id unavailable for worker command dispatch");
   }
 
   const serializedArgs = Object.fromEntries(
-    Object.entries(ctx.execution.args).map(([key, value]) => [key, serializeArgValue(value)]),
+    Object.entries(ctx.execution.args).map(([key, value]) => [
+      key,
+      serializeArgValue(value),
+    ]),
   );
 
   return {
@@ -96,11 +108,19 @@ const serializeArgValue = (value: CommandArgValue): unknown => {
     return value;
   }
 
-  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+  if (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean"
+  ) {
     return value;
   }
 
-  if (typeof value === "object" && "id" in value && typeof value.id === "string") {
+  if (
+    typeof value === "object" &&
+    "id" in value &&
+    typeof value.id === "string"
+  ) {
     return {
       id: value.id,
     };

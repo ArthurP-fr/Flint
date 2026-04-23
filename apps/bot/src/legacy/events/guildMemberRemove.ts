@@ -12,21 +12,23 @@ export const registerGuildMemberRemove = (
   memberMessageService: MemberMessageService,
 ): void => {
   client.on(Events.GuildMemberRemove, (member) => {
-    void memberMessageService.dispatch({
-      client,
-      i18n,
-      guild: member.guild,
-      user: member.user,
-      kind: "goodbye",
-    }).catch((error) => {
-      log.error(
-        {
-          guildId: member.guild.id,
-          userId: member.user.id,
-          err: error,
-        },
-        "failed to send goodbye message",
-      );
-    });
+    void memberMessageService
+      .dispatch({
+        client,
+        i18n,
+        guild: member.guild,
+        user: member.user,
+        kind: "goodbye",
+      })
+      .catch((error) => {
+        log.error(
+          {
+            guildId: member.guild.id,
+            userId: member.user.id,
+            err: error,
+          },
+          "failed to send goodbye message",
+        );
+      });
   });
 };

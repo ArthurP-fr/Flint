@@ -7,8 +7,8 @@ export const createPgPool = (): Pool => {
     connectionString: env.DATABASE_URL,
     ssl: env.DATABASE_SSL
       ? {
-        rejectUnauthorized: true,
-      }
+          rejectUnauthorized: true,
+        }
       : undefined,
   });
 };

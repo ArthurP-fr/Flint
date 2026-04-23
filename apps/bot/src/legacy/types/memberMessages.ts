@@ -10,7 +10,11 @@ import type {
 import type { I18nService } from "../i18n/index.js";
 
 export type MemberMessageKind = "welcome" | "goodbye";
-export type MemberMessageRenderType = "simple" | "embed" | "container" | "image";
+export type MemberMessageRenderType =
+  | "simple"
+  | "embed"
+  | "container"
+  | "image";
 
 export interface MemberMessageConfig {
   enabled: boolean;

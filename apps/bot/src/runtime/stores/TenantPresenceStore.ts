@@ -32,7 +32,10 @@ FROM bot_presence_states
 LIMIT 0;
 `;
 
-const parseStoredTexts = (rawTexts: string | null, fallbackText: string): string[] => {
+const parseStoredTexts = (
+  rawTexts: string | null,
+  fallbackText: string,
+): string[] => {
   if (typeof rawTexts === "string" && rawTexts.trim().length > 0) {
     try {
       const parsed = JSON.parse(rawTexts) as unknown;
@@ -55,7 +58,10 @@ const parseStoredTexts = (rawTexts: string | null, fallbackText: string): string
 };
 
 const toPresenceState = (row: PresenceRow): PresenceState | null => {
-  if (!isPresenceStatusValue(row.status) || !isPresenceActivityTypeValue(row.activity_type)) {
+  if (
+    !isPresenceStatusValue(row.status) ||
+    !isPresenceActivityTypeValue(row.activity_type)
+  ) {
     return null;
   }
 
@@ -87,7 +93,7 @@ export class TenantPresenceStore implements PresenceRepository {
       await this.pool.query(presenceSchemaProbeSql);
     } catch (error) {
       throw new Error(
-        "[db:init] missing or incompatible table \"bot_presence_states\". Run migrations with \"npm run migrate\".",
+        '[db:init] missing or incompatible table "bot_presence_states". Run migrations with "npm run migrate".',
         { cause: error },
       );
     }
@@ -112,10 +118,16 @@ export class TenantPresenceStore implements PresenceRepository {
     return toPresenceState(row) ?? createDefaultPresenceState();
   }
 
-  public async upsertByBotId(botId: string, state: PresenceState): Promise<void> {
+  public async upsertByBotId(
+    botId: string,
+    state: PresenceState,
+  ): Promise<void> {
     const activityTexts = sanitizeActivityTexts(state.activity.texts);
-    const primaryText = activityTexts[0] ?? sanitizeActivityText(state.activity.text);
-    const rotationIntervalSeconds = sanitizePresenceRotationIntervalSeconds(state.activity.rotationIntervalSeconds);
+    const primaryText =
+      activityTexts[0] ?? sanitizeActivityText(state.activity.text);
+    const rotationIntervalSeconds = sanitizePresenceRotationIntervalSeconds(
+      state.activity.rotationIntervalSeconds,
+    );
 
     await this.pool.query(
       `

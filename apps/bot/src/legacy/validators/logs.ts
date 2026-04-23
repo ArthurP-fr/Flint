@@ -24,7 +24,9 @@ export const createDefaultLogEventState = (): LogEventStateByKey => {
   return state;
 };
 
-export const cloneLogEventState = (state: LogEventStateByKey): LogEventStateByKey => {
+export const cloneLogEventState = (
+  state: LogEventStateByKey,
+): LogEventStateByKey => {
   const next = {} as LogEventStateByKey;
 
   for (const eventKey of LOG_EVENT_KEYS) {
@@ -42,7 +44,9 @@ export const isLogEventKey = (value: string): value is LogEventKey => {
   return LOG_EVENT_KEYS_SET.has(value as LogEventKey);
 };
 
-export const mergeLogEventRowsIntoState = (rows: readonly LogEventRow[]): LogEventStateByKey => {
+export const mergeLogEventRowsIntoState = (
+  rows: readonly LogEventRow[],
+): LogEventStateByKey => {
   const state = createDefaultLogEventState();
 
   for (const row of rows) {

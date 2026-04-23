@@ -34,22 +34,33 @@ const LOG_CHANNEL_CATEGORY_NAME = "logs";
 const LOG_CHANNEL_NAME_PREFIX = "";
 const LEGACY_LOG_CHANNEL_NAME_PREFIX = "📁・";
 
-const hasSendMethod = (value: unknown): value is { send: (payload: unknown) => Promise<unknown> } => {
+const hasSendMethod = (
+  value: unknown,
+): value is { send: (payload: unknown) => Promise<unknown> } => {
   if (!value || typeof value !== "object") {
     return false;
   }
 
-  return "send" in value && typeof (value as { send?: unknown }).send === "function";
+  return (
+    "send" in value && typeof (value as { send?: unknown }).send === "function"
+  );
 };
 
-const hasPermissionsFor = (value: unknown): value is {
-  permissionsFor: (member: unknown) => { has: (permission: unknown) => boolean } | null;
+const hasPermissionsFor = (
+  value: unknown,
+): value is {
+  permissionsFor: (
+    member: unknown,
+  ) => { has: (permission: unknown) => boolean } | null;
 } => {
   if (!value || typeof value !== "object") {
     return false;
   }
 
-  return "permissionsFor" in value && typeof (value as { permissionsFor?: unknown }).permissionsFor === "function";
+  return (
+    "permissionsFor" in value &&
+    typeof (value as { permissionsFor?: unknown }).permissionsFor === "function"
+  );
 };
 
 const clampField = (value: string, maxLength: number): string => {
@@ -66,7 +77,8 @@ const buildChannelName = (category: LogEventCategoryKey): string => {
 
 export class LogEventService {
   private readonly stateCache = new Map<string, LogEventStateByKey>();
-  private readonly panelSessions = new ComponentSessionRegistry<LogPanelSession>();
+  private readonly panelSessions =
+    new ComponentSessionRegistry<LogPanelSession>();
 
   public constructor(private readonly repository: LogEventRepository) {}
 
@@ -74,19 +86,32 @@ export class LogEventService {
     return client.user?.id ?? null;
   }
 
-  public panelSessionKey(client: Client, guildId: string, userId: string): string {
+  public panelSessionKey(
+    client: Client,
+    guildId: string,
+    userId: string,
+  ): string {
     return `${this.resolveBotId(client) ?? "unbound"}:${guildId}:${userId}`;
   }
 
-  public async replacePanelSession(key: string, session: LogPanelSession): Promise<void> {
+  public async replacePanelSession(
+    key: string,
+    session: LogPanelSession,
+  ): Promise<void> {
     await this.panelSessions.replace(key, session);
   }
 
-  public deletePanelSessionIfCollectorMatch(key: string, collector: LogPanelSession["collector"]): void {
+  public deletePanelSessionIfCollectorMatch(
+    key: string,
+    collector: LogPanelSession["collector"],
+  ): void {
     this.panelSessions.deleteIfCollectorMatch(key, collector);
   }
 
-  public async loadGuildState(client: Client, guildId: string): Promise<LogEventStateByKey> {
+  public async loadGuildState(
+    client: Client,
+    guildId: string,
+  ): Promise<LogEventStateByKey> {
     const botId = this.resolveBotId(client);
     if (!botId) {
       return createDefaultLogEventState();
@@ -105,22 +130,31 @@ export class LogEventService {
     return cloneLogEventState(state);
   }
 
-  public async persistGuildState(client: Client, guildId: string, state: LogEventStateByKey): Promise<void> {
+  public async persistGuildState(
+    client: Client,
+    guildId: string,
+    state: LogEventStateByKey,
+  ): Promise<void> {
     const botId = this.resolveBotId(client);
     if (!botId) {
       return;
     }
 
-    const entries: LogEventRepositoryEntry[] = LOG_EVENT_KEYS.map((eventKey) => ({
-      eventKey,
-      config: {
-        enabled: state[eventKey].enabled,
-        channelId: state[eventKey].channelId,
-      },
-    }));
+    const entries: LogEventRepositoryEntry[] = LOG_EVENT_KEYS.map(
+      (eventKey) => ({
+        eventKey,
+        config: {
+          enabled: state[eventKey].enabled,
+          channelId: state[eventKey].channelId,
+        },
+      }),
+    );
 
     await this.repository.upsertManyByBotGuildEvents(botId, guildId, entries);
-    this.stateCache.set(this.cacheKey(botId, guildId), cloneLogEventState(state));
+    this.stateCache.set(
+      this.cacheKey(botId, guildId),
+      cloneLogEventState(state),
+    );
   }
 
   public async createCategoryChannels(
@@ -139,7 +173,10 @@ export class LogEventService {
         return false;
       }
 
-      return channel.type === ChannelType.GuildCategory && channel.name === LOG_CHANNEL_CATEGORY_NAME;
+      return (
+        channel.type === ChannelType.GuildCategory &&
+        channel.name === LOG_CHANNEL_CATEGORY_NAME
+      );
     });
 
     if (!logCategory) {
@@ -149,7 +186,10 @@ export class LogEventService {
           type: ChannelType.GuildCategory,
         });
       } catch (error) {
-        logger.warn({ guildId: guild.id, err: error }, "failed to create logs category");
+        logger.warn(
+          { guildId: guild.id, err: error },
+          "failed to create logs category",
+        );
         return {
           createdCount,
           reusedCount,
@@ -167,34 +207,45 @@ export class LogEventService {
           return false;
         }
 
-        return channel.type === ChannelType.GuildText && channel.name === expectedName;
+        return (
+          channel.type === ChannelType.GuildText &&
+          channel.name === expectedName
+        );
       });
 
       const existingByLegacyName = existingByExpectedName
         ? null
         : existingChannels.find((channel) => {
-          if (!channel) {
-            return false;
-          }
+            if (!channel) {
+              return false;
+            }
 
-          return channel.type === ChannelType.GuildText && (
-            channel.name === legacyName
-            || channel.name === `${LEGACY_LOG_CHANNEL_NAME_PREFIX}${legacyName}`
-          );
-        });
+            return (
+              channel.type === ChannelType.GuildText &&
+              (channel.name === legacyName ||
+                channel.name ===
+                  `${LEGACY_LOG_CHANNEL_NAME_PREFIX}${legacyName}`)
+            );
+          });
 
       const existing = existingByExpectedName ?? existingByLegacyName;
 
       if (existing) {
         if (existing.name !== expectedName) {
           await existing.setName(expectedName).catch((error) => {
-            logger.warn({ guildId: guild.id, category, err: error }, "failed to rename logs channel");
+            logger.warn(
+              { guildId: guild.id, category, err: error },
+              "failed to rename logs channel",
+            );
           });
         }
 
         if (existing.parentId !== logCategory.id) {
           await existing.setParent(logCategory.id).catch((error) => {
-            logger.warn({ guildId: guild.id, category, err: error }, "failed to move logs channel to category");
+            logger.warn(
+              { guildId: guild.id, category, err: error },
+              "failed to move logs channel to category",
+            );
           });
         }
 
@@ -234,7 +285,10 @@ export class LogEventService {
         categoryToChannelId.set(category, created.id);
         createdCount += 1;
       } catch (error) {
-        logger.warn({ guildId: guild.id, category, err: error }, "failed to create logs channel");
+        logger.warn(
+          { guildId: guild.id, category, err: error },
+          "failed to create logs channel",
+        );
         failedCategories.push(category);
       }
     }
@@ -257,7 +311,10 @@ export class LogEventService {
     };
   }
 
-  public async dispatchEvent(client: Client, input: LogRuntimeDispatchInput): Promise<void> {
+  public async dispatchEvent(
+    client: Client,
+    input: LogRuntimeDispatchInput,
+  ): Promise<void> {
     const botId = this.resolveBotId(client);
     if (!botId) {
       return;
@@ -276,13 +333,16 @@ export class LogEventService {
       return;
     }
 
-    const guild = client.guilds.cache.get(input.guildId) ?? await client.guilds.fetch(input.guildId).catch(() => null);
+    const guild =
+      client.guilds.cache.get(input.guildId) ??
+      (await client.guilds.fetch(input.guildId).catch(() => null));
     if (!guild) {
       return;
     }
 
-    const channel = guild.channels.cache.get(eventConfig.channelId)
-      ?? await guild.channels.fetch(eventConfig.channelId).catch(() => null);
+    const channel =
+      guild.channels.cache.get(eventConfig.channelId) ??
+      (await guild.channels.fetch(eventConfig.channelId).catch(() => null));
 
     if (!channel || !hasSendMethod(channel)) {
       return;
@@ -291,7 +351,11 @@ export class LogEventService {
     const me = guild.members.me;
     if (me && hasPermissionsFor(channel)) {
       const permissions = channel.permissionsFor(me);
-      if (!permissions || !permissions.has(PermissionFlagsBits.ViewChannel) || !permissions.has(PermissionFlagsBits.SendMessages)) {
+      if (
+        !permissions ||
+        !permissions.has(PermissionFlagsBits.ViewChannel) ||
+        !permissions.has(PermissionFlagsBits.SendMessages)
+      ) {
         return;
       }
     }
@@ -303,7 +367,10 @@ export class LogEventService {
       .setTimestamp(new Date());
 
     if (input.details && input.details.length > 0) {
-      const detailsValue = clampField(input.details.map((line) => `- ${line}`).join("\n"), 1024);
+      const detailsValue = clampField(
+        input.details.map((line) => `- ${line}`).join("\n"),
+        1024,
+      );
       if (detailsValue.length > 0) {
         embed.addFields({
           name: input.detailsTitle ?? "details",

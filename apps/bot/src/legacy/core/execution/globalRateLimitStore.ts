@@ -13,7 +13,11 @@ export interface GlobalRateLimitDecision {
 }
 
 export interface GlobalRateLimitStore {
-  consume(botId: string, userId: string, policy: GlobalRateLimitPolicy): Promise<GlobalRateLimitDecision>;
+  consume(
+    botId: string,
+    userId: string,
+    policy: GlobalRateLimitPolicy,
+  ): Promise<GlobalRateLimitDecision>;
 }
 
 interface WindowCounterEntry {
@@ -24,7 +28,11 @@ interface WindowCounterEntry {
 export class MemoryGlobalRateLimitStore implements GlobalRateLimitStore {
   private readonly counters = new Map<string, WindowCounterEntry>();
 
-  public async consume(botId: string, userId: string, policy: GlobalRateLimitPolicy): Promise<GlobalRateLimitDecision> {
+  public async consume(
+    botId: string,
+    userId: string,
+    policy: GlobalRateLimitPolicy,
+  ): Promise<GlobalRateLimitDecision> {
     const sanitized = sanitizePolicy(policy);
     const now = Date.now();
     const key = this.key(botId, userId, sanitized.windowSeconds);
@@ -47,7 +55,10 @@ export class MemoryGlobalRateLimitStore implements GlobalRateLimitStore {
 
     existing.count += 1;
 
-    const retryAfterSeconds = Math.max(1, Math.ceil((existing.resetAt - now) / 1000));
+    const retryAfterSeconds = Math.max(
+      1,
+      Math.ceil((existing.resetAt - now) / 1000),
+    );
     const allowed = existing.count <= sanitized.limit;
 
     return {
@@ -92,7 +103,11 @@ export class RedisGlobalRateLimitStore implements GlobalRateLimitStore {
     private readonly keyPrefix = "bot",
   ) {}
 
-  public async consume(botId: string, userId: string, policy: GlobalRateLimitPolicy): Promise<GlobalRateLimitDecision> {
+  public async consume(
+    botId: string,
+    userId: string,
+    policy: GlobalRateLimitPolicy,
+  ): Promise<GlobalRateLimitDecision> {
     const sanitized = sanitizePolicy(policy);
     const key = this.key(botId, userId);
 
@@ -102,7 +117,10 @@ export class RedisGlobalRateLimitStore implements GlobalRateLimitStore {
       key,
       String(sanitized.windowSeconds),
     );
-    const { count, retryAfterSeconds } = parseScriptResult(rawResult, sanitized.windowSeconds);
+    const { count, retryAfterSeconds } = parseScriptResult(
+      rawResult,
+      sanitized.windowSeconds,
+    );
     const allowed = count <= sanitized.limit;
 
     return {
@@ -118,11 +136,17 @@ export class RedisGlobalRateLimitStore implements GlobalRateLimitStore {
   }
 }
 
-const sanitizePolicy = (policy: GlobalRateLimitPolicy): GlobalRateLimitPolicy => {
-  const limit = Number.isFinite(policy.limit) && policy.limit > 0 ? Math.floor(policy.limit) : 1;
-  const windowSeconds = Number.isFinite(policy.windowSeconds) && policy.windowSeconds > 0
-    ? Math.floor(policy.windowSeconds)
-    : 1;
+const sanitizePolicy = (
+  policy: GlobalRateLimitPolicy,
+): GlobalRateLimitPolicy => {
+  const limit =
+    Number.isFinite(policy.limit) && policy.limit > 0
+      ? Math.floor(policy.limit)
+      : 1;
+  const windowSeconds =
+    Number.isFinite(policy.windowSeconds) && policy.windowSeconds > 0
+      ? Math.floor(policy.windowSeconds)
+      : 1;
 
   return {
     limit,
@@ -130,14 +154,19 @@ const sanitizePolicy = (policy: GlobalRateLimitPolicy): GlobalRateLimitPolicy =>
   };
 };
 
-const parseScriptResult = (rawResult: unknown, fallbackWindowSeconds: number): { count: number; retryAfterSeconds: number } => {
+const parseScriptResult = (
+  rawResult: unknown,
+  fallbackWindowSeconds: number,
+): { count: number; retryAfterSeconds: number } => {
   if (!Array.isArray(rawResult) || rawResult.length < 2) {
     throw new Error("Redis rate limit script returned an unexpected payload");
   }
 
   const count = toPositiveInt(rawResult[0]);
   if (!count) {
-    throw new Error("Redis rate limit script returned an invalid counter value");
+    throw new Error(
+      "Redis rate limit script returned an invalid counter value",
+    );
   }
 
   const ttl = toPositiveInt(rawResult[1]) ?? fallbackWindowSeconds;
@@ -149,11 +178,12 @@ const parseScriptResult = (rawResult: unknown, fallbackWindowSeconds: number): {
 };
 
 const toPositiveInt = (value: unknown): number | null => {
-  const numeric = typeof value === "number"
-    ? value
-    : typeof value === "string"
-    ? Number(value)
-    : Number.NaN;
+  const numeric =
+    typeof value === "number"
+      ? value
+      : typeof value === "string"
+        ? Number(value)
+        : Number.NaN;
 
   if (!Number.isFinite(numeric)) {
     return null;

@@ -15,7 +15,11 @@ type NavbarProps = {
 export default async function Navbar({ currentPath }: NavbarProps) {
   const t = await getT();
 
-  const links: Array<{ href: "/" | "/dashboard"; key: NavbarPath; label: string }> = [
+  const links: Array<{
+    href: "/" | "/dashboard";
+    key: NavbarPath;
+    label: string;
+  }> = [
     { href: "/", key: "home", label: t("nav.home") },
     { href: "/dashboard", key: "dashboard", label: t("nav.dashboard") },
   ];

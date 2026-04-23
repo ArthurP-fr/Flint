@@ -35,7 +35,12 @@ const log = createScopedLogger("command:memberMessagesPanel");
 
 const panelSessions = new ComponentSessionRegistry<MemberMessagePanelSession>();
 
-const panelSessionKey = (kind: MemberMessageKind, botId: string, guildId: string, userId: string): string => {
+const panelSessionKey = (
+  kind: MemberMessageKind,
+  botId: string,
+  guildId: string,
+  userId: string,
+): string => {
   return `${kind}:${botId}:${guildId}:${userId}`;
 };
 
@@ -56,15 +61,24 @@ const createCustomIds = (kind: MemberMessageKind): MemberMessageCustomIds => {
   };
 };
 
-const statusLabel = (ctx: CommandExecutionContext, enabled: boolean): string => {
+const statusLabel = (
+  ctx: CommandExecutionContext,
+  enabled: boolean,
+): string => {
   return enabled ? ctx.ct("ui.status.enabled") : ctx.ct("ui.status.disabled");
 };
 
-const messageTypeLabel = (ctx: CommandExecutionContext, messageType: MemberMessageRenderType): string => {
+const messageTypeLabel = (
+  ctx: CommandExecutionContext,
+  messageType: MemberMessageRenderType,
+): string => {
   return ctx.ct(`ui.type.options.${messageType}.label`);
 };
 
-const autoRolesLabel = (ctx: CommandExecutionContext, config: MemberMessageConfig): string => {
+const autoRolesLabel = (
+  ctx: CommandExecutionContext,
+  config: MemberMessageConfig,
+): string => {
   const roleIds = sanitizeMemberMessageRoleIds(config.autoRoleIds);
   if (roleIds.length === 0) {
     return ctx.ct("ui.autoRolesNotConfigured");
@@ -79,7 +93,9 @@ const panelContent = (
   config: MemberMessageConfig,
   uiState: MemberMessagePanelUiState,
 ): string => {
-  const channelDisplay = config.channelId ? `<#${config.channelId}>` : ctx.ct("ui.channelNotConfigured");
+  const channelDisplay = config.channelId
+    ? `<#${config.channelId}>`
+    : ctx.ct("ui.channelNotConfigured");
   const lines = [
     `## ${ctx.ct("ui.embed.title")}`,
     ctx.ct("ui.embed.description"),
@@ -90,15 +106,23 @@ const panelContent = (
   ];
 
   if (kind === "welcome") {
-    lines.push(`${ctx.ct("ui.embed.fields.autoRoles")}: ${autoRolesLabel(ctx, config)}`);
+    lines.push(
+      `${ctx.ct("ui.embed.fields.autoRoles")}: ${autoRolesLabel(ctx, config)}`,
+    );
   }
 
   if (uiState.channelPickerOpen) {
-    lines.push("", `${ctx.ct("ui.embed.fields.channelPicker")}: ${ctx.ct("ui.channelPickerHint")}`);
+    lines.push(
+      "",
+      `${ctx.ct("ui.embed.fields.channelPicker")}: ${ctx.ct("ui.channelPickerHint")}`,
+    );
   }
 
   if (kind === "welcome" && uiState.rolePickerOpen) {
-    lines.push("", `${ctx.ct("ui.embed.fields.autoRoles")}: ${ctx.ct("ui.rolePickerHint")}`);
+    lines.push(
+      "",
+      `${ctx.ct("ui.embed.fields.autoRoles")}: ${ctx.ct("ui.rolePickerHint")}`,
+    );
   }
 
   return lines.join("\n");
@@ -119,14 +143,30 @@ const buildContainer = (
     .setDisabled(disabled);
 
   const channelButton = new ButtonBuilder()
-    .setCustomId(uiState.channelPickerOpen ? customIds.channelCancelButton : customIds.channelButton)
-    .setLabel(uiState.channelPickerOpen ? ctx.ct("ui.buttons.channelCancel") : ctx.ct("ui.buttons.channel"))
+    .setCustomId(
+      uiState.channelPickerOpen
+        ? customIds.channelCancelButton
+        : customIds.channelButton,
+    )
+    .setLabel(
+      uiState.channelPickerOpen
+        ? ctx.ct("ui.buttons.channelCancel")
+        : ctx.ct("ui.buttons.channel"),
+    )
     .setStyle(ButtonStyle.Secondary)
     .setDisabled(disabled);
 
   const roleButton = new ButtonBuilder()
-    .setCustomId(uiState.rolePickerOpen ? customIds.roleCancelButton : customIds.roleButton)
-    .setLabel(uiState.rolePickerOpen ? ctx.ct("ui.buttons.rolesCancel") : ctx.ct("ui.buttons.roles"))
+    .setCustomId(
+      uiState.rolePickerOpen
+        ? customIds.roleCancelButton
+        : customIds.roleButton,
+    )
+    .setLabel(
+      uiState.rolePickerOpen
+        ? ctx.ct("ui.buttons.rolesCancel")
+        : ctx.ct("ui.buttons.roles"),
+    )
     .setStyle(ButtonStyle.Secondary)
     .setDisabled(disabled);
 
@@ -159,7 +199,9 @@ const buildContainer = (
 
   const container = new ContainerBuilder();
   container.addTextDisplayComponents(
-    new TextDisplayBuilder().setContent(panelContent(ctx, kind, config, uiState)),
+    new TextDisplayBuilder().setContent(
+      panelContent(ctx, kind, config, uiState),
+    ),
   );
 
   if (kind === "welcome") {
@@ -174,7 +216,11 @@ const buildContainer = (
     );
   } else {
     container.addActionRowComponents(
-      new ActionRowBuilder<ButtonBuilder>().addComponents(toggleButton, channelButton, testButton),
+      new ActionRowBuilder<ButtonBuilder>().addComponents(
+        toggleButton,
+        channelButton,
+        testButton,
+      ),
     );
   }
 
@@ -192,7 +238,9 @@ const buildContainer = (
       .setChannelTypes(ChannelType.GuildText, ChannelType.GuildAnnouncement);
 
     container.addActionRowComponents(
-      new ActionRowBuilder<ChannelSelectMenuBuilder>().addComponents(channelSelect),
+      new ActionRowBuilder<ChannelSelectMenuBuilder>().addComponents(
+        channelSelect,
+      ),
     );
   }
 
@@ -275,12 +323,16 @@ export const createMemberMessagePanelExecute = (
       await replyMessage
         .edit({
           flags: MessageFlags.IsComponentsV2,
-          components: [buildContainer(ctx, kind, customIds, config, uiState, true)],
+          components: [
+            buildContainer(ctx, kind, customIds, config, uiState, true),
+          ],
         })
         .catch(() => undefined);
     };
 
-    const collector = replyMessage.createMessageComponentCollector({ time: 15 * 60_000 });
+    const collector = replyMessage.createMessageComponentCollector({
+      time: 15 * 60_000,
+    });
     await panelSessions.replace(sessionKey, {
       collector,
       disable: disablePanel,
@@ -302,7 +354,9 @@ export const createMemberMessagePanelExecute = (
             await saveConfig();
             await interaction.update({
               flags: MessageFlags.IsComponentsV2,
-              components: [buildContainer(ctx, kind, customIds, config, uiState)],
+              components: [
+                buildContainer(ctx, kind, customIds, config, uiState),
+              ],
             });
             return;
           }
@@ -312,7 +366,9 @@ export const createMemberMessagePanelExecute = (
             uiState.rolePickerOpen = false;
             await interaction.update({
               flags: MessageFlags.IsComponentsV2,
-              components: [buildContainer(ctx, kind, customIds, config, uiState)],
+              components: [
+                buildContainer(ctx, kind, customIds, config, uiState),
+              ],
             });
             return;
           }
@@ -321,36 +377,53 @@ export const createMemberMessagePanelExecute = (
             uiState.channelPickerOpen = false;
             await interaction.update({
               flags: MessageFlags.IsComponentsV2,
-              components: [buildContainer(ctx, kind, customIds, config, uiState)],
+              components: [
+                buildContainer(ctx, kind, customIds, config, uiState),
+              ],
             });
             return;
           }
 
-          if (kind === "welcome" && interaction.customId === customIds.roleButton) {
+          if (
+            kind === "welcome" &&
+            interaction.customId === customIds.roleButton
+          ) {
             uiState.rolePickerOpen = true;
             uiState.channelPickerOpen = false;
             await interaction.update({
               flags: MessageFlags.IsComponentsV2,
-              components: [buildContainer(ctx, kind, customIds, config, uiState)],
+              components: [
+                buildContainer(ctx, kind, customIds, config, uiState),
+              ],
             });
             return;
           }
 
-          if (kind === "welcome" && interaction.customId === customIds.roleCancelButton) {
+          if (
+            kind === "welcome" &&
+            interaction.customId === customIds.roleCancelButton
+          ) {
             uiState.rolePickerOpen = false;
             await interaction.update({
               flags: MessageFlags.IsComponentsV2,
-              components: [buildContainer(ctx, kind, customIds, config, uiState)],
+              components: [
+                buildContainer(ctx, kind, customIds, config, uiState),
+              ],
             });
             return;
           }
 
-          if (kind === "welcome" && interaction.customId === customIds.roleClearButton) {
+          if (
+            kind === "welcome" &&
+            interaction.customId === customIds.roleClearButton
+          ) {
             config.autoRoleIds = [];
             await saveConfig();
             await interaction.update({
               flags: MessageFlags.IsComponentsV2,
-              components: [buildContainer(ctx, kind, customIds, config, uiState)],
+              components: [
+                buildContainer(ctx, kind, customIds, config, uiState),
+              ],
             });
             return;
           }
@@ -369,7 +442,9 @@ export const createMemberMessagePanelExecute = (
             if (testResult.sent) {
               await interaction.editReply({
                 content: ctx.ct("responses.testSuccess", {
-                  channel: testResult.channelId ? `<#${testResult.channelId}>` : ctx.ct("ui.channelNotConfigured"),
+                  channel: testResult.channelId
+                    ? `<#${testResult.channelId}>`
+                    : ctx.ct("ui.channelNotConfigured"),
                 }),
               });
               return;
@@ -388,7 +463,10 @@ export const createMemberMessagePanelExecute = (
           return;
         }
 
-        if (interaction.isStringSelectMenu() && interaction.customId === customIds.typeSelect) {
+        if (
+          interaction.isStringSelectMenu() &&
+          interaction.customId === customIds.typeSelect
+        ) {
           const nextType = interaction.values[0];
           if (!nextType || !isMemberMessageRenderTypeValue(nextType)) {
             await interaction.reply({
@@ -407,8 +485,15 @@ export const createMemberMessagePanelExecute = (
           return;
         }
 
-        if (kind === "welcome" && interaction.isRoleSelectMenu() && interaction.customId === customIds.roleSelect) {
-          config.autoRoleIds = sanitizeMemberMessageRoleIds([...config.autoRoleIds, ...interaction.values]);
+        if (
+          kind === "welcome" &&
+          interaction.isRoleSelectMenu() &&
+          interaction.customId === customIds.roleSelect
+        ) {
+          config.autoRoleIds = sanitizeMemberMessageRoleIds([
+            ...config.autoRoleIds,
+            ...interaction.values,
+          ]);
           uiState.rolePickerOpen = false;
           await saveConfig();
           await interaction.update({
@@ -418,7 +503,10 @@ export const createMemberMessagePanelExecute = (
           return;
         }
 
-        if (interaction.isChannelSelectMenu() && interaction.customId === customIds.channelSelect) {
+        if (
+          interaction.isChannelSelectMenu() &&
+          interaction.customId === customIds.channelSelect
+        ) {
           const channelId = interaction.values[0];
           if (!channelId) {
             await interaction.reply({
@@ -446,17 +534,21 @@ export const createMemberMessagePanelExecute = (
         log.error({ kind, err: error }, "interaction failed");
 
         if (!interaction.replied && !interaction.deferred) {
-          await interaction.reply({
-            content: ctx.t("errors.execution"),
-            flags: [MessageFlags.Ephemeral],
-          }).catch(() => undefined);
+          await interaction
+            .reply({
+              content: ctx.t("errors.execution"),
+              flags: [MessageFlags.Ephemeral],
+            })
+            .catch(() => undefined);
           return;
         }
 
-        await interaction.followUp({
-          content: ctx.t("errors.execution"),
-          flags: [MessageFlags.Ephemeral],
-        }).catch(() => undefined);
+        await interaction
+          .followUp({
+            content: ctx.t("errors.execution"),
+            flags: [MessageFlags.Ephemeral],
+          })
+          .catch(() => undefined);
       }
     });
 

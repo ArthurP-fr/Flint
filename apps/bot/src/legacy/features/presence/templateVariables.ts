@@ -1,7 +1,10 @@
 import type { Client } from "discord.js";
 
 import { env } from "../../config/env.js";
-import { hasTemplateVariable, renderTemplate } from "../../utils/templateVariables.js";
+import {
+  hasTemplateVariable,
+  renderTemplate,
+} from "../../utils/templateVariables.js";
 import { sanitizeActivityText } from "../../validators/presence.js";
 
 export const PRESENCE_TEMPLATE_REFRESH_INTERVAL_MS = 60_000;
@@ -53,11 +56,19 @@ const formatUptime = (totalSeconds: number): string => {
   return parts.join(" ");
 };
 
-const buildPresenceTemplateValues = (client: Client): Record<string, string> => {
+const buildPresenceTemplateValues = (
+  client: Client,
+): Record<string, string> => {
   const guildCount = client.guilds.cache.size;
-  const memberCount = client.guilds.cache.reduce((total, guild) => total + (guild.memberCount ?? 0), 0);
+  const memberCount = client.guilds.cache.reduce(
+    (total, guild) => total + (guild.memberCount ?? 0),
+    0,
+  );
   const channelCount = client.channels.cache.size;
-  const uptimeSeconds = Math.max(0, Math.floor((client.uptime ?? process.uptime() * 1_000) / 1_000));
+  const uptimeSeconds = Math.max(
+    0,
+    Math.floor((client.uptime ?? process.uptime() * 1_000) / 1_000),
+  );
 
   return {
     bot_name: client.user?.username ?? "bot",
@@ -72,18 +83,29 @@ const buildPresenceTemplateValues = (client: Client): Record<string, string> => 
   };
 };
 
-export const renderPresenceTemplate = (client: Client, template: string): string => {
+export const renderPresenceTemplate = (
+  client: Client,
+  template: string,
+): string => {
   const sanitizedTemplate = sanitizeActivityText(template);
-  const rendered = renderTemplate(sanitizedTemplate, buildPresenceTemplateValues(client), {
-    aliases: PRESENCE_TEMPLATE_VARIABLE_ALIASES,
-    keepUnknown: true,
-  });
+  const rendered = renderTemplate(
+    sanitizedTemplate,
+    buildPresenceTemplateValues(client),
+    {
+      aliases: PRESENCE_TEMPLATE_VARIABLE_ALIASES,
+      keepUnknown: true,
+    },
+  );
 
   return sanitizeActivityText(rendered);
 };
 
 export const containsPresenceTemplateVariables = (template: string): boolean =>
-  hasTemplateVariable(template, PRESENCE_KNOWN_TEMPLATE_VARIABLES, PRESENCE_TEMPLATE_VARIABLE_ALIASES);
+  hasTemplateVariable(
+    template,
+    PRESENCE_KNOWN_TEMPLATE_VARIABLES,
+    PRESENCE_TEMPLATE_VARIABLE_ALIASES,
+  );
 
 export const getPresenceTemplateHelpText = (): string =>
   PRESENCE_VISIBLE_TEMPLATE_VARIABLES.map((name) => `{{${name}}}`).join(", ");

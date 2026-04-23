@@ -36,8 +36,12 @@ export default async function HowItWorks() {
                 {`${i + 1}`}
               </Badge>
               <div className="space-y-2">
-                <h3 className="text-lg font-semibold text-[var(--foreground)]">{s.title}</h3>
-                <p className="text-sm text-[var(--foreground-muted)]">{s.desc}</p>
+                <h3 className="text-lg font-semibold text-[var(--foreground)]">
+                  {s.title}
+                </h3>
+                <p className="text-sm text-[var(--foreground-muted)]">
+                  {s.desc}
+                </p>
               </div>
             </CardContent>
           </Card>

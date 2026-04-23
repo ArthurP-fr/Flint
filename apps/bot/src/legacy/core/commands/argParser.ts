@@ -1,6 +1,13 @@
-import type { ChatInputCommandInteraction, GuildBasedChannel, Message } from "discord.js";
+import type {
+  ChatInputCommandInteraction,
+  GuildBasedChannel,
+  Message,
+} from "discord.js";
 
-import type { ArgumentParseError, ParsedArgumentsResult } from "../../types/argParser.js";
+import type {
+  ArgumentParseError,
+  ParsedArgumentsResult,
+} from "../../types/argParser.js";
 import type { CommandArgValue, CommandArgument } from "../../types/command.js";
 
 const USER_MENTION_PATTERN = /^<@!?(\d{16,22})>$/;
@@ -12,7 +19,11 @@ const BOOLEAN_TRUE = new Set(["true", "1", "yes", "y", "on"]);
 const BOOLEAN_FALSE = new Set(["false", "0", "no", "n", "off"]);
 
 const isGuildBasedChannel = (value: unknown): value is GuildBasedChannel => {
-  return Boolean(value) && typeof value === "object" && "guild" in (value as Record<string, unknown>);
+  return (
+    Boolean(value) &&
+    typeof value === "object" &&
+    "guild" in (value as Record<string, unknown>)
+  );
 };
 
 export const tokenizePrefixInput = (raw: string): string[] => {
@@ -21,7 +32,9 @@ export const tokenizePrefixInput = (raw: string): string[] => {
   let match: RegExpExecArray | null;
 
   while ((match = regex.exec(raw)) !== null) {
-    tokens.push((match[1] ?? match[2] ?? match[3] ?? "").replace(/\\(["'])/g, "$1"));
+    tokens.push(
+      (match[1] ?? match[2] ?? match[3] ?? "").replace(/\\(["'])/g, "$1"),
+    );
   }
 
   return tokens;
@@ -41,7 +54,10 @@ export const parsePrefixArgs = async (
 
     if (!token) {
       if (definition.required) {
-        errors.push({ key: "errors.args.missing", vars: { arg: definition.name } });
+        errors.push({
+          key: "errors.args.missing",
+          vars: { arg: definition.name },
+        });
       }
       values[definition.name] = undefined;
       continue;
@@ -81,7 +97,10 @@ export const parseSlashArgs = (
       values[definition.name] = parseByTypeFromSlash(interaction, definition);
     } catch {
       if (definition.required) {
-        errors.push({ key: "errors.args.missing", vars: { arg: definition.name } });
+        errors.push({
+          key: "errors.args.missing",
+          vars: { arg: definition.name },
+        });
       }
       values[definition.name] = undefined;
     }
@@ -94,14 +113,20 @@ const parseByTypeFromPrefix = async (
   message: Message,
   type: CommandArgument["type"],
   token: string,
-): Promise<{ ok: true; value: CommandArgValue } | { ok: false; error: ArgumentParseError }> => {
+): Promise<
+  | { ok: true; value: CommandArgValue }
+  | { ok: false; error: ArgumentParseError }
+> => {
   switch (type) {
     case "string":
       return { ok: true, value: token };
 
     case "int": {
       if (!/^-?\d+$/.test(token)) {
-        return { ok: false, error: { key: "errors.args.invalidInt", vars: { value: token } } };
+        return {
+          ok: false,
+          error: { key: "errors.args.invalidInt", vars: { value: token } },
+        };
       }
 
       const value = Number.parseInt(token, 10);
@@ -111,7 +136,10 @@ const parseByTypeFromPrefix = async (
     case "number": {
       const value = Number(token);
       if (!Number.isFinite(value)) {
-        return { ok: false, error: { key: "errors.args.invalidNumber", vars: { value: token } } };
+        return {
+          ok: false,
+          error: { key: "errors.args.invalidNumber", vars: { value: token } },
+        };
       }
       return { ok: true, value };
     }
@@ -124,7 +152,10 @@ const parseByTypeFromPrefix = async (
       if (BOOLEAN_FALSE.has(normalized)) {
         return { ok: true, value: false };
       }
-      return { ok: false, error: { key: "errors.args.invalidBoolean", vars: { value: token } } };
+      return {
+        ok: false,
+        error: { key: "errors.args.invalidBoolean", vars: { value: token } },
+      };
     }
 
     case "user": {
@@ -133,7 +164,10 @@ const parseByTypeFromPrefix = async (
       const userId = mentionMatch?.[1] ?? idMatch?.[1];
 
       if (!userId) {
-        return { ok: false, error: { key: "errors.args.invalidUser", vars: { value: token } } };
+        return {
+          ok: false,
+          error: { key: "errors.args.invalidUser", vars: { value: token } },
+        };
       }
 
       const fromMention = message.mentions.users.get(userId);
@@ -145,7 +179,10 @@ const parseByTypeFromPrefix = async (
         const fetched = await message.client.users.fetch(userId);
         return { ok: true, value: fetched };
       } catch {
-        return { ok: false, error: { key: "errors.args.invalidUser", vars: { value: token } } };
+        return {
+          ok: false,
+          error: { key: "errors.args.invalidUser", vars: { value: token } },
+        };
       }
     }
 
@@ -155,7 +192,10 @@ const parseByTypeFromPrefix = async (
       const channelId = mentionMatch?.[1] ?? idMatch?.[1];
 
       if (!channelId) {
-        return { ok: false, error: { key: "errors.args.invalidChannel", vars: { value: token } } };
+        return {
+          ok: false,
+          error: { key: "errors.args.invalidChannel", vars: { value: token } },
+        };
       }
 
       const fromMention = message.mentions.channels.get(channelId);
@@ -186,7 +226,10 @@ const parseByTypeFromPrefix = async (
         // Falls through to invalid channel error.
       }
 
-      return { ok: false, error: { key: "errors.args.invalidChannel", vars: { value: token } } };
+      return {
+        ok: false,
+        error: { key: "errors.args.invalidChannel", vars: { value: token } },
+      };
     }
 
     case "role": {
@@ -195,7 +238,10 @@ const parseByTypeFromPrefix = async (
       const roleId = mentionMatch?.[1] ?? idMatch?.[1];
 
       if (!roleId || !message.guild) {
-        return { ok: false, error: { key: "errors.args.invalidRole", vars: { value: token } } };
+        return {
+          ok: false,
+          error: { key: "errors.args.invalidRole", vars: { value: token } },
+        };
       }
 
       const fromMention = message.mentions.roles.get(roleId);
@@ -217,7 +263,10 @@ const parseByTypeFromPrefix = async (
         // Falls through to invalid role error.
       }
 
-      return { ok: false, error: { key: "errors.args.invalidRole", vars: { value: token } } };
+      return {
+        ok: false,
+        error: { key: "errors.args.invalidRole", vars: { value: token } },
+      };
     }
 
     default:
@@ -231,27 +280,51 @@ const parseByTypeFromSlash = (
 ): CommandArgValue => {
   switch (definition.type) {
     case "string":
-      return interaction.options.getString(definition.name, definition.required) ?? undefined;
+      return (
+        interaction.options.getString(definition.name, definition.required) ??
+        undefined
+      );
 
     case "int":
-      return interaction.options.getInteger(definition.name, definition.required) ?? undefined;
+      return (
+        interaction.options.getInteger(definition.name, definition.required) ??
+        undefined
+      );
 
     case "number":
-      return interaction.options.getNumber(definition.name, definition.required) ?? undefined;
+      return (
+        interaction.options.getNumber(definition.name, definition.required) ??
+        undefined
+      );
 
     case "boolean":
-      return interaction.options.getBoolean(definition.name, definition.required) ?? undefined;
+      return (
+        interaction.options.getBoolean(definition.name, definition.required) ??
+        undefined
+      );
 
     case "user":
-      return interaction.options.getUser(definition.name, definition.required) ?? undefined;
+      return (
+        interaction.options.getUser(definition.name, definition.required) ??
+        undefined
+      );
 
     case "channel":
-      return (interaction.options.getChannel(definition.name, definition.required) ?? undefined) as CommandArgValue;
+      return (interaction.options.getChannel(
+        definition.name,
+        definition.required,
+      ) ?? undefined) as CommandArgValue;
 
     case "role":
-      return (interaction.options.getRole(definition.name, definition.required) ?? undefined) as CommandArgValue;
+      return (interaction.options.getRole(
+        definition.name,
+        definition.required,
+      ) ?? undefined) as CommandArgValue;
 
     default:
-      return interaction.options.getString(definition.name, definition.required) ?? undefined;
+      return (
+        interaction.options.getString(definition.name, definition.required) ??
+        undefined
+      );
   }
 };

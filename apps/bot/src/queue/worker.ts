@@ -9,7 +9,10 @@ import {
 
 import { BotManager } from "../manager/BotManager.js";
 
-export const createBotControlWorker = (redis: Redis, manager: BotManager): Worker<BotControlJob> => {
+export const createBotControlWorker = (
+  redis: Redis,
+  manager: BotManager,
+): Worker<BotControlJob> => {
   return new Worker<BotControlJob>(
     BOT_CONTROL_QUEUE,
     async (job) => {

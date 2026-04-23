@@ -18,11 +18,17 @@ export const parseTokenEncryptionKey = (base64Key: string): Buffer => {
   return key;
 };
 
-export const encryptToken = (plainToken: string, key: Buffer): EncryptedToken => {
+export const encryptToken = (
+  plainToken: string,
+  key: Buffer,
+): EncryptedToken => {
   const iv = randomBytes(IV_LENGTH);
   const cipher = createCipheriv(ALGORITHM, key, iv);
 
-  const ciphertext = Buffer.concat([cipher.update(plainToken, "utf8"), cipher.final()]);
+  const ciphertext = Buffer.concat([
+    cipher.update(plainToken, "utf8"),
+    cipher.final(),
+  ]);
   const tag = cipher.getAuthTag();
 
   return {
@@ -32,8 +38,15 @@ export const encryptToken = (plainToken: string, key: Buffer): EncryptedToken =>
   };
 };
 
-export const decryptToken = (encryptedToken: EncryptedToken, key: Buffer): string => {
-  const decipher = createDecipheriv(ALGORITHM, key, Buffer.from(encryptedToken.iv, "base64"));
+export const decryptToken = (
+  encryptedToken: EncryptedToken,
+  key: Buffer,
+): string => {
+  const decipher = createDecipheriv(
+    ALGORITHM,
+    key,
+    Buffer.from(encryptedToken.iv, "base64"),
+  );
   decipher.setAuthTag(Buffer.from(encryptedToken.tag, "base64"));
 
   const decrypted = Buffer.concat([

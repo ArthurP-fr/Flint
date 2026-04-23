@@ -1,7 +1,18 @@
 import type { Message } from "discord.js";
 
-export type PresenceStatusValue = "online" | "idle" | "dnd" | "invisible" | "streaming";
-export type PresenceActivityTypeValue = "PLAYING" | "STREAMING" | "WATCHING" | "LISTENING" | "COMPETING" | "CUSTOM";
+export type PresenceStatusValue =
+  | "online"
+  | "idle"
+  | "dnd"
+  | "invisible"
+  | "streaming";
+export type PresenceActivityTypeValue =
+  | "PLAYING"
+  | "STREAMING"
+  | "WATCHING"
+  | "LISTENING"
+  | "COMPETING"
+  | "CUSTOM";
 
 export interface PresenceActivityState {
   type: PresenceActivityTypeValue;

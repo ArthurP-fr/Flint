@@ -3,7 +3,13 @@ import { getT } from "../i18n/server";
 
 import { Badge } from "./ui/Badge";
 import { buttonClassName } from "./ui/Button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/Card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/Card";
 
 export default async function Hero() {
   const t = await getT();
@@ -24,7 +30,10 @@ export default async function Hero() {
         </p>
 
         <div className="flex flex-wrap items-center gap-3">
-          <Link className={buttonClassName({ size: "lg", variant: "primary" })} href="/login">
+          <Link
+            className={buttonClassName({ size: "lg", variant: "primary" })}
+            href="/login"
+          >
             {t("hero.ctaStart")}
           </Link>
 
@@ -53,14 +62,18 @@ export default async function Hero() {
               key={bot.name}
             >
               <div className="space-y-1">
-                <p className="text-sm font-semibold text-[var(--foreground)]">{bot.name}</p>
+                <p className="text-sm font-semibold text-[var(--foreground)]">
+                  {bot.name}
+                </p>
                 <p className="text-xs text-[var(--foreground-muted)]">
                   {t("hero.card.instanceMetrics")}
                 </p>
               </div>
 
               <div className="flex items-center gap-2">
-                <Badge variant={bot.status === "online" ? "success" : "neutral"}>
+                <Badge
+                  variant={bot.status === "online" ? "success" : "neutral"}
+                >
                   {bot.status === "online"
                     ? t("hero.status.online")
                     : t("hero.status.stopped")}

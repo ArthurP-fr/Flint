@@ -4,7 +4,13 @@ import type {
   PresenceStatusValue,
 } from "../types/presence.js";
 
-export const PRESENCE_STATUSES: readonly PresenceStatusValue[] = ["online", "idle", "dnd", "invisible", "streaming"];
+export const PRESENCE_STATUSES: readonly PresenceStatusValue[] = [
+  "online",
+  "idle",
+  "dnd",
+  "invisible",
+  "streaming",
+];
 export const PRESENCE_ACTIVITY_TYPES: readonly PresenceActivityTypeValue[] = [
   "PLAYING",
   "STREAMING",
@@ -30,10 +36,14 @@ export const createDefaultPresenceState = (): PresenceState => ({
   },
 });
 
-export const isPresenceStatusValue = (value: string): value is PresenceStatusValue =>
+export const isPresenceStatusValue = (
+  value: string,
+): value is PresenceStatusValue =>
   PRESENCE_STATUSES.includes(value as PresenceStatusValue);
 
-export const isPresenceActivityTypeValue = (value: string): value is PresenceActivityTypeValue =>
+export const isPresenceActivityTypeValue = (
+  value: string,
+): value is PresenceActivityTypeValue =>
   PRESENCE_ACTIVITY_TYPES.includes(value as PresenceActivityTypeValue);
 
 export const sanitizeActivityText = (value: string): string => {
@@ -59,7 +69,9 @@ export const sanitizeActivityTexts = (values: readonly string[]): string[] => {
   return cleaned;
 };
 
-export const sanitizePresenceRotationIntervalSeconds = (value: number): number => {
+export const sanitizePresenceRotationIntervalSeconds = (
+  value: number,
+): number => {
   if (!Number.isFinite(value)) {
     return DEFAULT_ACTIVITY_ROTATION_INTERVAL_SECONDS;
   }
@@ -76,10 +88,12 @@ export const sanitizePresenceRotationIntervalSeconds = (value: number): number =
   return normalized;
 };
 
-export const isPresenceRotationIntervalSecondsValue = (value: number): boolean =>
-  Number.isInteger(value)
-  && value >= MIN_ACTIVITY_ROTATION_INTERVAL_SECONDS
-  && value <= MAX_ACTIVITY_ROTATION_INTERVAL_SECONDS;
+export const isPresenceRotationIntervalSecondsValue = (
+  value: number,
+): boolean =>
+  Number.isInteger(value) &&
+  value >= MIN_ACTIVITY_ROTATION_INTERVAL_SECONDS &&
+  value <= MAX_ACTIVITY_ROTATION_INTERVAL_SECONDS;
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -92,12 +106,19 @@ export const parsePresenceState = (value: unknown): PresenceState | null => {
   const statusValue = value.status;
   const activityValue = value.activity;
 
-  if (typeof statusValue !== "string" || !isPresenceStatusValue(statusValue) || !isRecord(activityValue)) {
+  if (
+    typeof statusValue !== "string" ||
+    !isPresenceStatusValue(statusValue) ||
+    !isRecord(activityValue)
+  ) {
     return null;
   }
 
   const activityType = activityValue.type;
-  if (typeof activityType !== "string" || !isPresenceActivityTypeValue(activityType)) {
+  if (
+    typeof activityType !== "string" ||
+    !isPresenceActivityTypeValue(activityType)
+  ) {
     return null;
   }
 
@@ -106,7 +127,11 @@ export const parsePresenceState = (value: unknown): PresenceState | null => {
   const intervalValue = activityValue.rotationIntervalSeconds;
 
   const activityTexts = Array.isArray(activityTextsValue)
-    ? sanitizeActivityTexts(activityTextsValue.filter((entry): entry is string => typeof entry === "string"))
+    ? sanitizeActivityTexts(
+        activityTextsValue.filter(
+          (entry): entry is string => typeof entry === "string",
+        ),
+      )
     : typeof legacyActivityTextValue === "string"
       ? sanitizeActivityTexts([legacyActivityTextValue])
       : null;
@@ -115,9 +140,10 @@ export const parsePresenceState = (value: unknown): PresenceState | null => {
     return null;
   }
 
-  const rotationIntervalSeconds = typeof intervalValue === "number"
-    ? sanitizePresenceRotationIntervalSeconds(intervalValue)
-    : DEFAULT_ACTIVITY_ROTATION_INTERVAL_SECONDS;
+  const rotationIntervalSeconds =
+    typeof intervalValue === "number"
+      ? sanitizePresenceRotationIntervalSeconds(intervalValue)
+      : DEFAULT_ACTIVITY_ROTATION_INTERVAL_SECONDS;
 
   return {
     status: statusValue,

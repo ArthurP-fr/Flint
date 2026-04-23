@@ -2,19 +2,19 @@
 
 Version: 3.0
 
-But
----
+## But
+
 Decrire l'architecture cible du monorepo SaaS pour bot Discord multi-tenant.
 
-Vue d'ensemble
---------------
+## Vue d'ensemble
+
 - Stack backend: Node.js + TypeScript + Express + PostgreSQL + Redis + BullMQ.
 - Bot runtime: Discord.js avec gestion dynamique multi-instance.
 - Frontend: Next.js App Router.
 - Structure: monorepo `apps/*` + `packages/*`.
 
-Organisation des dossiers
--------------------------
+## Organisation des dossiers
+
 - `apps/api/`
   - OAuth2 Discord, JWT cookie, routes multi-tenant, validation token bot, publication jobs BullMQ.
 - `apps/bot/`
@@ -26,8 +26,8 @@ Organisation des dossiers
 - `database/migrations/`
   - SQL versionne (`schema_migrations`) avec schema multi-tenant.
 
-Principes d'architecture
-------------------------
+## Principes d'architecture
+
 - Multi-tenant strict:
   - toutes les requetes de lecture/ecriture passent par `tenant_id`.
   - tables critiques liees a `tenant_id` et/ou `owner_user_id`.
@@ -40,15 +40,15 @@ Principes d'architecture
   - Bot: runtime Discord.
   - Web: UX dashboard.
 
-Conventions de code
--------------------
+## Conventions de code
+
 - TypeScript strict.
 - Exports nommes.
 - Erreurs API explicites et codes HTTP coherents.
 - Logs sans fuite de secrets.
 
-Workflow recommande
--------------------
+## Workflow recommande
+
 1. Ajouter/adapter migration SQL dans `database/migrations`.
 2. Adapter repositories API/Bot avec filtre tenant.
 3. Ajouter endpoint API + validation zod.
@@ -56,8 +56,8 @@ Workflow recommande
 5. Mettre a jour le dashboard web.
 6. Valider `npm run typecheck` puis `docker compose up -d --build`.
 
-Securite
---------
+## Securite
+
 - Ne jamais committer `.env`.
 - Garder `TOKEN_ENCRYPTION_KEY` hors depot.
 - Appliquer `httpOnly` + `sameSite` sur cookie session.

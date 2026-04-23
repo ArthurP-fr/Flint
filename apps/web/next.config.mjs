@@ -5,7 +5,22 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+
+  // indispensable pour Docker + monorepo
   output: "standalone",
+
+  // IMPORTANT pour éviter les problèmes de paths en monorepo
+  outputFileTracingRoot: process.cwd(),
+
+  // optimise build (optionnel mais recommandé)
+  poweredByHeader: false,
+  compress: true,
+
+  // évite erreurs turbopack / build tracing inutile
+  experimental: {
+    // utile en monorepo pour stabilité
+    externalDir: true,
+  },
 };
 
 export default withNextIntl(nextConfig);

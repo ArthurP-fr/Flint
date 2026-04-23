@@ -5,7 +5,13 @@ import { type FormEvent, useCallback, useEffect, useState } from "react";
 import { useT } from "../i18n/client";
 import { Badge } from "./ui/Badge";
 import { Button, buttonClassName } from "./ui/Button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/Card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/Card";
 import { Input } from "./ui/Input";
 
 type User = {
@@ -105,7 +111,10 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
       const botsJson = await botsResponse.json();
       setBots((botsJson.bots ?? []) as Bot[]);
     } catch (cause) {
-      const message = cause instanceof Error ? cause.message : t("dashboard.errors.unexpected");
+      const message =
+        cause instanceof Error
+          ? cause.message
+          : t("dashboard.errors.unexpected");
       setError(message);
     } finally {
       setLoading(false);
@@ -153,7 +162,10 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
       setDisplayName("");
       await refreshData();
     } catch (cause) {
-      const message = cause instanceof Error ? cause.message : t("dashboard.errors.unexpected");
+      const message =
+        cause instanceof Error
+          ? cause.message
+          : t("dashboard.errors.unexpected");
       setError(message);
     } finally {
       setSubmitting(false);
@@ -164,19 +176,28 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
     setError(null);
 
     try {
-      const response = await fetch(`${apiBaseUrl}/api/bots/${botId}/${action}`, {
-        method: "POST",
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${apiBaseUrl}/api/bots/${botId}/${action}`,
+        {
+          method: "POST",
+          credentials: "include",
+        },
+      );
 
       if (!response.ok) {
         const errorJson = await response.json().catch(() => ({}));
-        throw new Error(errorJson.error ?? t("dashboard.errors.actionFailed", { action: actionLabel[action] }));
+        throw new Error(
+          errorJson.error ??
+            t("dashboard.errors.actionFailed", { action: actionLabel[action] }),
+        );
       }
 
       await refreshData();
     } catch (cause) {
-      const message = cause instanceof Error ? cause.message : t("dashboard.errors.unexpected");
+      const message =
+        cause instanceof Error
+          ? cause.message
+          : t("dashboard.errors.unexpected");
       setError(message);
     }
   };
@@ -185,7 +206,9 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
     return (
       <Card className="max-w-xl">
         <CardContent>
-          <p className="text-sm text-[var(--foreground-muted)]">{t("dashboard.loading")}</p>
+          <p className="text-sm text-[var(--foreground-muted)]">
+            {t("dashboard.loading")}
+          </p>
         </CardContent>
       </Card>
     );
@@ -223,7 +246,9 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
     <div className="space-y-6">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div className="space-y-2">
-          <Badge variant="accent">{t("dashboard.tenant", { tenantId: user.tenantId })}</Badge>
+          <Badge variant="accent">
+            {t("dashboard.tenant", { tenantId: user.tenantId })}
+          </Badge>
           <h1 className="text-3xl font-semibold tracking-tight text-[var(--foreground)]">
             {user.username}
           </h1>
@@ -239,7 +264,9 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
       {error ? (
         <Card className="border-[color:color-mix(in_srgb,var(--danger)_35%,transparent)] bg-[color:color-mix(in_srgb,var(--danger)_10%,var(--surface))]">
           <CardContent>
-            <p className="text-sm font-semibold text-[var(--danger)]">{error}</p>
+            <p className="text-sm font-semibold text-[var(--danger)]">
+              {error}
+            </p>
           </CardContent>
         </Card>
       ) : null}
@@ -249,7 +276,9 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
           <Card className="h-full">
             <CardHeader className="space-y-2">
               <CardTitle>{t("dashboard.addBot.title")}</CardTitle>
-              <CardDescription>{t("dashboard.addBot.description")}</CardDescription>
+              <CardDescription>
+                {t("dashboard.addBot.description")}
+              </CardDescription>
             </CardHeader>
 
             <CardContent>
@@ -280,7 +309,12 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
                   />
                 </label>
 
-                <Button disabled={submitting} fullWidth type="submit" variant="primary">
+                <Button
+                  disabled={submitting}
+                  fullWidth
+                  type="submit"
+                  variant="primary"
+                >
                   {submitting
                     ? t("dashboard.addBot.submitPending")
                     : t("dashboard.addBot.submit")}
@@ -294,7 +328,11 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
           <Card className="h-full">
             <CardHeader className="mb-4 flex flex-row flex-wrap items-center justify-between gap-3 space-y-0">
               <CardTitle>{t("dashboard.bots.title")}</CardTitle>
-              <Button onClick={() => void refreshData()} size="sm" variant="secondary">
+              <Button
+                onClick={() => void refreshData()}
+                size="sm"
+                variant="secondary"
+              >
                 {t("dashboard.bots.refresh")}
               </Button>
             </CardHeader>
@@ -330,7 +368,9 @@ export function DashboardClient({ apiBaseUrl }: DashboardClientProps) {
 
                       {bot.lastError ? (
                         <p className="text-sm font-medium text-[var(--danger)]">
-                          {t("dashboard.bots.lastError", { message: bot.lastError })}
+                          {t("dashboard.bots.lastError", {
+                            message: bot.lastError,
+                          })}
                         </p>
                       ) : null}
 

@@ -9,7 +9,10 @@ const log = createScopedLogger("event:messageCreate");
  * @param client - instance du Client Discord
  * @param onPrefixMessage - fonction à appeler pour traiter les messages (préfixe)
  */
-export const registerMessageCreate = (client: Client, onPrefixMessage: (message: Message) => Promise<void>): void => {
+export const registerMessageCreate = (
+  client: Client,
+  onPrefixMessage: (message: Message) => Promise<void>,
+): void => {
   client.on(Events.MessageCreate, (message: Message) => {
     void onPrefixMessage(message).catch((error) => {
       log.error({ err: error }, "handler failed");

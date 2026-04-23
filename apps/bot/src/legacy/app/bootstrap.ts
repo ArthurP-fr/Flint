@@ -32,20 +32,16 @@ import { registerEvents } from "../events/index.js";
 import { createPrefixHandler } from "../handlers/prefixHandler.js";
 import { createSlashHandler } from "../handlers/slashHandler.js";
 import { I18nService } from "../i18n/index.js";
-import {
-  LogEventService,
-} from "../modules/logs/index.js";
-import {
-  MemberMessageService,
-} from "../modules/memberMessages/index.js";
-import {
-  PresenceService,
-} from "../modules/presence/index.js";
+import { LogEventService } from "../modules/logs/index.js";
+import { MemberMessageService } from "../modules/memberMessages/index.js";
+import { PresenceService } from "../modules/presence/index.js";
 
 const SHUTDOWN_TIMEOUT_MS = 10_000;
 const log = createScopedLogger("bootstrap");
 
-const bindGracefulShutdown = (shutdown: (signal: string) => Promise<void>): void => {
+const bindGracefulShutdown = (
+  shutdown: (signal: string) => Promise<void>,
+): void => {
   process.once("SIGINT", () => {
     void shutdown("SIGINT");
   });
@@ -56,7 +52,11 @@ const bindGracefulShutdown = (shutdown: (signal: string) => Promise<void>): void
 };
 
 const bindFatalProcessHandlers = (
-  shutdown: (signal: string, exitCode?: number, error?: unknown) => Promise<void>,
+  shutdown: (
+    signal: string,
+    exitCode?: number,
+    error?: unknown,
+  ) => Promise<void>,
 ): void => {
   process.once("uncaughtException", (error) => {
     log.error({ err: error }, "process uncaught exception");
@@ -72,16 +72,18 @@ const bindFatalProcessHandlers = (
 export const bootstrap = async (): Promise<void> => {
   const dispatchMode: CommandDispatchMode = env.COMMAND_DISPATCH_MODE;
   if (dispatchMode === "worker") {
-    throw new Error("Worker mode is not implemented and must not be used in production");
+    throw new Error(
+      "Worker mode is not implemented and must not be used in production",
+    );
   }
 
   const pool = new Pool({
     connectionString: env.DATABASE_URL,
     ssl: env.DATABASE_SSL
       ? {
-        rejectUnauthorized: env.DATABASE_SSL_REJECT_UNAUTHORIZED,
-        ...(env.DATABASE_SSL_CA ? { ca: env.DATABASE_SSL_CA } : {}),
-      }
+          rejectUnauthorized: env.DATABASE_SSL_REJECT_UNAUTHORIZED,
+          ...(env.DATABASE_SSL_CA ? { ca: env.DATABASE_SSL_CA } : {}),
+        }
       : undefined,
   });
 
@@ -129,18 +131,23 @@ export const bootstrap = async (): Promise<void> => {
   );
 
   const services: AppFeatureServices = {
-    presenceService: new PresenceService(presenceStore, env.PRESENCE_STREAM_URL),
+    presenceService: new PresenceService(
+      presenceStore,
+      env.PRESENCE_STREAM_URL,
+    ),
     memberMessageService: new MemberMessageService(memberMessageStore),
     logEventService: new LogEventService(logEventStore),
   };
 
-  const cooldownStore = env.STATE_BACKEND === "redis" && redis
-    ? new RedisCooldownStore(redis)
-    : new MemoryCooldownStore();
+  const cooldownStore =
+    env.STATE_BACKEND === "redis" && redis
+      ? new RedisCooldownStore(redis)
+      : new MemoryCooldownStore();
 
-  const globalRateLimitStore = env.STATE_BACKEND === "redis" && redis
-    ? new RedisGlobalRateLimitStore(redis)
-    : new MemoryGlobalRateLimitStore();
+  const globalRateLimitStore =
+    env.STATE_BACKEND === "redis" && redis
+      ? new RedisGlobalRateLimitStore(redis)
+      : new MemoryGlobalRateLimitStore();
 
   const executor = new CommandExecutor({
     cooldownStore,
@@ -162,7 +169,11 @@ export const bootstrap = async (): Promise<void> => {
   let shuttingDown = false;
   let client: Client | null = null;
 
-  const shutdown = async (signal: string, exitCode = 0, error?: unknown): Promise<void> => {
+  const shutdown = async (
+    signal: string,
+    exitCode = 0,
+    error?: unknown,
+  ): Promise<void> => {
     if (shuttingDown) {
       return;
     }
@@ -176,7 +187,10 @@ export const bootstrap = async (): Promise<void> => {
 
     const forcedExitCode = exitCode === 0 ? 1 : exitCode;
     const forceExitTimer = setTimeout(() => {
-      log.error({ signal, forcedExitCode, timeoutMs: SHUTDOWN_TIMEOUT_MS }, "forcing process exit");
+      log.error(
+        { signal, forcedExitCode, timeoutMs: SHUTDOWN_TIMEOUT_MS },
+        "forcing process exit",
+      );
       process.exit(forcedExitCode);
     }, SHUTDOWN_TIMEOUT_MS);
 
@@ -224,7 +238,10 @@ export const bootstrap = async (): Promise<void> => {
     });
 
     const i18n = new I18nService(env.DEFAULT_LANG);
-    const registry = new CommandRegistry(createCommandList(services, i18n), i18n);
+    const registry = new CommandRegistry(
+      createCommandList(services, i18n),
+      i18n,
+    );
 
     const onPrefixMessage = createPrefixHandler({
       registry,

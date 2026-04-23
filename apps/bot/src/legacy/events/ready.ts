@@ -28,17 +28,25 @@ export const registerClientReady = (
 
     const botId = client.user?.id;
     if (!botId) {
-      log.error("client ready event received without bot id, leader-only tasks skipped");
+      log.error(
+        "client ready event received without bot id, leader-only tasks skipped",
+      );
       return;
     }
 
     try {
-      const restoredByLeader = await leaderCoordinator.runIfLeader("presence-restore", botId, async () => {
-        await presenceService.restoreFromStorage(client);
-      });
+      const restoredByLeader = await leaderCoordinator.runIfLeader(
+        "presence-restore",
+        botId,
+        async () => {
+          await presenceService.restoreFromStorage(client);
+        },
+      );
 
       if (!restoredByLeader) {
-        log.info("presence restore skipped: leader lock already held by another instance");
+        log.info(
+          "presence restore skipped: leader lock already held by another instance",
+        );
       }
     } catch (error) {
       log.error({ err: error }, "failed to restore bot presence");
@@ -46,31 +54,39 @@ export const registerClientReady = (
 
     if (env.AUTO_DEPLOY_SLASH) {
       if (!runtimeAuth) {
-        log.warn("slash sync skipped: runtime auth is missing for this bot instance");
+        log.warn(
+          "slash sync skipped: runtime auth is missing for this bot instance",
+        );
         return;
       }
 
       try {
-        const deployedByLeader = await leaderCoordinator.runIfLeader("slash-deploy", botId, async () => {
-          const result = await deployApplicationCommands({
-            token: runtimeAuth.token,
-            clientId: runtimeAuth.clientId,
-            registry,
-            i18n,
-            ...(env.DEV_GUILD_ID ? { guildId: env.DEV_GUILD_ID } : {}),
-          });
+        const deployedByLeader = await leaderCoordinator.runIfLeader(
+          "slash-deploy",
+          botId,
+          async () => {
+            const result = await deployApplicationCommands({
+              token: runtimeAuth.token,
+              clientId: runtimeAuth.clientId,
+              registry,
+              i18n,
+              ...(env.DEV_GUILD_ID ? { guildId: env.DEV_GUILD_ID } : {}),
+            });
 
-          log.info(
-            {
-              scope: result.scope,
-              count: result.count,
-            },
-            "slash sync completed",
-          );
-        });
+            log.info(
+              {
+                scope: result.scope,
+                count: result.count,
+              },
+              "slash sync completed",
+            );
+          },
+        );
 
         if (!deployedByLeader) {
-          log.info("slash sync skipped: leader lock already held by another instance");
+          log.info(
+            "slash sync skipped: leader lock already held by another instance",
+          );
         }
       } catch (error) {
         log.error({ err: error }, "slash sync failed");

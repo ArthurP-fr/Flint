@@ -17,7 +17,10 @@ import type { I18nService } from "../i18n/index.js";
 import type { BotCommand } from "../types/command.js";
 
 /** CommandList: tableau ordonné des commandes disponibles. */
-export const createCommandList = (services: AppFeatureServices, i18n: I18nService): BotCommand[] => [
+export const createCommandList = (
+  services: AppFeatureServices,
+  i18n: I18nService,
+): BotCommand[] => [
   kissCommand,
   pingCommand,
   createWelcomeCommand(services.memberMessageService, i18n),

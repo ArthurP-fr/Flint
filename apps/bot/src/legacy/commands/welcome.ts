@@ -14,18 +14,26 @@ import {
 } from "../modules/memberMessages/index.js";
 
 /** Commande `welcome` — ouvre le panneau de configuration des messages 'welcome'. */
-export const createWelcomeCommand = (memberMessageService: MemberMessageService, i18n: I18nService) => defineCommand({
-  meta: {
-    name: "welcome",
-    category: "utility",
-  },
-  permissions: [PermissionFlagsBits.ManageGuild],
-  sensitive: true,
-  examples: [
-    {
-      source: "slash",
-      descriptionKey: "examples.slash",
+export const createWelcomeCommand = (
+  memberMessageService: MemberMessageService,
+  i18n: I18nService,
+) =>
+  defineCommand({
+    meta: {
+      name: "welcome",
+      category: "utility",
     },
-  ],
-  execute: createMemberMessagePanelExecute("welcome", memberMessageService, i18n),
-});
+    permissions: [PermissionFlagsBits.ManageGuild],
+    sensitive: true,
+    examples: [
+      {
+        source: "slash",
+        descriptionKey: "examples.slash",
+      },
+    ],
+    execute: createMemberMessagePanelExecute(
+      "welcome",
+      memberMessageService,
+      i18n,
+    ),
+  });

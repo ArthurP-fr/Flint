@@ -13,7 +13,9 @@ export interface StoredBotCredentials {
   status: BotStatus;
 }
 
-const mapBotCredentials = (row: Record<string, unknown>): StoredBotCredentials => {
+const mapBotCredentials = (
+  row: Record<string, unknown>,
+): StoredBotCredentials => {
   return {
     id: String(row.id),
     tenantId: String(row.tenant_id),
@@ -27,7 +29,9 @@ const mapBotCredentials = (row: Record<string, unknown>): StoredBotCredentials =
   };
 };
 
-export const listBotsToRestore = async (pool: Pool): Promise<StoredBotCredentials[]> => {
+export const listBotsToRestore = async (
+  pool: Pool,
+): Promise<StoredBotCredentials[]> => {
   const result = await pool.query(
     `
       SELECT id, tenant_id, owner_user_id, discord_bot_id, display_name, token_ciphertext, token_iv, token_tag, status
@@ -37,7 +41,9 @@ export const listBotsToRestore = async (pool: Pool): Promise<StoredBotCredential
     `,
   );
 
-  return result.rows.map((row) => mapBotCredentials(row as Record<string, unknown>));
+  return result.rows.map((row) =>
+    mapBotCredentials(row as Record<string, unknown>),
+  );
 };
 
 export const getBotCredentialsById = async (

@@ -20,14 +20,15 @@ import {
 import type { PresenceRepository } from "./repository.js";
 import type { PresencePanelSession, PresenceRuntimeState } from "./types.js";
 
-const DISCORD_ACTIVITY_TYPES: Record<PresenceActivityTypeValue, ActivityType> = {
-  PLAYING: ActivityType.Playing,
-  STREAMING: ActivityType.Streaming,
-  WATCHING: ActivityType.Watching,
-  LISTENING: ActivityType.Listening,
-  COMPETING: ActivityType.Competing,
-  CUSTOM: ActivityType.Custom,
-};
+const DISCORD_ACTIVITY_TYPES: Record<PresenceActivityTypeValue, ActivityType> =
+  {
+    PLAYING: ActivityType.Playing,
+    STREAMING: ActivityType.Streaming,
+    WATCHING: ActivityType.Watching,
+    LISTENING: ActivityType.Listening,
+    COMPETING: ActivityType.Competing,
+    CUSTOM: ActivityType.Custom,
+  };
 
 const createRuntimeState = (): PresenceRuntimeState => ({
   dynamicPresenceRefreshTimer: null,
@@ -47,13 +48,16 @@ const clearRuntimeTimers = (runtimeState: PresenceRuntimeState): void => {
   }
 };
 
-const resolveDiscordStatus = (status: PresenceStatusValue): "online" | "idle" | "dnd" | "invisible" => {
+const resolveDiscordStatus = (
+  status: PresenceStatusValue,
+): "online" | "idle" | "dnd" | "invisible" => {
   return status === "streaming" ? "online" : status;
 };
 
 export class PresenceService {
   private readonly runtimeByBotId = new Map<string, PresenceRuntimeState>();
-  private readonly panelSessions = new ComponentSessionRegistry<PresencePanelSession>();
+  private readonly panelSessions =
+    new ComponentSessionRegistry<PresencePanelSession>();
 
   public constructor(
     private readonly repository: PresenceRepository,
@@ -76,20 +80,33 @@ export class PresenceService {
     return next;
   }
 
-  public normalizeState(state: PresenceState, runtimeState: PresenceRuntimeState): void {
+  public normalizeState(
+    state: PresenceState,
+    runtimeState: PresenceRuntimeState,
+  ): void {
     const activityTexts = sanitizeActivityTexts(state.activity.texts);
     state.activity.texts = activityTexts;
-    state.activity.text = activityTexts[0] ?? sanitizeActivityText(state.activity.text);
-    state.activity.rotationIntervalSeconds = sanitizePresenceRotationIntervalSeconds(state.activity.rotationIntervalSeconds);
+    state.activity.text =
+      activityTexts[0] ?? sanitizeActivityText(state.activity.text);
+    state.activity.rotationIntervalSeconds =
+      sanitizePresenceRotationIntervalSeconds(
+        state.activity.rotationIntervalSeconds,
+      );
 
     if (runtimeState.activePresenceTextIndex >= activityTexts.length) {
       runtimeState.activePresenceTextIndex = 0;
     }
   }
 
-  public getActiveTemplateText(state: PresenceState, runtimeState: PresenceRuntimeState): string {
+  public getActiveTemplateText(
+    state: PresenceState,
+    runtimeState: PresenceRuntimeState,
+  ): string {
     this.normalizeState(state, runtimeState);
-    return state.activity.texts[runtimeState.activePresenceTextIndex] ?? state.activity.text;
+    return (
+      state.activity.texts[runtimeState.activePresenceTextIndex] ??
+      state.activity.text
+    );
   }
 
   public renderPreview(client: Client, templateText: string): string {
@@ -111,7 +128,10 @@ export class PresenceService {
     this.syncDynamicPresenceTimers(client, state, runtimeState);
   }
 
-  public async persistAndApply(client: Client, state: PresenceState): Promise<void> {
+  public async persistAndApply(
+    client: Client,
+    state: PresenceState,
+  ): Promise<void> {
     this.applyState(client, state);
 
     const botId = this.resolveBotId(client);
@@ -134,11 +154,17 @@ export class PresenceService {
     return `${this.resolveBotId(client) ?? "unbound"}:${userId}`;
   }
 
-  public async replacePanelSession(key: string, session: PresencePanelSession): Promise<void> {
+  public async replacePanelSession(
+    key: string,
+    session: PresencePanelSession,
+  ): Promise<void> {
     await this.panelSessions.replace(key, session);
   }
 
-  public deletePanelSessionIfCollectorMatch(key: string, collector: PresencePanelSession["collector"]): void {
+  public deletePanelSessionIfCollectorMatch(
+    key: string,
+    collector: PresencePanelSession["collector"],
+  ): void {
     this.panelSessions.deleteIfCollectorMatch(key, collector);
   }
 
@@ -151,7 +177,11 @@ export class PresenceService {
     await this.panelSessions.stopAll("shutdown");
   }
 
-  private applyPresenceState(client: Client, state: PresenceState, runtimeState: PresenceRuntimeState): void {
+  private applyPresenceState(
+    client: Client,
+    state: PresenceState,
+    runtimeState: PresenceRuntimeState,
+  ): void {
     if (!client.user) {
       return;
     }
@@ -201,7 +231,11 @@ export class PresenceService {
     });
   }
 
-  private syncDynamicPresenceTimers(client: Client, state: PresenceState, runtimeState: PresenceRuntimeState): void {
+  private syncDynamicPresenceTimers(
+    client: Client,
+    state: PresenceState,
+    runtimeState: PresenceRuntimeState,
+  ): void {
     this.normalizeState(state, runtimeState);
     clearRuntimeTimers(runtimeState);
 
@@ -213,14 +247,18 @@ export class PresenceService {
           return;
         }
 
-        runtimeState.activePresenceTextIndex = (runtimeState.activePresenceTextIndex + 1) % state.activity.texts.length;
+        runtimeState.activePresenceTextIndex =
+          (runtimeState.activePresenceTextIndex + 1) %
+          state.activity.texts.length;
         this.applyPresenceState(client, state, runtimeState);
       }, state.activity.rotationIntervalSeconds * 1_000);
 
       runtimeState.presenceRotationTimer.unref?.();
     }
 
-    const hasKnownVariable = state.activity.texts.some((templateText) => containsPresenceTemplateVariables(templateText));
+    const hasKnownVariable = state.activity.texts.some((templateText) =>
+      containsPresenceTemplateVariables(templateText),
+    );
     if (!hasKnownVariable) {
       return;
     }

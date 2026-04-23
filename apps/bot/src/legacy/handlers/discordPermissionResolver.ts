@@ -7,7 +7,10 @@ import {
 
 import type { BuildExecutionContextInput } from "../types/handlers.js";
 
-const resolveFromGuild = async (guild: Guild | null, userId: string): Promise<Readonly<PermissionsBitField> | null> => {
+const resolveFromGuild = async (
+  guild: Guild | null,
+  userId: string,
+): Promise<Readonly<PermissionsBitField> | null> => {
   if (!guild) {
     return null;
   }
@@ -30,13 +33,17 @@ const resolveFromInteractionMember = (
 
   const member = interaction.member;
   if (member && typeof member === "object" && "permissions" in member) {
-    const rawPermissions = (member as { permissions?: string | number | bigint }).permissions;
+    const rawPermissions = (
+      member as { permissions?: string | number | bigint }
+    ).permissions;
 
     if (rawPermissions !== undefined) {
       try {
-        const normalized = typeof rawPermissions === "string" || typeof rawPermissions === "number"
-          ? BigInt(rawPermissions)
-          : rawPermissions;
+        const normalized =
+          typeof rawPermissions === "string" ||
+          typeof rawPermissions === "number"
+            ? BigInt(rawPermissions)
+            : rawPermissions;
 
         return new PermissionsBitField(normalized);
       } catch {
@@ -72,7 +79,9 @@ export const createDiscordMemberPermissionsResolver = (
       return directFromMessage;
     }
 
-    const fallbackFromGuildMember = message.guild?.members.resolve(message.author.id)?.permissions;
+    const fallbackFromGuildMember = message.guild?.members.resolve(
+      message.author.id,
+    )?.permissions;
     if (fallbackFromGuildMember) {
       return fallbackFromGuildMember;
     }

@@ -9,7 +9,10 @@ export class RedisCommandJobPublisher implements CommandJobPublisher {
   ) {}
 
   public async publish(job: CommandExecutionJob): Promise<void> {
-    await this.redis.lpush(this.resolveQueueName(job.botId), JSON.stringify(job));
+    await this.redis.lpush(
+      this.resolveQueueName(job.botId),
+      JSON.stringify(job),
+    );
   }
 
   private resolveQueueName(botId: string): string {

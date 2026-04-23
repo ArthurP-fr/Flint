@@ -56,9 +56,15 @@ const bootstrap = async (): Promise<void> => {
       return;
     }
 
-    const user = await getUserByIdAndTenant(pgPool, req.auth.userId, req.auth.tenantId);
+    const user = await getUserByIdAndTenant(
+      pgPool,
+      req.auth.userId,
+      req.auth.tenantId,
+    );
     if (!user) {
-      res.status(401).json({ error: "Session does not match an existing user" });
+      res
+        .status(401)
+        .json({ error: "Session does not match an existing user" });
       return;
     }
 
@@ -93,12 +99,10 @@ const bootstrap = async (): Promise<void> => {
   );
 
   const server = app.listen(env.PORT, () => {
-    // eslint-disable-next-line no-console
     console.log(`[api] listening on :${env.PORT}`);
   });
 
   const shutdown = async (signal: string): Promise<void> => {
-    // eslint-disable-next-line no-console
     console.log(`[api] shutdown requested (${signal})`);
 
     server.close(async () => {
@@ -119,7 +123,6 @@ const bootstrap = async (): Promise<void> => {
 };
 
 bootstrap().catch((error) => {
-  // eslint-disable-next-line no-console
   console.error("[api] fatal startup error", error);
   process.exit(1);
 });

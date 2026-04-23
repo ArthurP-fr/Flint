@@ -1,4 +1,8 @@
-import { Events, type Client, type ChatInputCommandInteraction } from "discord.js";
+import {
+  Events,
+  type Client,
+  type ChatInputCommandInteraction,
+} from "discord.js";
 import { createScopedLogger } from "../core/logging/logger.js";
 
 const log = createScopedLogger("event:interactionCreate");
@@ -11,7 +15,9 @@ const log = createScopedLogger("event:interactionCreate");
  */
 export const registerInteractionCreate = (
   client: Client,
-  onSlashInteraction: (interaction: ChatInputCommandInteraction) => Promise<void>,
+  onSlashInteraction: (
+    interaction: ChatInputCommandInteraction,
+  ) => Promise<void>,
 ): void => {
   client.on(Events.InteractionCreate, (interaction) => {
     if (!interaction.isChatInputCommand()) {

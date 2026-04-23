@@ -13,9 +13,9 @@ const bootstrap = async (): Promise<void> => {
 
   const redis = env.REDIS_URL
     ? new Redis(env.REDIS_URL, {
-      maxRetriesPerRequest: null,
-      enableReadyCheck: true,
-    })
+        maxRetriesPerRequest: null,
+        enableReadyCheck: true,
+      })
     : null;
 
   await pgPool.query("SELECT 1");
@@ -23,24 +23,33 @@ const bootstrap = async (): Promise<void> => {
     await redis.ping();
   }
 
-  const manager = new BotManager(pgPool, parseTokenEncryptionKey(env.TOKEN_ENCRYPTION_KEY));
+  const manager = new BotManager(
+    pgPool,
+    parseTokenEncryptionKey(env.TOKEN_ENCRYPTION_KEY),
+  );
   await manager.loadAndStartPersistedBots();
 
-  const worker = redis ? createBotControlWorker(redis.duplicate(), manager) : null;
+  const worker = redis
+    ? createBotControlWorker(redis.duplicate(), manager)
+    : null;
 
   if (worker) {
     worker.on("completed", (job) => {
-      // eslint-disable-next-line no-console
-      console.log(`[bot] completed ${job.data.action} for bot ${job.data.botId}`);
+      console.log(
+        `[bot] completed ${job.data.action} for bot ${job.data.botId}`,
+      );
     });
 
     worker.on("failed", (job, error) => {
-      // eslint-disable-next-line no-console
-      console.error(`[bot] failed ${job?.data.action ?? "unknown"} for bot ${job?.data.botId ?? "unknown"}`, error);
+      console.error(
+        `[bot] failed ${job?.data.action ?? "unknown"} for bot ${job?.data.botId ?? "unknown"}`,
+        error,
+      );
     });
   } else {
-    // eslint-disable-next-line no-console
-    console.warn("[bot] REDIS_URL is not configured, bot control queue worker is disabled");
+    console.warn(
+      "[bot] REDIS_URL is not configured, bot control queue worker is disabled",
+    );
   }
 
   const healthServer = createServer((req, res) => {
@@ -65,12 +74,10 @@ const bootstrap = async (): Promise<void> => {
   });
 
   healthServer.listen(env.PORT, () => {
-    // eslint-disable-next-line no-console
     console.log(`[bot] health endpoint available on :${env.PORT}`);
   });
 
   const shutdown = async (signal: string): Promise<void> => {
-    // eslint-disable-next-line no-console
     console.log(`[bot] shutdown requested (${signal})`);
 
     healthServer.close(async () => {
@@ -92,7 +99,6 @@ const bootstrap = async (): Promise<void> => {
 };
 
 bootstrap().catch((error) => {
-  // eslint-disable-next-line no-console
   console.error("[bot] fatal startup error", error);
   process.exit(1);
 });

@@ -1,10 +1,17 @@
 import { getT } from "../../../i18n/server";
 import { Badge } from "../../../components/ui/Badge";
 import { buttonClassName } from "../../../components/ui/Button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../components/ui/Card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/Card";
 import PageWrapper from "../../../components/ui/PageWrapper";
 
-const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000";
+const apiBaseUrl =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000";
 
 export default async function LoginPage() {
   const t = await getT();

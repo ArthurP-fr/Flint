@@ -23,7 +23,10 @@ export const registerGuildDelete = (
       memberMessageService.cleanupGuild(botId, guild.id),
       logEventService.cleanupGuild(botId, guild.id),
     ]).catch((error) => {
-      log.error({ guildId: guild.id, botId, err: error }, "failed to cleanup guild config");
+      log.error(
+        { guildId: guild.id, botId, err: error },
+        "failed to cleanup guild config",
+      );
     });
   });
 };

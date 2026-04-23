@@ -39,7 +39,9 @@ const parseRoleIds = (serialized: string | null): string[] => {
       return [];
     }
 
-    const roleIds = parsed.filter((value): value is string => typeof value === "string");
+    const roleIds = parsed.filter(
+      (value): value is string => typeof value === "string",
+    );
     return sanitizeMemberMessageRoleIds(roleIds);
   } catch {
     return [];
@@ -52,7 +54,9 @@ const toConfig = (row: MemberMessageRow): MemberMessageConfig => {
   return {
     enabled: row.enabled,
     channelId: row.channel_id,
-    messageType: isMemberMessageRenderTypeValue(row.message_type) ? row.message_type : fallback.messageType,
+    messageType: isMemberMessageRenderTypeValue(row.message_type)
+      ? row.message_type
+      : fallback.messageType,
     autoRoleIds: parseRoleIds(row.auto_role_ids),
   };
 };
@@ -69,13 +73,17 @@ export class TenantMemberMessageStore implements MemberMessageRepository {
       await this.pool.query(memberMessageSchemaProbeSql);
     } catch (error) {
       throw new Error(
-        "[db:init] missing or incompatible table \"bot_member_message_configs\". Run migrations with \"npm run migrate\".",
+        '[db:init] missing or incompatible table "bot_member_message_configs". Run migrations with "npm run migrate".',
         { cause: error },
       );
     }
   }
 
-  public async getByBotGuildKind(botId: string, guildId: string, kind: MemberMessageKind): Promise<MemberMessageConfig> {
+  public async getByBotGuildKind(
+    botId: string,
+    guildId: string,
+    kind: MemberMessageKind,
+  ): Promise<MemberMessageConfig> {
     const result = await this.pool.query<MemberMessageRow>(
       `
       SELECT enabled, channel_id, message_type, auto_role_ids

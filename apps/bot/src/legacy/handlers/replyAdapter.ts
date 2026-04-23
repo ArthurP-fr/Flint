@@ -10,12 +10,16 @@ import type { PrefixReplyObject } from "../types/reply.js";
 
 const PREFIX_EPHEMERAL_DELETE_DELAY_MS = 10_000;
 
-const PREFIX_ALLOWED_MENTIONS_DEFAULT: NonNullable<MessageReplyOptions["allowedMentions"]> = {
+const PREFIX_ALLOWED_MENTIONS_DEFAULT: NonNullable<
+  MessageReplyOptions["allowedMentions"]
+> = {
   parse: [],
   repliedUser: false,
 };
 
-const SLASH_ALLOWED_MENTIONS_DEFAULT: NonNullable<InteractionReplyOptions["allowedMentions"]> = {
+const SLASH_ALLOWED_MENTIONS_DEFAULT: NonNullable<
+  InteractionReplyOptions["allowedMentions"]
+> = {
   parse: [],
 };
 
@@ -27,8 +31,14 @@ const FLAG_NAME_TO_BITS: Record<string, bigint> = {
   IsComponentsV2: 32768n,
 };
 
-const hasBitfieldLike = (value: unknown): value is { bitfield: bigint | number } => {
-  return Boolean(value) && typeof value === "object" && "bitfield" in (value as Record<string, unknown>);
+const hasBitfieldLike = (
+  value: unknown,
+): value is { bitfield: bigint | number } => {
+  return (
+    Boolean(value) &&
+    typeof value === "object" &&
+    "bitfield" in (value as Record<string, unknown>)
+  );
 };
 
 const toFlagBits = (flags: unknown): bigint | null => {
@@ -72,7 +82,9 @@ const hasEphemeralInFlags = (flags: unknown): boolean => {
   return bits !== null && (bits & EPHEMERAL_FLAG) !== 0n;
 };
 
-const sanitizePrefixFlags = (flags: unknown): MessageReplyOptions["flags"] | undefined => {
+const sanitizePrefixFlags = (
+  flags: unknown,
+): MessageReplyOptions["flags"] | undefined => {
   const bits = toFlagBits(flags);
   if (bits === null) {
     return undefined;
@@ -97,7 +109,9 @@ const scheduleDelete = (message: Message): void => {
   }, PREFIX_EPHEMERAL_DELETE_DELAY_MS);
 };
 
-const withPrefixAllowedMentions = (options: MessageReplyOptions): MessageReplyOptions => {
+const withPrefixAllowedMentions = (
+  options: MessageReplyOptions,
+): MessageReplyOptions => {
   return {
     ...options,
     allowedMentions: {
@@ -107,7 +121,9 @@ const withPrefixAllowedMentions = (options: MessageReplyOptions): MessageReplyOp
   };
 };
 
-const withSlashAllowedMentions = (options: InteractionReplyOptions): InteractionReplyOptions => {
+const withSlashAllowedMentions = (
+  options: InteractionReplyOptions,
+): InteractionReplyOptions => {
   return {
     ...options,
     allowedMentions: {
@@ -117,9 +133,13 @@ const withSlashAllowedMentions = (options: InteractionReplyOptions): Interaction
   };
 };
 
-const toMessageReplyOptions = (payload: Exclude<ReplyPayload, string>): MessageReplyOptions => {
+const toMessageReplyOptions = (
+  payload: Exclude<ReplyPayload, string>,
+): MessageReplyOptions => {
   const rest = { ...(payload as Record<string, unknown>) };
-  const sanitizedFlags = sanitizePrefixFlags((payload as InteractionReplyOptions).flags);
+  const sanitizedFlags = sanitizePrefixFlags(
+    (payload as InteractionReplyOptions).flags,
+  );
 
   // Drop interaction-only fields so prefix replies stay valid message payloads.
   delete rest.fetchReply;
@@ -134,14 +154,18 @@ const toMessageReplyOptions = (payload: Exclude<ReplyPayload, string>): MessageR
   return rest as MessageReplyOptions;
 };
 
-export const createPrefixReply = (message: Message): ((payload: ReplyPayload) => Promise<unknown>) => {
+export const createPrefixReply = (
+  message: Message,
+): ((payload: ReplyPayload) => Promise<unknown>) => {
   return async (payload: ReplyPayload): Promise<unknown> => {
     if (typeof payload === "string") {
       return message.reply(withPrefixAllowedMentions({ content: payload }));
     }
 
     const shouldDeleteAfterDelay = hasEphemeral(payload);
-    const sent = await message.reply(withPrefixAllowedMentions(toMessageReplyOptions(payload)));
+    const sent = await message.reply(
+      withPrefixAllowedMentions(toMessageReplyOptions(payload)),
+    );
     if (shouldDeleteAfterDelay) {
       scheduleDelete(sent);
     }
@@ -163,7 +187,9 @@ export const createSlashReply = (
       return interaction.reply(options);
     }
 
-    const options = withSlashAllowedMentions(payload as InteractionReplyOptions);
+    const options = withSlashAllowedMentions(
+      payload as InteractionReplyOptions,
+    );
 
     if (interaction.replied || interaction.deferred) {
       return interaction.followUp(options);

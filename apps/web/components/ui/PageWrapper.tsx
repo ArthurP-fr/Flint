@@ -27,7 +27,9 @@ export default async function PageWrapper({
       <Navbar currentPath={currentPath} />
 
       <main className={cn("relative py-10 md:py-14", className)}>
-        <Container className={cn("space-y-12", contentClassName)}>{children}</Container>
+        <Container className={cn("space-y-12", contentClassName)}>
+          {children}
+        </Container>
       </main>
 
       {footer ? (

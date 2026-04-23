@@ -39,7 +39,10 @@ const wrapText = (
   maxWidth: number,
   maxLines: number,
 ): string[] => {
-  const words = text.trim().split(/\s+/g).filter((value) => value.length > 0);
+  const words = text
+    .trim()
+    .split(/\s+/g)
+    .filter((value) => value.length > 0);
   if (words.length === 0) {
     return [""];
   }
@@ -78,11 +81,15 @@ const wrapText = (
   const lastLine = lines[maxLines - 1];
   if (lastLine && lines.length === maxLines) {
     let value = lastLine;
-    while (context.measureText(`${value}...`).width > maxWidth && value.length > 0) {
+    while (
+      context.measureText(`${value}...`).width > maxWidth &&
+      value.length > 0
+    ) {
       value = value.slice(0, -1);
     }
 
-    lines[maxLines - 1] = value.length === lastLine.length ? value : `${value}...`;
+    lines[maxLines - 1] =
+      value.length === lastLine.length ? value : `${value}...`;
   }
 
   return lines;
@@ -95,7 +102,13 @@ const drawAvatar = async (
 ): Promise<void> => {
   context.fillStyle = "#1f2937";
   context.beginPath();
-  context.arc(AVATAR_X + AVATAR_SIZE / 2, AVATAR_Y + AVATAR_SIZE / 2, AVATAR_SIZE / 2, 0, Math.PI * 2);
+  context.arc(
+    AVATAR_X + AVATAR_SIZE / 2,
+    AVATAR_Y + AVATAR_SIZE / 2,
+    AVATAR_SIZE / 2,
+    0,
+    Math.PI * 2,
+  );
   context.closePath();
   context.fill();
 
@@ -103,7 +116,13 @@ const drawAvatar = async (
     const avatar = await loadImage(avatarUrl);
     context.save();
     context.beginPath();
-    context.arc(AVATAR_X + AVATAR_SIZE / 2, AVATAR_Y + AVATAR_SIZE / 2, AVATAR_SIZE / 2, 0, Math.PI * 2);
+    context.arc(
+      AVATAR_X + AVATAR_SIZE / 2,
+      AVATAR_Y + AVATAR_SIZE / 2,
+      AVATAR_SIZE / 2,
+      0,
+      Math.PI * 2,
+    );
     context.closePath();
     context.clip();
     context.drawImage(avatar, AVATAR_X, AVATAR_Y, AVATAR_SIZE, AVATAR_SIZE);
@@ -114,7 +133,11 @@ const drawAvatar = async (
     context.font = `700 92px ${FONT_FAMILY}`;
     context.textAlign = "center";
     context.textBaseline = "middle";
-    context.fillText(initial, AVATAR_X + AVATAR_SIZE / 2, AVATAR_Y + AVATAR_SIZE / 2);
+    context.fillText(
+      initial,
+      AVATAR_X + AVATAR_SIZE / 2,
+      AVATAR_Y + AVATAR_SIZE / 2,
+    );
     context.textAlign = "left";
     context.textBaseline = "alphabetic";
   }
@@ -122,12 +145,20 @@ const drawAvatar = async (
   context.strokeStyle = "rgba(248, 250, 252, 0.9)";
   context.lineWidth = 6;
   context.beginPath();
-  context.arc(AVATAR_X + AVATAR_SIZE / 2, AVATAR_Y + AVATAR_SIZE / 2, AVATAR_SIZE / 2 - 3, 0, Math.PI * 2);
+  context.arc(
+    AVATAR_X + AVATAR_SIZE / 2,
+    AVATAR_Y + AVATAR_SIZE / 2,
+    AVATAR_SIZE / 2 - 3,
+    0,
+    Math.PI * 2,
+  );
   context.closePath();
   context.stroke();
 };
 
-export const renderMemberMessageImage = async (input: MemberMessageImageInput): Promise<Buffer> => {
+export const renderMemberMessageImage = async (
+  input: MemberMessageImageInput,
+): Promise<Buffer> => {
   const canvas = createCanvas(CARD_WIDTH, CARD_HEIGHT);
   const context = canvas.getContext("2d");
 
@@ -153,12 +184,26 @@ export const renderMemberMessageImage = async (input: MemberMessageImageInput): 
 
   await drawAvatar(context, input.username, input.avatarUrl);
 
-  const headlineSize = fitFontSize(context, input.title, 84, 52, TEXT_MAX_WIDTH, 700);
+  const headlineSize = fitFontSize(
+    context,
+    input.title,
+    84,
+    52,
+    TEXT_MAX_WIDTH,
+    700,
+  );
   context.font = `700 ${headlineSize}px ${FONT_FAMILY}`;
   context.fillStyle = "#f8fafc";
   context.fillText(input.title, TEXT_X, 116);
 
-  const subtitleSize = fitFontSize(context, input.subtitle, 58, 30, TEXT_MAX_WIDTH, 500);
+  const subtitleSize = fitFontSize(
+    context,
+    input.subtitle,
+    58,
+    30,
+    TEXT_MAX_WIDTH,
+    500,
+  );
   context.font = `500 ${subtitleSize}px ${FONT_FAMILY}`;
   context.fillStyle = "#e5e7eb";
 
@@ -169,7 +214,14 @@ export const renderMemberMessageImage = async (input: MemberMessageImageInput): 
     context.fillText(line, TEXT_X, subtitleStartY + index * subtitleLineHeight);
   });
 
-  const usernameSize = fitFontSize(context, input.username, 54, 28, TEXT_MAX_WIDTH, 700);
+  const usernameSize = fitFontSize(
+    context,
+    input.username,
+    54,
+    28,
+    TEXT_MAX_WIDTH,
+    700,
+  );
   context.font = `700 ${usernameSize}px ${FONT_FAMILY}`;
   context.fillStyle = input.kind === "welcome" ? "#93c5fd" : "#fda4af";
   context.fillText(input.username, TEXT_X, CARD_HEIGHT - 34);

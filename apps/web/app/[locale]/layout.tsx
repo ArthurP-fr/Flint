@@ -137,15 +137,15 @@ export default async function LocaleLayout({
 
   const messages = await getMessages();
 
-  const direction = RTL_LOCALES.includes(
-    locale as (typeof RTL_LOCALES)[number],
-  )
+  const direction = RTL_LOCALES.includes(locale as (typeof RTL_LOCALES)[number])
     ? "rtl"
     : "ltr";
 
   return (
     <html lang={locale} dir={direction}>
-      <body className={`${headingFont.variable} ${monoFont.variable} antialiased`}>
+      <body
+        className={`${headingFont.variable} ${monoFont.variable} antialiased`}
+      >
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>

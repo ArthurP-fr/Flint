@@ -9,7 +9,12 @@ export interface CooldownConsumeResult {
 }
 
 export interface CooldownStore {
-  consume(botId: string, commandName: string, subjectId: string, cooldownSeconds: number): Promise<CooldownConsumeResult>;
+  consume(
+    botId: string,
+    commandName: string,
+    subjectId: string,
+    cooldownSeconds: number,
+  ): Promise<CooldownConsumeResult>;
 }
 
 export class MemoryCooldownStore implements CooldownStore {
@@ -52,7 +57,8 @@ export class MemoryCooldownStore implements CooldownStore {
     }
 
     const shouldSweepBySize = this.cooldowns.size >= COOLDOWN_SWEEP_MIN_ENTRIES;
-    const shouldSweepByTime = now - this.lastSweepAt >= COOLDOWN_SWEEP_INTERVAL_MS;
+    const shouldSweepByTime =
+      now - this.lastSweepAt >= COOLDOWN_SWEEP_INTERVAL_MS;
     if (!shouldSweepBySize && !shouldSweepByTime) {
       return;
     }

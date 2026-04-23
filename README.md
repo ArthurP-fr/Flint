@@ -45,7 +45,7 @@ docker-compose.yml
 - Maintient une map en mémoire:
 
 ```ts
-Map<botId, DiscordClient>
+Map<botId, DiscordClient>;
 ```
 
 - Worker BullMQ: consomme les jobs `start|stop|restart`
@@ -55,32 +55,32 @@ Map<botId, DiscordClient>
 ### 3) Web (`apps/web`)
 
 - Pages principales:
-   - `/login`
-   - `/dashboard`
+  - `/login`
+  - `/dashboard`
 - Dashboard utilisateur:
-   - Ajouter un bot (token)
-   - Voir la liste des bots du tenant
-   - `start / stop / restart`
+  - Ajouter un bot (token)
+  - Voir la liste des bots du tenant
+  - `start / stop / restart`
 
 ## Schéma PostgreSQL (core SaaS)
 
 Migration: `database/migrations/0004_saas_multitenant.sql`
 
 - `tenants`
-   - `id` (UUID)
-   - `owner_user_id`
+  - `id` (UUID)
+  - `owner_user_id`
 - `users`
-   - `tenant_id` FK
-   - `discord_user_id` (unique)
-   - `role`
+  - `tenant_id` FK
+  - `discord_user_id` (unique)
+  - `role`
 - `bots`
-   - `tenant_id` FK
-   - `owner_user_id` FK
-   - `discord_bot_id` (unique global)
-   - `token_ciphertext`, `token_iv`, `token_tag`
-   - `status`, `last_error`
+  - `tenant_id` FK
+  - `owner_user_id` FK
+  - `discord_bot_id` (unique global)
+  - `token_ciphertext`, `token_iv`, `token_tag`
+  - `status`, `last_error`
 - `bot_runtime_events`
-   - logs runtime par bot + tenant
+  - logs runtime par bot + tenant
 
 Les tables legacy de configuration (`bot_presence_states`, `bot_member_message_configs`, `bot_log_event_configs`) sont enrichies avec `tenant_id` et `owner_user_id` pour respecter l'isolation multi-tenant stricte.
 
@@ -97,7 +97,7 @@ Les tables legacy de configuration (`bot_presence_states`, `bot_member_message_c
 
 - `GET /api/bots`
 - `POST /api/bots`
-   - body: `{ token: string, displayName?: string }`
+  - body: `{ token: string, displayName?: string }`
 - `POST /api/bots/:botId/start`
 - `POST /api/bots/:botId/stop`
 - `POST /api/bots/:botId/restart`
@@ -107,7 +107,7 @@ Tous ces endpoints sont tenant-scopés via la session.
 ## Sécurité
 
 - Tokens bot jamais stockés en clair
-   - AES-256-GCM avec `TOKEN_ENCRYPTION_KEY` (32 bytes en base64)
+  - AES-256-GCM avec `TOKEN_ENCRYPTION_KEY` (32 bytes en base64)
 - Validation token côté Discord avant insertion
 - Session auth via JWT httpOnly cookie
 - Filtrage systématique des requêtes par `tenant_id`
@@ -168,6 +168,6 @@ Bot manager health:
 
 - Une instance bot unique peut gérer des dizaines/centaines de bots selon ressources.
 - Pour monter en charge horizontalement:
-   - scaler `apps/api`
-   - scaler `apps/bot` avec coordination queue/locks
-   - conserver Redis + PostgreSQL managés
+  - scaler `apps/api`
+  - scaler `apps/bot` avec coordination queue/locks
+  - conserver Redis + PostgreSQL managés

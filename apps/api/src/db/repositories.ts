@@ -151,7 +151,10 @@ export const getUserByIdAndTenant = async (
   return mapUser(result.rows[0] as Record<string, unknown>);
 };
 
-export const listBotsForTenant = async (pool: Pool, tenantId: string): Promise<PublicBot[]> => {
+export const listBotsForTenant = async (
+  pool: Pool,
+  tenantId: string,
+): Promise<PublicBot[]> => {
   const result = await pool.query(
     `
       SELECT id, tenant_id, discord_bot_id, display_name, status, last_error, created_at, updated_at
@@ -206,7 +209,10 @@ export const createOrUpdateBotForTenant = async (
       [input.discordBotId],
     );
 
-    if (existingByDiscordBot.rows[0] && existingByDiscordBot.rows[0].tenant_id !== input.tenantId) {
+    if (
+      existingByDiscordBot.rows[0] &&
+      existingByDiscordBot.rows[0].tenant_id !== input.tenantId
+    ) {
       throw new Error("BOT_ALREADY_CLAIMED");
     }
 

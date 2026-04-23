@@ -1,9 +1,9 @@
-import {
-  PermissionsBitField,
-  type PermissionResolvable,
-} from "discord.js";
+import { PermissionsBitField, type PermissionResolvable } from "discord.js";
 
-import type { BotCommand, CommandExecutionContext } from "../../types/command.js";
+import type {
+  BotCommand,
+  CommandExecutionContext,
+} from "../../types/command.js";
 import type { AppLogger } from "../logging/logger.js";
 import type { CooldownStore } from "./cooldownStore.js";
 import type {
@@ -22,7 +22,10 @@ export interface CommandExecutorDeps {
 export class CommandExecutor {
   public constructor(private readonly deps: CommandExecutorDeps) {}
 
-  public async run(command: BotCommand, ctx: CommandExecutionContext): Promise<void> {
+  public async run(
+    command: BotCommand,
+    ctx: CommandExecutionContext,
+  ): Promise<void> {
     if (this.isSensitiveCommand(command) && !ctx.transport.guild) {
       await ctx.reply(
         ctx.t("errors.permissions.user", {
@@ -34,20 +37,31 @@ export class CommandExecutor {
 
     const rateLimitRetryAfterSeconds = await this.consumeGlobalRateLimit(ctx);
     if (rateLimitRetryAfterSeconds > 0) {
-      await ctx.reply(ctx.t("errors.rateLimit", { seconds: rateLimitRetryAfterSeconds }));
+      await ctx.reply(
+        ctx.t("errors.rateLimit", { seconds: rateLimitRetryAfterSeconds }),
+      );
       return;
     }
 
     const availablePermissions = await this.resolveMemberPermissions(ctx);
-    const missingUserPermissions = this.getMissingPermissions(command.permissions, availablePermissions);
+    const missingUserPermissions = this.getMissingPermissions(
+      command.permissions,
+      availablePermissions,
+    );
     if (missingUserPermissions.length > 0) {
-      await ctx.reply(ctx.t("errors.permissions.user", { permissions: missingUserPermissions.join(", ") }));
+      await ctx.reply(
+        ctx.t("errors.permissions.user", {
+          permissions: missingUserPermissions.join(", "),
+        }),
+      );
       return;
     }
 
     const remainingCooldownSeconds = await this.consumeCooldown(command, ctx);
     if (remainingCooldownSeconds > 0) {
-      await ctx.reply(ctx.t("errors.cooldown", { seconds: remainingCooldownSeconds }));
+      await ctx.reply(
+        ctx.t("errors.cooldown", { seconds: remainingCooldownSeconds }),
+      );
       return;
     }
 
@@ -96,7 +110,11 @@ export class CommandExecutor {
     }
 
     if (!available) {
-      return [...new Set(required.flatMap((permission) => this.permissionToLabels(permission)))];
+      return [
+        ...new Set(
+          required.flatMap((permission) => this.permissionToLabels(permission)),
+        ),
+      ];
     }
 
     return [
@@ -111,7 +129,9 @@ export class CommandExecutor {
   private permissionToLabels(permission: PermissionResolvable): string[] {
     try {
       const resolved = PermissionsBitField.resolve(permission);
-      const labels = new PermissionsBitField(resolved).toArray().map(this.formatPermissionLabel);
+      const labels = new PermissionsBitField(resolved)
+        .toArray()
+        .map(this.formatPermissionLabel);
       if (labels.length > 0) {
         return labels;
       }
@@ -129,7 +149,10 @@ export class CommandExecutor {
       .trim();
   }
 
-  private async consumeCooldown(command: BotCommand, ctx: CommandExecutionContext): Promise<number> {
+  private async consumeCooldown(
+    command: BotCommand,
+    ctx: CommandExecutionContext,
+  ): Promise<number> {
     if (command.cooldown === undefined || command.cooldown <= 0) {
       return 0;
     }
@@ -142,7 +165,12 @@ export class CommandExecutor {
     const userId = ctx.execution.actor.userId;
 
     try {
-      const result = await this.deps.cooldownStore.consume(botId, command.meta.name, userId, command.cooldown);
+      const result = await this.deps.cooldownStore.consume(
+        botId,
+        command.meta.name,
+        userId,
+        command.cooldown,
+      );
       return result.allowed ? 0 : result.retryAfterSeconds;
     } catch (error) {
       if (this.deps.rateLimitFailOpen) {
@@ -174,10 +202,14 @@ export class CommandExecutor {
     }
   }
 
-  private async consumeGlobalRateLimit(ctx: CommandExecutionContext): Promise<number> {
+  private async consumeGlobalRateLimit(
+    ctx: CommandExecutionContext,
+  ): Promise<number> {
     const botId = this.resolveBotId(ctx);
     if (!botId) {
-      return this.deps.rateLimitFailOpen ? 0 : Math.max(1, this.deps.globalRateLimitPolicy.windowSeconds);
+      return this.deps.rateLimitFailOpen
+        ? 0
+        : Math.max(1, this.deps.globalRateLimitPolicy.windowSeconds);
     }
 
     try {

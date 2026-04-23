@@ -34,7 +34,18 @@ export const registerEvents = (
   registerGuildMemberRemove(client, i18n, services.memberMessageService);
 
   registerGuildCreate(client);
-  registerGuildDelete(client, services.memberMessageService, services.logEventService);
+  registerGuildDelete(
+    client,
+    services.memberMessageService,
+    services.logEventService,
+  );
 
-  registerClientReady(client, registry, i18n, services.presenceService, leaderCoordinator, runtimeAuth);
+  registerClientReady(
+    client,
+    registry,
+    i18n,
+    services.presenceService,
+    leaderCoordinator,
+    runtimeAuth,
+  );
 };

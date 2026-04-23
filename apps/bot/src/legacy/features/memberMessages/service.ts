@@ -38,7 +38,9 @@ const hasSendMethod = (value: unknown): value is SendableChannel => {
     return false;
   }
 
-  return "send" in value && typeof (value as { send?: unknown }).send === "function";
+  return (
+    "send" in value && typeof (value as { send?: unknown }).send === "function"
+  );
 };
 
 const hasCode = (error: unknown): error is { code: number } => {
@@ -46,10 +48,15 @@ const hasCode = (error: unknown): error is { code: number } => {
     return false;
   }
 
-  return "code" in error && typeof (error as { code?: unknown }).code === "number";
+  return (
+    "code" in error && typeof (error as { code?: unknown }).code === "number"
+  );
 };
 
-const messageTemplateVars = (guild: Guild, user: User): Record<string, string> => ({
+const messageTemplateVars = (
+  guild: Guild,
+  user: User,
+): Record<string, string> => ({
   user: `<@${user.id}>`,
   username: user.username,
   guild: guild.name,
@@ -87,12 +94,17 @@ const resolveNonEmptyTemplate = (
   return fallback.length > 0 ? fallback : key;
 };
 
-const resolveAssignableRoleId = async (member: GuildMember, roleId: string): Promise<string | null> => {
+const resolveAssignableRoleId = async (
+  member: GuildMember,
+  roleId: string,
+): Promise<string | null> => {
   if (roleId === member.guild.id) {
     return null;
   }
 
-  const role = member.guild.roles.cache.get(roleId) ?? await member.guild.roles.fetch(roleId).catch(() => null);
+  const role =
+    member.guild.roles.cache.get(roleId) ??
+    (await member.guild.roles.fetch(roleId).catch(() => null));
   if (!role || !role.editable) {
     return null;
   }
@@ -109,10 +121,11 @@ const buildMemberMessagePayload = async (
   user: User,
 ): Promise<MessageCreateOptions> => {
   const vars = messageTemplateVars(guild, user);
-  const allowedMentions: NonNullable<MessageCreateOptions["allowedMentions"]> = {
-    parse: [],
-    users: [user.id],
-  };
+  const allowedMentions: NonNullable<MessageCreateOptions["allowedMentions"]> =
+    {
+      parse: [],
+      users: [user.id],
+    };
 
   if (renderType === "simple") {
     return {
@@ -128,7 +141,9 @@ const buildMemberMessagePayload = async (
         new EmbedBuilder()
           .setColor(messageColor(kind))
           .setTitle(resolveTemplate(i18n, lang, kind, "embedTitle", vars))
-          .setDescription(resolveTemplate(i18n, lang, kind, "embedDescription", vars)),
+          .setDescription(
+            resolveTemplate(i18n, lang, kind, "embedDescription", vars),
+          ),
       ],
     };
   }
@@ -148,8 +163,20 @@ const buildMemberMessagePayload = async (
     };
   }
 
-  const imageTitle = resolveNonEmptyTemplate(i18n, lang, kind, "imageTitle", vars);
-  const imageSubtitle = resolveNonEmptyTemplate(i18n, lang, kind, "imageDescription", vars);
+  const imageTitle = resolveNonEmptyTemplate(
+    i18n,
+    lang,
+    kind,
+    "imageTitle",
+    vars,
+  );
+  const imageSubtitle = resolveNonEmptyTemplate(
+    i18n,
+    lang,
+    kind,
+    "imageDescription",
+    vars,
+  );
 
   const imageBuffer = await renderMemberMessageImage({
     kind,
@@ -171,11 +198,17 @@ const buildMemberMessagePayload = async (
 export class MemberMessageService {
   public constructor(private readonly repository: MemberMessageRepository) {}
 
-  public resolveBotId(client: DispatchMemberMessageInput["client"]): string | null {
+  public resolveBotId(
+    client: DispatchMemberMessageInput["client"],
+  ): string | null {
     return client.user?.id ?? null;
   }
 
-  public async getConfig(botId: string, guildId: string, kind: MemberMessageKind) {
+  public async getConfig(
+    botId: string,
+    guildId: string,
+    kind: MemberMessageKind,
+  ) {
     return this.repository.getByBotGuildKind(botId, guildId, kind);
   }
 
@@ -192,7 +225,9 @@ export class MemberMessageService {
     await this.repository.deleteByBotGuild(botId, guildId);
   }
 
-  public async assignWelcomeAutoRoles(input: AssignWelcomeAutoRolesInput): Promise<AssignWelcomeAutoRolesResult> {
+  public async assignWelcomeAutoRoles(
+    input: AssignWelcomeAutoRolesInput,
+  ): Promise<AssignWelcomeAutoRolesResult> {
     const botId = this.resolveBotId(input.client);
     if (!botId) {
       return {
@@ -204,7 +239,11 @@ export class MemberMessageService {
       };
     }
 
-    const config = await this.repository.getByBotGuildKind(botId, input.member.guild.id, "welcome");
+    const config = await this.repository.getByBotGuildKind(
+      botId,
+      input.member.guild.id,
+      "welcome",
+    );
     const configuredRoleIds = sanitizeMemberMessageRoleIds(config.autoRoleIds);
 
     if (configuredRoleIds.length === 0) {
@@ -239,11 +278,17 @@ export class MemberMessageService {
     }
 
     const resolvedRoleIds = await Promise.all(
-      configuredRoleIds.map((roleId) => resolveAssignableRoleId(input.member, roleId)),
+      configuredRoleIds.map((roleId) =>
+        resolveAssignableRoleId(input.member, roleId),
+      ),
     );
 
-    const appliedRoleIds = resolvedRoleIds.filter((roleId): roleId is string => roleId !== null);
-    const skippedRoleIds = configuredRoleIds.filter((roleId) => !appliedRoleIds.includes(roleId));
+    const appliedRoleIds = resolvedRoleIds.filter(
+      (roleId): roleId is string => roleId !== null,
+    );
+    const skippedRoleIds = configuredRoleIds.filter(
+      (roleId) => !appliedRoleIds.includes(roleId),
+    );
 
     if (appliedRoleIds.length === 0) {
       return {
@@ -285,7 +330,9 @@ export class MemberMessageService {
     }
   }
 
-  public async dispatch(input: DispatchMemberMessageInput): Promise<DispatchMemberMessageResult> {
+  public async dispatch(
+    input: DispatchMemberMessageInput,
+  ): Promise<DispatchMemberMessageResult> {
     const botId = this.resolveBotId(input.client);
     if (!botId) {
       return {
@@ -295,7 +342,11 @@ export class MemberMessageService {
       };
     }
 
-    const config = await this.repository.getByBotGuildKind(botId, input.guild.id, input.kind);
+    const config = await this.repository.getByBotGuildKind(
+      botId,
+      input.guild.id,
+      input.kind,
+    );
 
     if (!input.ignoreEnabled && !config.enabled) {
       return {
@@ -313,7 +364,9 @@ export class MemberMessageService {
       };
     }
 
-    const channel = await input.guild.channels.fetch(config.channelId).catch(() => null);
+    const channel = await input.guild.channels
+      .fetch(config.channelId)
+      .catch(() => null);
     if (!channel) {
       return {
         sent: false,
@@ -331,9 +384,17 @@ export class MemberMessageService {
     }
 
     const me = input.guild.members.me;
-    if (me && "permissionsFor" in channel && typeof channel.permissionsFor === "function") {
+    if (
+      me &&
+      "permissionsFor" in channel &&
+      typeof channel.permissionsFor === "function"
+    ) {
       const permissions = channel.permissionsFor(me);
-      if (!permissions || !permissions.has(PermissionFlagsBits.ViewChannel) || !permissions.has(PermissionFlagsBits.SendMessages)) {
+      if (
+        !permissions ||
+        !permissions.has(PermissionFlagsBits.ViewChannel) ||
+        !permissions.has(PermissionFlagsBits.SendMessages)
+      ) {
         return {
           sent: false,
           reason: "missing_permissions",
@@ -343,7 +404,14 @@ export class MemberMessageService {
     }
 
     const lang = input.i18n.resolveLang(input.guild.preferredLocale ?? null);
-    const payload = await buildMemberMessagePayload(input.i18n, lang, input.kind, config.messageType, input.guild, input.user);
+    const payload = await buildMemberMessagePayload(
+      input.i18n,
+      lang,
+      input.kind,
+      config.messageType,
+      input.guild,
+      input.user,
+    );
 
     try {
       await channel.send(payload);

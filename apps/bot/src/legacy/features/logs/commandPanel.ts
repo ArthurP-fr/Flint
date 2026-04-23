@@ -70,7 +70,11 @@ const clampPageIndex = (index: number, pageCount: number): number => {
   return index;
 };
 
-const pageCount = (): number => Math.max(1, Math.ceil(LOG_EVENT_DEFINITIONS.length / LOGS_PANEL_EVENTS_PER_PAGE));
+const pageCount = (): number =>
+  Math.max(
+    1,
+    Math.ceil(LOG_EVENT_DEFINITIONS.length / LOGS_PANEL_EVENTS_PER_PAGE),
+  );
 
 const pageEvents = (uiState: LogPanelUiState): LogEventDefinition[] => {
   const totalPages = pageCount();
@@ -79,11 +83,17 @@ const pageEvents = (uiState: LogPanelUiState): LogEventDefinition[] => {
   return LOG_EVENT_DEFINITIONS.slice(start, start + LOGS_PANEL_EVENTS_PER_PAGE);
 };
 
-const eventStatusLabel = (ctx: CommandExecutionContext, enabled: boolean): string => {
+const eventStatusLabel = (
+  ctx: CommandExecutionContext,
+  enabled: boolean,
+): string => {
   return enabled ? ctx.ct("ui.status.enabled") : ctx.ct("ui.status.disabled");
 };
 
-const eventLabel = (ctx: CommandExecutionContext, eventKey: LogEventKey): string => {
+const eventLabel = (
+  ctx: CommandExecutionContext,
+  eventKey: LogEventKey,
+): string => {
   return ctx.ct(`ui.events.${eventKey}`);
 };
 
@@ -94,22 +104,34 @@ const panelContent = (
 ): string => {
   const totalPages = pageCount();
   const currentEvents = pageEvents(uiState);
-  const enabledCount = LOG_EVENT_KEYS.filter((eventKey) => state[eventKey].enabled).length;
+  const enabledCount = LOG_EVENT_KEYS.filter(
+    (eventKey) => state[eventKey].enabled,
+  ).length;
 
   const lines = [
     `## ${ctx.ct("ui.embed.title")}`,
     ctx.ct("ui.embed.description"),
     "",
-    ctx.ct("ui.pageLabel", { page: uiState.pageIndex + 1, pageCount: totalPages }),
-    ctx.ct("ui.enabledCountLabel", { enabledCount, totalCount: LOG_EVENT_KEYS.length }),
+    ctx.ct("ui.pageLabel", {
+      page: uiState.pageIndex + 1,
+      pageCount: totalPages,
+    }),
+    ctx.ct("ui.enabledCountLabel", {
+      enabledCount,
+      totalCount: LOG_EVENT_KEYS.length,
+    }),
     "",
     `${ctx.ct("ui.eventsHeader")}:`,
   ];
 
   for (const definition of currentEvents) {
     const eventConfig = state[definition.key];
-    const channelDisplay = eventConfig.channelId ? `<#${eventConfig.channelId}>` : ctx.ct("ui.channelNotConfigured");
-    lines.push(`- ${eventLabel(ctx, definition.key)} | ${eventStatusLabel(ctx, eventConfig.enabled)} | ${ctx.ct("ui.channelLabel")}: ${channelDisplay}`);
+    const channelDisplay = eventConfig.channelId
+      ? `<#${eventConfig.channelId}>`
+      : ctx.ct("ui.channelNotConfigured");
+    lines.push(
+      `- ${eventLabel(ctx, definition.key)} | ${eventStatusLabel(ctx, eventConfig.enabled)} | ${ctx.ct("ui.channelLabel")}: ${channelDisplay}`,
+    );
   }
 
   if (uiState.feedback) {
@@ -160,9 +182,15 @@ const buildContainer = (
     .setDisabled(disabled || uiState.pageIndex >= totalPages - 1);
 
   const container = new ContainerBuilder();
-  container.addTextDisplayComponents(new TextDisplayBuilder().setContent(panelContent(ctx, state, uiState)));
+  container.addTextDisplayComponents(
+    new TextDisplayBuilder().setContent(panelContent(ctx, state, uiState)),
+  );
   container.addActionRowComponents(
-    new ActionRowBuilder<ButtonBuilder>().addComponents(enableAllButton, disableAllButton, createChannelsButton),
+    new ActionRowBuilder<ButtonBuilder>().addComponents(
+      enableAllButton,
+      disableAllButton,
+      createChannelsButton,
+    ),
   );
 
   for (const definitionChunk of chunk(currentEvents, 5)) {
@@ -176,15 +204,22 @@ const buildContainer = (
       return new ButtonBuilder()
         .setCustomId(customIds.toggleButtonsByEvent[definition.key])
         .setLabel(label)
-        .setStyle(eventConfig.enabled ? ButtonStyle.Danger : ButtonStyle.Success)
+        .setStyle(
+          eventConfig.enabled ? ButtonStyle.Danger : ButtonStyle.Success,
+        )
         .setDisabled(disabled);
     });
 
-    container.addActionRowComponents(new ActionRowBuilder<ButtonBuilder>().addComponents(...rowButtons));
+    container.addActionRowComponents(
+      new ActionRowBuilder<ButtonBuilder>().addComponents(...rowButtons),
+    );
   }
 
   container.addActionRowComponents(
-    new ActionRowBuilder<ButtonBuilder>().addComponents(previousPageButton, nextPageButton),
+    new ActionRowBuilder<ButtonBuilder>().addComponents(
+      previousPageButton,
+      nextPageButton,
+    ),
   );
 
   return container;
@@ -196,15 +231,19 @@ const applyAllEnabled = (state: LogEventStateByKey, enabled: boolean): void => {
   }
 };
 
-const toToggleLookup = (customIds: LogPanelCustomIds): Map<string, LogEventKey> => {
+const toToggleLookup = (
+  customIds: LogPanelCustomIds,
+): Map<string, LogEventKey> => {
   return new Map(
-    LOG_EVENT_KEYS.map((eventKey) => [customIds.toggleButtonsByEvent[eventKey], eventKey]),
+    LOG_EVENT_KEYS.map((eventKey) => [
+      customIds.toggleButtonsByEvent[eventKey],
+      eventKey,
+    ]),
   );
 };
 
 export const createLogsCommandExecute = (logEventService: LogEventService) => {
   return async (ctx: CommandExecutionContext): Promise<void> => {
-
     if (!ctx.guild) {
       await ctx.reply(ctx.ct("responses.guildOnly"));
       return;
@@ -232,7 +271,11 @@ export const createLogsCommandExecute = (logEventService: LogEventService) => {
     }
 
     const ownerId = ctx.user.id;
-    const sessionKey = logEventService.panelSessionKey(ctx.client, guild.id, ownerId);
+    const sessionKey = logEventService.panelSessionKey(
+      ctx.client,
+      guild.id,
+      ownerId,
+    );
 
     const disablePanel = async (): Promise<void> => {
       await replyMessage
@@ -243,8 +286,13 @@ export const createLogsCommandExecute = (logEventService: LogEventService) => {
         .catch(() => undefined);
     };
 
-    const collector = replyMessage.createMessageComponentCollector({ time: 15 * 60_000 });
-    await logEventService.replacePanelSession(sessionKey, { collector, disable: disablePanel });
+    const collector = replyMessage.createMessageComponentCollector({
+      time: 15 * 60_000,
+    });
+    await logEventService.replacePanelSession(sessionKey, {
+      collector,
+      disable: disablePanel,
+    });
 
     collector.on("collect", async (interaction) => {
       if (interaction.user.id !== ownerId) {
@@ -289,7 +337,11 @@ export const createLogsCommandExecute = (logEventService: LogEventService) => {
         if (interaction.customId === customIds.createChannelsButton) {
           await interaction.deferUpdate();
 
-          const result = await logEventService.createCategoryChannels(ctx.client, guild, state);
+          const result = await logEventService.createCategoryChannels(
+            ctx.client,
+            guild,
+            state,
+          );
           if (result.failedCategories.length === 0) {
             uiState.feedback = ctx.ct("responses.channelsCreated", {
               created: result.createdCount,
@@ -356,17 +408,21 @@ export const createLogsCommandExecute = (logEventService: LogEventService) => {
         logger.error({ err: error }, "interaction failed");
 
         if (!interaction.replied && !interaction.deferred) {
-          await interaction.reply({
-            content: ctx.t("errors.execution"),
-            flags: [MessageFlags.Ephemeral],
-          }).catch(() => undefined);
+          await interaction
+            .reply({
+              content: ctx.t("errors.execution"),
+              flags: [MessageFlags.Ephemeral],
+            })
+            .catch(() => undefined);
           return;
         }
 
-        await interaction.followUp({
-          content: ctx.t("errors.execution"),
-          flags: [MessageFlags.Ephemeral],
-        }).catch(() => undefined);
+        await interaction
+          .followUp({
+            content: ctx.t("errors.execution"),
+            flags: [MessageFlags.Ephemeral],
+          })
+          .catch(() => undefined);
       }
     });
 

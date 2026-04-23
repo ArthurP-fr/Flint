@@ -2,7 +2,11 @@ import type { Router } from "express";
 import { Router as expressRouter } from "express";
 import type { Pool } from "pg";
 
-import { buildDiscordLoginUrl, createOauthState, exchangeCodeForDiscordIdentity } from "../auth/discordOAuth.js";
+import {
+  buildDiscordLoginUrl,
+  createOauthState,
+  exchangeCodeForDiscordIdentity,
+} from "../auth/discordOAuth.js";
 import { issueSessionToken } from "../auth/jwt.js";
 import { env } from "../config/env.js";
 import { upsertUserFromDiscord } from "../db/repositories.js";
@@ -46,7 +50,9 @@ export const createAuthRouter = ({ pool }: AuthRouterDependencies): Router => {
     const cookieState = req.cookies?.[OAUTH_STATE_COOKIE_NAME];
 
     if (!code || !state || !cookieState || state !== cookieState) {
-      res.clearCookie(OAUTH_STATE_COOKIE_NAME, { path: "/auth/discord/callback" });
+      res.clearCookie(OAUTH_STATE_COOKIE_NAME, {
+        path: "/auth/discord/callback",
+      });
       res.redirect(`${env.WEB_URL}/login?error=oauth_state_invalid`);
       return;
     }
@@ -66,11 +72,15 @@ export const createAuthRouter = ({ pool }: AuthRouterDependencies): Router => {
         username: user.username,
       });
 
-      res.clearCookie(OAUTH_STATE_COOKIE_NAME, { path: "/auth/discord/callback" });
+      res.clearCookie(OAUTH_STATE_COOKIE_NAME, {
+        path: "/auth/discord/callback",
+      });
       res.cookie(env.SESSION_COOKIE_NAME, sessionToken, sessionCookieConfig);
       res.redirect(`${env.WEB_URL}/dashboard`);
     } catch {
-      res.clearCookie(OAUTH_STATE_COOKIE_NAME, { path: "/auth/discord/callback" });
+      res.clearCookie(OAUTH_STATE_COOKIE_NAME, {
+        path: "/auth/discord/callback",
+      });
       res.redirect(`${env.WEB_URL}/login?error=oauth_failed`);
     }
   });

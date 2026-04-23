@@ -6,12 +6,8 @@ import { createCommandList } from "../legacy/commands/index.js";
 import { env } from "../legacy/config/env.js";
 import { CommandRegistry } from "../legacy/core/commands/registry.js";
 import { LocalCommandDispatchPort } from "../legacy/core/execution/dispatch.js";
-import {
-  MemoryCooldownStore,
-} from "../legacy/core/execution/cooldownStore.js";
-import {
-  MemoryGlobalRateLimitStore,
-} from "../legacy/core/execution/globalRateLimitStore.js";
+import { MemoryCooldownStore } from "../legacy/core/execution/cooldownStore.js";
+import { MemoryGlobalRateLimitStore } from "../legacy/core/execution/globalRateLimitStore.js";
 import { CommandExecutor } from "../legacy/core/execution/CommandExecutor.js";
 import { createScopedLogger } from "../legacy/core/logging/logger.js";
 import {
@@ -23,15 +19,9 @@ import { registerEvents } from "../legacy/events/index.js";
 import { createPrefixHandler } from "../legacy/handlers/prefixHandler.js";
 import { createSlashHandler } from "../legacy/handlers/slashHandler.js";
 import { I18nService } from "../legacy/i18n/index.js";
-import {
-  LogEventService,
-} from "../legacy/modules/logs/index.js";
-import {
-  MemberMessageService,
-} from "../legacy/modules/memberMessages/index.js";
-import {
-  PresenceService,
-} from "../legacy/modules/presence/index.js";
+import { LogEventService } from "../legacy/modules/logs/index.js";
+import { MemberMessageService } from "../legacy/modules/memberMessages/index.js";
+import { PresenceService } from "../legacy/modules/presence/index.js";
 import { TenantLogEventStore } from "./stores/TenantLogEventStore.js";
 import { TenantMemberMessageStore } from "./stores/TenantMemberMessageStore.js";
 import { TenantPresenceStore } from "./stores/TenantPresenceStore.js";
@@ -54,9 +44,21 @@ export interface LegacyBotRuntime {
 export const initializeLegacyBotRuntime = async (
   input: InitializeLegacyBotRuntimeInput,
 ): Promise<LegacyBotRuntime> => {
-  const presenceStore = new TenantPresenceStore(input.pool, input.tenantId, input.ownerUserId);
-  const memberMessageStore = new TenantMemberMessageStore(input.pool, input.tenantId, input.ownerUserId);
-  const logEventStore = new TenantLogEventStore(input.pool, input.tenantId, input.ownerUserId);
+  const presenceStore = new TenantPresenceStore(
+    input.pool,
+    input.tenantId,
+    input.ownerUserId,
+  );
+  const memberMessageStore = new TenantMemberMessageStore(
+    input.pool,
+    input.tenantId,
+    input.ownerUserId,
+  );
+  const logEventStore = new TenantLogEventStore(
+    input.pool,
+    input.tenantId,
+    input.ownerUserId,
+  );
 
   const dbLifecycle = new DatabaseLifecycle(
     [
@@ -70,7 +72,10 @@ export const initializeLegacyBotRuntime = async (
   await dbLifecycle.init();
 
   const services: AppFeatureServices = {
-    presenceService: new PresenceService(presenceStore, env.PRESENCE_STREAM_URL),
+    presenceService: new PresenceService(
+      presenceStore,
+      env.PRESENCE_STREAM_URL,
+    ),
     memberMessageService: new MemberMessageService(memberMessageStore),
     logEventService: new LogEventService(logEventStore),
   };
@@ -137,15 +142,36 @@ export const initializeLegacyBotRuntime = async (
   return {
     shutdown: async () => {
       await services.logEventService.shutdown().catch((error) => {
-        log.error({ err: error, tenantId: input.tenantId, botClientId: input.botClientId }, "logs service shutdown failed");
+        log.error(
+          {
+            err: error,
+            tenantId: input.tenantId,
+            botClientId: input.botClientId,
+          },
+          "logs service shutdown failed",
+        );
       });
 
       await services.presenceService.shutdown().catch((error) => {
-        log.error({ err: error, tenantId: input.tenantId, botClientId: input.botClientId }, "presence service shutdown failed");
+        log.error(
+          {
+            err: error,
+            tenantId: input.tenantId,
+            botClientId: input.botClientId,
+          },
+          "presence service shutdown failed",
+        );
       });
 
       await dbLifecycle.shutdown().catch((error) => {
-        log.error({ err: error, tenantId: input.tenantId, botClientId: input.botClientId }, "runtime db lifecycle shutdown failed");
+        log.error(
+          {
+            err: error,
+            tenantId: input.tenantId,
+            botClientId: input.botClientId,
+          },
+          "runtime db lifecycle shutdown failed",
+        );
       });
     },
   };

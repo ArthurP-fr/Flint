@@ -1,9 +1,4 @@
-import {
-  Events,
-  type Client,
-  type Guild,
-  type InviteGuild,
-} from "discord.js";
+import { Events, type Client, type Guild, type InviteGuild } from "discord.js";
 
 import { createScopedLogger } from "../core/logging/logger.js";
 import type { I18nService } from "../i18n/index.js";
@@ -26,7 +21,10 @@ const tForGuild = (
   key: string,
   vars: Record<string, string | number> = {},
 ): string => {
-  const preferredLocale = guild && "preferredLocale" in guild ? (guild.preferredLocale ?? null) : null;
+  const preferredLocale =
+    guild && "preferredLocale" in guild
+      ? (guild.preferredLocale ?? null)
+      : null;
   const lang = i18n.resolveLang(preferredLocale);
   return i18n.t(lang, key, vars);
 };
@@ -45,7 +43,11 @@ const formatContent = (
   guild: Guild | InviteGuild | null | undefined,
   content: string | null | undefined,
 ): string => {
-  const noContent = tForGuild(i18n, guild, "logsRuntime.placeholders.noContent");
+  const noContent = tForGuild(
+    i18n,
+    guild,
+    "logsRuntime.placeholders.noContent",
+  );
 
   if (typeof content !== "string") {
     return noContent;
@@ -82,19 +84,30 @@ const emitRuntimeLog = (
   const title = tForGuild(i18n, input.guild, "logsRuntime.embed.title", {
     event: input.eventKey,
   });
-  const detailsTitle = tForGuild(i18n, input.guild, "logsRuntime.embed.detailsField");
+  const detailsTitle = tForGuild(
+    i18n,
+    input.guild,
+    "logsRuntime.embed.detailsField",
+  );
 
-  void logEventService.dispatchEvent(client, {
-    eventKey: input.eventKey,
-    guildId,
-    summary: input.summary,
-    ...(input.details && input.details.length > 0 ? { details: input.details } : {}),
-    ...(input.color !== undefined ? { color: input.color } : {}),
-    title,
-    detailsTitle,
-  }).catch((error) => {
-    logger.error({ eventKey: input.eventKey, guildId, err: error }, "failed to dispatch runtime log event");
-  });
+  void logEventService
+    .dispatchEvent(client, {
+      eventKey: input.eventKey,
+      guildId,
+      summary: input.summary,
+      ...(input.details && input.details.length > 0
+        ? { details: input.details }
+        : {}),
+      ...(input.color !== undefined ? { color: input.color } : {}),
+      title,
+      detailsTitle,
+    })
+    .catch((error) => {
+      logger.error(
+        { eventKey: input.eventKey, guildId, err: error },
+        "failed to dispatch runtime log event",
+      );
+    });
 };
 
 export const registerLogRuntimeEvents = (
@@ -110,10 +123,15 @@ export const registerLogRuntimeEvents = (
     emitRuntimeLog(client, logEventService, i18n, {
       eventKey: "messageCreate",
       guild: message.guild,
-      summary: tForGuild(i18n, message.guild, "logsRuntime.summaries.messageCreate", {
-        user: `<@${message.author.id}>`,
-        channel: `<#${message.channelId}>`,
-      }),
+      summary: tForGuild(
+        i18n,
+        message.guild,
+        "logsRuntime.summaries.messageCreate",
+        {
+          user: `<@${message.author.id}>`,
+          channel: `<#${message.channelId}>`,
+        },
+      ),
       details: [
         detailLine(i18n, message.guild, "messageId", { value: message.id }),
         detailLine(i18n, message.guild, "author", {
@@ -187,9 +205,14 @@ export const registerLogRuntimeEvents = (
       eventKey: "messageBulkDelete",
       guild,
       guildId: guild?.id,
-      summary: tForGuild(i18n, guild, "logsRuntime.summaries.messageBulkDelete", {
-        count: messages.size,
-      }),
+      summary: tForGuild(
+        i18n,
+        guild,
+        "logsRuntime.summaries.messageBulkDelete",
+        {
+          count: messages.size,
+        },
+      ),
       details: [
         detailLine(i18n, guild, "channelId", {
           value: first?.channelId ?? unknown,
@@ -204,9 +227,14 @@ export const registerLogRuntimeEvents = (
     emitRuntimeLog(client, logEventService, i18n, {
       eventKey: "guildMemberAdd",
       guild: member.guild,
-      summary: tForGuild(i18n, member.guild, "logsRuntime.summaries.guildMemberAdd", {
-        user: `<@${member.user.id}>`,
-      }),
+      summary: tForGuild(
+        i18n,
+        member.guild,
+        "logsRuntime.summaries.guildMemberAdd",
+        {
+          user: `<@${member.user.id}>`,
+        },
+      ),
       details: [
         detailLine(i18n, member.guild, "user", {
           tag: member.user.tag,
@@ -221,9 +249,14 @@ export const registerLogRuntimeEvents = (
     emitRuntimeLog(client, logEventService, i18n, {
       eventKey: "guildMemberRemove",
       guild: member.guild,
-      summary: tForGuild(i18n, member.guild, "logsRuntime.summaries.guildMemberRemove", {
-        user: `<@${member.user.id}>`,
-      }),
+      summary: tForGuild(
+        i18n,
+        member.guild,
+        "logsRuntime.summaries.guildMemberRemove",
+        {
+          user: `<@${member.user.id}>`,
+        },
+      ),
       details: [
         detailLine(i18n, member.guild, "user", {
           tag: member.user.tag,
@@ -235,14 +268,23 @@ export const registerLogRuntimeEvents = (
   });
 
   client.on(Events.GuildMemberUpdate, (oldMember, newMember) => {
-    const none = tForGuild(i18n, newMember.guild, "logsRuntime.placeholders.none");
+    const none = tForGuild(
+      i18n,
+      newMember.guild,
+      "logsRuntime.placeholders.none",
+    );
 
     emitRuntimeLog(client, logEventService, i18n, {
       eventKey: "guildMemberUpdate",
       guild: newMember.guild,
-      summary: tForGuild(i18n, newMember.guild, "logsRuntime.summaries.guildMemberUpdate", {
-        user: `<@${newMember.user.id}>`,
-      }),
+      summary: tForGuild(
+        i18n,
+        newMember.guild,
+        "logsRuntime.summaries.guildMemberUpdate",
+        {
+          user: `<@${newMember.user.id}>`,
+        },
+      ),
       details: [
         detailLine(i18n, newMember.guild, "user", {
           tag: newMember.user.tag,
@@ -267,27 +309,52 @@ export const registerLogRuntimeEvents = (
     const guild = interaction.guild;
     const unknown = tForGuild(i18n, guild, "logsRuntime.placeholders.unknown");
 
-    let summary = tForGuild(i18n, guild, "logsRuntime.summaries.interactionGeneric", {
-      user: `<@${interaction.user.id}>`,
-    });
+    let summary = tForGuild(
+      i18n,
+      guild,
+      "logsRuntime.summaries.interactionGeneric",
+      {
+        user: `<@${interaction.user.id}>`,
+      },
+    );
 
     if (interaction.isChatInputCommand()) {
-      summary = tForGuild(i18n, guild, "logsRuntime.summaries.interactionSlash", {
-        command: interaction.commandName,
-        user: `<@${interaction.user.id}>`,
-      });
+      summary = tForGuild(
+        i18n,
+        guild,
+        "logsRuntime.summaries.interactionSlash",
+        {
+          command: interaction.commandName,
+          user: `<@${interaction.user.id}>`,
+        },
+      );
     } else if (interaction.isButton()) {
-      summary = tForGuild(i18n, guild, "logsRuntime.summaries.interactionButton", {
-        user: `<@${interaction.user.id}>`,
-      });
+      summary = tForGuild(
+        i18n,
+        guild,
+        "logsRuntime.summaries.interactionButton",
+        {
+          user: `<@${interaction.user.id}>`,
+        },
+      );
     } else if (interaction.isStringSelectMenu()) {
-      summary = tForGuild(i18n, guild, "logsRuntime.summaries.interactionSelect", {
-        user: `<@${interaction.user.id}>`,
-      });
+      summary = tForGuild(
+        i18n,
+        guild,
+        "logsRuntime.summaries.interactionSelect",
+        {
+          user: `<@${interaction.user.id}>`,
+        },
+      );
     } else if (interaction.isModalSubmit()) {
-      summary = tForGuild(i18n, guild, "logsRuntime.summaries.interactionModal", {
-        user: `<@${interaction.user.id}>`,
-      });
+      summary = tForGuild(
+        i18n,
+        guild,
+        "logsRuntime.summaries.interactionModal",
+        {
+          user: `<@${interaction.user.id}>`,
+        },
+      );
     }
 
     emitRuntimeLog(client, logEventService, i18n, {
@@ -313,9 +380,14 @@ export const registerLogRuntimeEvents = (
     emitRuntimeLog(client, logEventService, i18n, {
       eventKey: "channelCreate",
       guild: channel.guild,
-      summary: tForGuild(i18n, channel.guild, "logsRuntime.summaries.channelCreate", {
-        channel: `#${channel.name}`,
-      }),
+      summary: tForGuild(
+        i18n,
+        channel.guild,
+        "logsRuntime.summaries.channelCreate",
+        {
+          channel: `#${channel.name}`,
+        },
+      ),
       details: [
         detailLine(i18n, channel.guild, "channelId", { value: channel.id }),
         detailLine(i18n, channel.guild, "type", { value: channel.type }),
@@ -332,9 +404,14 @@ export const registerLogRuntimeEvents = (
     emitRuntimeLog(client, logEventService, i18n, {
       eventKey: "channelDelete",
       guild: channel.guild,
-      summary: tForGuild(i18n, channel.guild, "logsRuntime.summaries.channelDelete", {
-        channel: `#${channel.name}`,
-      }),
+      summary: tForGuild(
+        i18n,
+        channel.guild,
+        "logsRuntime.summaries.channelDelete",
+        {
+          channel: `#${channel.name}`,
+        },
+      ),
       details: [
         detailLine(i18n, channel.guild, "channelId", { value: channel.id }),
         detailLine(i18n, channel.guild, "type", { value: channel.type }),
@@ -348,19 +425,32 @@ export const registerLogRuntimeEvents = (
       return;
     }
 
-    const unknown = tForGuild(i18n, newChannel.guild, "logsRuntime.placeholders.unknown");
+    const unknown = tForGuild(
+      i18n,
+      newChannel.guild,
+      "logsRuntime.placeholders.unknown",
+    );
     const oldName = "name" in oldChannel ? oldChannel.name : unknown;
 
     emitRuntimeLog(client, logEventService, i18n, {
       eventKey: "channelUpdate",
       guild: newChannel.guild,
-      summary: tForGuild(i18n, newChannel.guild, "logsRuntime.summaries.channelUpdate", {
-        channel: `#${newChannel.name}`,
-      }),
+      summary: tForGuild(
+        i18n,
+        newChannel.guild,
+        "logsRuntime.summaries.channelUpdate",
+        {
+          channel: `#${newChannel.name}`,
+        },
+      ),
       details: [
-        detailLine(i18n, newChannel.guild, "channelId", { value: newChannel.id }),
+        detailLine(i18n, newChannel.guild, "channelId", {
+          value: newChannel.id,
+        }),
         detailLine(i18n, newChannel.guild, "oldName", { value: oldName }),
-        detailLine(i18n, newChannel.guild, "newName", { value: newChannel.name }),
+        detailLine(i18n, newChannel.guild, "newName", {
+          value: newChannel.name,
+        }),
       ],
       color: 0xfee75c,
     });
@@ -394,9 +484,14 @@ export const registerLogRuntimeEvents = (
     emitRuntimeLog(client, logEventService, i18n, {
       eventKey: "roleUpdate",
       guild: newRole.guild,
-      summary: tForGuild(i18n, newRole.guild, "logsRuntime.summaries.roleUpdate", {
-        role: `@${newRole.name}`,
-      }),
+      summary: tForGuild(
+        i18n,
+        newRole.guild,
+        "logsRuntime.summaries.roleUpdate",
+        {
+          role: `@${newRole.name}`,
+        },
+      ),
       details: [
         detailLine(i18n, newRole.guild, "roleId", { value: newRole.id }),
         detailLine(i18n, newRole.guild, "oldName", { value: oldRole.name }),
@@ -411,10 +506,19 @@ export const registerLogRuntimeEvents = (
       eventKey: "threadCreate",
       guild: thread.guild ?? null,
       guildId: thread.guild?.id,
-      summary: tForGuild(i18n, thread.guild ?? null, "logsRuntime.summaries.threadCreate", {
-        thread: thread.name,
-      }),
-      details: [detailLine(i18n, thread.guild ?? null, "threadId", { value: thread.id })],
+      summary: tForGuild(
+        i18n,
+        thread.guild ?? null,
+        "logsRuntime.summaries.threadCreate",
+        {
+          thread: thread.name,
+        },
+      ),
+      details: [
+        detailLine(i18n, thread.guild ?? null, "threadId", {
+          value: thread.id,
+        }),
+      ],
       color: 0x57f287,
     });
   });
@@ -424,10 +528,19 @@ export const registerLogRuntimeEvents = (
       eventKey: "threadDelete",
       guild: thread.guild ?? null,
       guildId: thread.guild?.id,
-      summary: tForGuild(i18n, thread.guild ?? null, "logsRuntime.summaries.threadDelete", {
-        thread: thread.name,
-      }),
-      details: [detailLine(i18n, thread.guild ?? null, "threadId", { value: thread.id })],
+      summary: tForGuild(
+        i18n,
+        thread.guild ?? null,
+        "logsRuntime.summaries.threadDelete",
+        {
+          thread: thread.name,
+        },
+      ),
+      details: [
+        detailLine(i18n, thread.guild ?? null, "threadId", {
+          value: thread.id,
+        }),
+      ],
       color: 0xed4245,
     });
   });
@@ -437,28 +550,48 @@ export const registerLogRuntimeEvents = (
       eventKey: "threadUpdate",
       guild: newThread.guild ?? null,
       guildId: newThread.guild?.id,
-      summary: tForGuild(i18n, newThread.guild ?? null, "logsRuntime.summaries.threadUpdate", {
-        thread: newThread.name,
-      }),
+      summary: tForGuild(
+        i18n,
+        newThread.guild ?? null,
+        "logsRuntime.summaries.threadUpdate",
+        {
+          thread: newThread.name,
+        },
+      ),
       details: [
-        detailLine(i18n, newThread.guild ?? null, "threadId", { value: newThread.id }),
-        detailLine(i18n, newThread.guild ?? null, "oldName", { value: oldThread.name }),
-        detailLine(i18n, newThread.guild ?? null, "newName", { value: newThread.name }),
+        detailLine(i18n, newThread.guild ?? null, "threadId", {
+          value: newThread.id,
+        }),
+        detailLine(i18n, newThread.guild ?? null, "oldName", {
+          value: oldThread.name,
+        }),
+        detailLine(i18n, newThread.guild ?? null, "newName", {
+          value: newThread.name,
+        }),
       ],
       color: 0xfee75c,
     });
   });
 
   client.on(Events.GuildEmojiCreate, (emoji) => {
-    const unknown = tForGuild(i18n, emoji.guild ?? null, "logsRuntime.placeholders.unknown");
+    const unknown = tForGuild(
+      i18n,
+      emoji.guild ?? null,
+      "logsRuntime.placeholders.unknown",
+    );
 
     emitRuntimeLog(client, logEventService, i18n, {
       eventKey: "emojiCreate",
       guild: emoji.guild ?? null,
       guildId: emoji.guild?.id,
-      summary: tForGuild(i18n, emoji.guild ?? null, "logsRuntime.summaries.emojiCreate", {
-        emoji: emoji.name ?? unknown,
-      }),
+      summary: tForGuild(
+        i18n,
+        emoji.guild ?? null,
+        "logsRuntime.summaries.emojiCreate",
+        {
+          emoji: emoji.name ?? unknown,
+        },
+      ),
       details: [
         detailLine(i18n, emoji.guild ?? null, "emojiId", {
           value: emoji.id ?? unknown,
@@ -469,15 +602,24 @@ export const registerLogRuntimeEvents = (
   });
 
   client.on(Events.GuildEmojiDelete, (emoji) => {
-    const unknown = tForGuild(i18n, emoji.guild ?? null, "logsRuntime.placeholders.unknown");
+    const unknown = tForGuild(
+      i18n,
+      emoji.guild ?? null,
+      "logsRuntime.placeholders.unknown",
+    );
 
     emitRuntimeLog(client, logEventService, i18n, {
       eventKey: "emojiDelete",
       guild: emoji.guild ?? null,
       guildId: emoji.guild?.id,
-      summary: tForGuild(i18n, emoji.guild ?? null, "logsRuntime.summaries.emojiDelete", {
-        emoji: emoji.name ?? unknown,
-      }),
+      summary: tForGuild(
+        i18n,
+        emoji.guild ?? null,
+        "logsRuntime.summaries.emojiDelete",
+        {
+          emoji: emoji.name ?? unknown,
+        },
+      ),
       details: [
         detailLine(i18n, emoji.guild ?? null, "emojiId", {
           value: emoji.id ?? unknown,
@@ -488,15 +630,24 @@ export const registerLogRuntimeEvents = (
   });
 
   client.on(Events.GuildEmojiUpdate, (oldEmoji, newEmoji) => {
-    const unknown = tForGuild(i18n, newEmoji.guild ?? null, "logsRuntime.placeholders.unknown");
+    const unknown = tForGuild(
+      i18n,
+      newEmoji.guild ?? null,
+      "logsRuntime.placeholders.unknown",
+    );
 
     emitRuntimeLog(client, logEventService, i18n, {
       eventKey: "emojiUpdate",
       guild: newEmoji.guild ?? null,
       guildId: newEmoji.guild?.id,
-      summary: tForGuild(i18n, newEmoji.guild ?? null, "logsRuntime.summaries.emojiUpdate", {
-        emoji: newEmoji.name ?? unknown,
-      }),
+      summary: tForGuild(
+        i18n,
+        newEmoji.guild ?? null,
+        "logsRuntime.summaries.emojiUpdate",
+        {
+          emoji: newEmoji.name ?? unknown,
+        },
+      ),
       details: [
         detailLine(i18n, newEmoji.guild ?? null, "emojiId", {
           value: newEmoji.id ?? unknown,
@@ -532,9 +683,14 @@ export const registerLogRuntimeEvents = (
     emitRuntimeLog(client, logEventService, i18n, {
       eventKey: "guildUnavailable",
       guild,
-      summary: tForGuild(i18n, guild, "logsRuntime.summaries.guildUnavailable", {
-        guild: guild.name,
-      }),
+      summary: tForGuild(
+        i18n,
+        guild,
+        "logsRuntime.summaries.guildUnavailable",
+        {
+          guild: guild.name,
+        },
+      ),
       details: [detailLine(i18n, guild, "guildId", { value: guild.id })],
       color: 0xed4245,
     });
@@ -562,9 +718,14 @@ export const registerLogRuntimeEvents = (
     emitRuntimeLog(client, logEventService, i18n, {
       eventKey: "guildBanRemove",
       guild: ban.guild,
-      summary: tForGuild(i18n, ban.guild, "logsRuntime.summaries.guildBanRemove", {
-        user: `<@${ban.user.id}>`,
-      }),
+      summary: tForGuild(
+        i18n,
+        ban.guild,
+        "logsRuntime.summaries.guildBanRemove",
+        {
+          user: `<@${ban.user.id}>`,
+        },
+      ),
       details: [
         detailLine(i18n, ban.guild, "user", {
           tag: ban.user.tag,

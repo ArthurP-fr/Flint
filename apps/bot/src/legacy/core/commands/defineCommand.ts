@@ -32,7 +32,10 @@ const normalizeCooldown = (input: BotCommandInput): number | undefined => {
   return input.cooldown;
 };
 
-const resolveSensitive = (input: BotCommandInput, permissions: readonly unknown[]): boolean => {
+const resolveSensitive = (
+  input: BotCommandInput,
+  permissions: readonly unknown[],
+): boolean => {
   if (input.sensitive === true && permissions.length === 0) {
     throw new Error(
       `Invalid security config for command "${input.meta.name}": sensitive commands must declare at least one required permission.`,

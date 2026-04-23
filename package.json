@@ -25,11 +25,15 @@
     "check": "npm run typecheck"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^22.10.7",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^10.2.1",
+    "globals": "^17.5.0",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.4.7",
     "tsx": "^4.19.3",
     "typescript": "^5.7.3",
-    "tailwindcss": "^3.4.7",
-    "postcss": "^8.4.21",
-    "autoprefixer": "^10.4.14"
+    "typescript-eslint": "^8.59.0"
   }
 }

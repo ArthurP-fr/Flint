@@ -54,20 +54,23 @@ export class BotManager {
     const persistedBots = await listBotsToRestore(this.pool);
 
     for (const bot of persistedBots) {
-      await this.startBot(bot.id, bot.tenantId).catch(async (error: unknown) => {
-        const message = error instanceof Error ? error.message : "Unknown startup error";
+      await this.startBot(bot.id, bot.tenantId).catch(
+        async (error: unknown) => {
+          const message =
+            error instanceof Error ? error.message : "Unknown startup error";
 
-        await setBotStatusById(this.pool, bot.id, "error", message);
-        await insertRuntimeEvent(this.pool, {
-          tenantId: bot.tenantId,
-          botId: bot.id,
-          level: "error",
-          message: "Bot failed to restore at startup",
-          metadata: {
-            error: message,
-          },
-        });
-      });
+          await setBotStatusById(this.pool, bot.id, "error", message);
+          await insertRuntimeEvent(this.pool, {
+            tenantId: bot.tenantId,
+            botId: bot.id,
+            level: "error",
+            message: "Bot failed to restore at startup",
+            metadata: {
+              error: message,
+            },
+          });
+        },
+      );
     }
   }
 
@@ -156,7 +159,8 @@ export class BotManager {
         client.destroy();
         this.runningBots.delete(botId);
 
-        const message = error instanceof Error ? error.message : "Unknown login error";
+        const message =
+          error instanceof Error ? error.message : "Unknown login error";
         await setBotStatusById(this.pool, botId, "error", message);
         await insertRuntimeEvent(this.pool, {
           tenantId: bot.tenantId,
@@ -215,7 +219,10 @@ export class BotManager {
     }
   }
 
-  private async withLock(botId: string, operation: () => Promise<void>): Promise<void> {
+  private async withLock(
+    botId: string,
+    operation: () => Promise<void>,
+  ): Promise<void> {
     const previous = this.operationLocks.get(botId) ?? Promise.resolve();
 
     const next = previous

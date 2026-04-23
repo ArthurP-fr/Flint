@@ -50,13 +50,23 @@ const queueBotAction = (
       return;
     }
 
-    const bot = await getBotForTenant(deps.pool, req.auth.tenantId, parsedParams.data.botId);
+    const bot = await getBotForTenant(
+      deps.pool,
+      req.auth.tenantId,
+      parsedParams.data.botId,
+    );
     if (!bot) {
       res.status(404).json({ error: "Bot not found" });
       return;
     }
 
-    await setBotStatusForTenant(deps.pool, req.auth.tenantId, parsedParams.data.botId, statusDuringAction, null);
+    await setBotStatusForTenant(
+      deps.pool,
+      req.auth.tenantId,
+      parsedParams.data.botId,
+      statusDuringAction,
+      null,
+    );
 
     await insertBotRuntimeEvent(deps.pool, {
       tenantId: req.auth.tenantId,
@@ -105,13 +115,18 @@ export const createBotRouter = (deps: BotRouterDependencies): Router => {
 
     const parsedBody = addBotSchema.safeParse(req.body);
     if (!parsedBody.success) {
-      res.status(400).json({ error: parsedBody.error.issues[0]?.message ?? "Invalid body" });
+      res
+        .status(400)
+        .json({ error: parsedBody.error.issues[0]?.message ?? "Invalid body" });
       return;
     }
 
     try {
       const botIdentity = await validateDiscordBotToken(parsedBody.data.token);
-      const encryptedToken = encryptToken(parsedBody.data.token, deps.tokenEncryptionKey);
+      const encryptedToken = encryptToken(
+        parsedBody.data.token,
+        deps.tokenEncryptionKey,
+      );
 
       const bot = await createOrUpdateBotForTenant(deps.pool, {
         tenantId: req.auth.tenantId,
@@ -135,11 +150,16 @@ export const createBotRouter = (deps: BotRouterDependencies): Router => {
       res.status(201).json({ bot });
     } catch (error) {
       if (error instanceof Error && error.message === "BOT_ALREADY_CLAIMED") {
-        res.status(409).json({ error: "This Discord bot is already claimed by another tenant" });
+        res.status(409).json({
+          error: "This Discord bot is already claimed by another tenant",
+        });
         return;
       }
 
-      if (error instanceof Error && error.message === "Invalid Discord bot token") {
+      if (
+        error instanceof Error &&
+        error.message === "Invalid Discord bot token"
+      ) {
         res.status(400).json({ error: error.message });
         return;
       }
@@ -148,9 +168,21 @@ export const createBotRouter = (deps: BotRouterDependencies): Router => {
     }
   });
 
-  router.post("/:botId/start", deps.tenantControlRateLimit, queueBotAction("start", "starting", deps));
-  router.post("/:botId/stop", deps.tenantControlRateLimit, queueBotAction("stop", "stopping", deps));
-  router.post("/:botId/restart", deps.tenantControlRateLimit, queueBotAction("restart", "starting", deps));
+  router.post(
+    "/:botId/start",
+    deps.tenantControlRateLimit,
+    queueBotAction("start", "starting", deps),
+  );
+  router.post(
+    "/:botId/stop",
+    deps.tenantControlRateLimit,
+    queueBotAction("stop", "stopping", deps),
+  );
+  router.post(
+    "/:botId/restart",
+    deps.tenantControlRateLimit,
+    queueBotAction("restart", "starting", deps),
+  );
 
   return router;
 };

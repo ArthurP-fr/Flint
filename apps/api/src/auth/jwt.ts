@@ -12,7 +12,9 @@ interface SessionJwtPayload {
 
 const secret = new TextEncoder().encode(env.JWT_SECRET);
 
-export const issueSessionToken = async (session: AuthSession): Promise<string> => {
+export const issueSessionToken = async (
+  session: AuthSession,
+): Promise<string> => {
   return new SignJWT({
     tenantId: session.tenantId,
     discordUserId: session.discordUserId,
@@ -25,7 +27,9 @@ export const issueSessionToken = async (session: AuthSession): Promise<string> =
     .sign(secret);
 };
 
-export const verifySessionToken = async (token: string): Promise<AuthSession> => {
+export const verifySessionToken = async (
+  token: string,
+): Promise<AuthSession> => {
   const verified = await jwtVerify<SessionJwtPayload>(token, secret, {
     algorithms: ["HS256"],
   });

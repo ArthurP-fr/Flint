@@ -88,7 +88,9 @@ for (const target of TARGETS) {
   const defaultLocalePath = path.join(targetDirectory, "en.json");
 
   if (!existsSync(defaultLocalePath)) {
-    console.error(`[i18n:${target.name}] missing default locale file: ${defaultLocalePath}`);
+    console.error(
+      `[i18n:${target.name}] missing default locale file: ${defaultLocalePath}`,
+    );
     hasError = true;
     continue;
   }
@@ -102,7 +104,10 @@ for (const target of TARGETS) {
     const localePath = path.join(targetDirectory, `${locale}.json`);
     const localeExists = existsSync(localePath);
     const currentDictionary = localeExists ? readJsonFile(localePath) : {};
-    const normalizedDictionary = shapeFromBase(baseDictionary, currentDictionary);
+    const normalizedDictionary = shapeFromBase(
+      baseDictionary,
+      currentDictionary,
+    );
 
     const normalizedText = JSON.stringify(normalizedDictionary, null, 2);
     const currentText = JSON.stringify(currentDictionary, null, 2);
@@ -115,8 +120,12 @@ for (const target of TARGETS) {
     if (CHECK_ONLY) {
       const localeLeafPaths = new Set(collectLeafPaths(currentDictionary));
 
-      const missingPaths = [...baseLeafPaths].filter((key) => !localeLeafPaths.has(key));
-      const extraPaths = [...localeLeafPaths].filter((key) => !baseLeafPaths.has(key));
+      const missingPaths = [...baseLeafPaths].filter(
+        (key) => !localeLeafPaths.has(key),
+      );
+      const extraPaths = [...localeLeafPaths].filter(
+        (key) => !baseLeafPaths.has(key),
+      );
 
       if (missingPaths.length > 0 || extraPaths.length > 0) {
         hasError = true;

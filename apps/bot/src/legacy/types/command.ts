@@ -36,10 +36,24 @@ export const SUPPORTED_LANGS = [
 
 export type SupportedLang = (typeof SUPPORTED_LANGS)[number];
 export type CommandSource = "prefix" | "slash";
-export type CommandArgType = "string" | "user" | "int" | "boolean" | "number" | "channel" | "role";
+export type CommandArgType =
+  | "string"
+  | "user"
+  | "int"
+  | "boolean"
+  | "number"
+  | "channel"
+  | "role";
 
-export type TranslationVars = Record<string, string | number | boolean | null | undefined>;
-export type ReplyPayload = string | MessageCreateOptions | MessageReplyOptions | InteractionReplyOptions;
+export type TranslationVars = Record<
+  string,
+  string | number | boolean | null | undefined
+>;
+export type ReplyPayload =
+  | string
+  | MessageCreateOptions
+  | MessageReplyOptions
+  | InteractionReplyOptions;
 
 export type CommandArgValue =
   | string
@@ -85,8 +99,16 @@ export interface CommandRegistryReader {
 export interface CommandI18nTools {
   commandName: (lang: SupportedLang, commandName: string) => string;
   commandTrigger: (lang: SupportedLang, commandName: string) => string;
-  commandT: (lang: SupportedLang, commandName: string, relativeKey: string, vars?: TranslationVars) => string;
-  commandObject: (lang: SupportedLang, commandName: string) => Record<string, unknown>;
+  commandT: (
+    lang: SupportedLang,
+    commandName: string,
+    relativeKey: string,
+    vars?: TranslationVars,
+  ) => string;
+  commandObject: (
+    lang: SupportedLang,
+    commandName: string,
+  ) => Record<string, unknown>;
   format: (template: string, vars?: TranslationVars) => string;
 }
 

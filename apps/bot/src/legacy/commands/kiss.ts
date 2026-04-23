@@ -29,7 +29,9 @@ export const kissCommand = defineCommand({
   execute: async (ctx) => {
     const target = ctx.args.user;
     if (!target || typeof target !== "object" || !("id" in target)) {
-      await ctx.reply(ctx.t("errors.args.invalidUser", { value: String(target) }));
+      await ctx.reply(
+        ctx.t("errors.args.invalidUser", { value: String(target) }),
+      );
       return;
     }
 

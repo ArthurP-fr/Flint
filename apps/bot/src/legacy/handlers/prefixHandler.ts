@@ -23,13 +23,19 @@ const shouldThrottlePrefixPreParse = (userId: string): boolean => {
   const now = Date.now();
   const lastSeenAt = prefixPreParseThrottle.get(userId);
 
-  if (lastSeenAt !== undefined && now - lastSeenAt < PREFIX_PRE_PARSE_THROTTLE_MS) {
+  if (
+    lastSeenAt !== undefined &&
+    now - lastSeenAt < PREFIX_PRE_PARSE_THROTTLE_MS
+  ) {
     return true;
   }
 
   prefixPreParseThrottle.set(userId, now);
 
-  if (now - prefixPreParseThrottleLastSweepAt >= PREFIX_PRE_PARSE_THROTTLE_SWEEP_INTERVAL_MS) {
+  if (
+    now - prefixPreParseThrottleLastSweepAt >=
+    PREFIX_PRE_PARSE_THROTTLE_SWEEP_INTERVAL_MS
+  ) {
     for (const [trackedUserId, trackedAt] of prefixPreParseThrottle.entries()) {
       if (now - trackedAt >= PREFIX_PRE_PARSE_THROTTLE_MAX_AGE_MS) {
         prefixPreParseThrottle.delete(trackedUserId);
@@ -49,9 +55,11 @@ const resolvePrefixLang = (
   fallbackLang: SupportedLang,
   guildPreferredLocale?: string | null,
 ): SupportedLang => {
-
   const contextualLang = deps.i18n.resolveLang(guildPreferredLocale);
-  const contextualTrigger = deps.i18n.commandTrigger(contextualLang, command.meta.name);
+  const contextualTrigger = deps.i18n.commandTrigger(
+    contextualLang,
+    command.meta.name,
+  );
 
   if (contextualTrigger === trigger) {
     return contextualLang;
@@ -72,8 +80,11 @@ export const createPrefixHandler = (deps: PrefixHandlerDeps) => {
     }
 
     const firstSpaceIndex = content.indexOf(" ");
-    const trigger = (firstSpaceIndex === -1 ? content : content.slice(0, firstSpaceIndex)).toLowerCase();
-    const rawArgs = firstSpaceIndex === -1 ? "" : content.slice(firstSpaceIndex + 1);
+    const trigger = (
+      firstSpaceIndex === -1 ? content : content.slice(0, firstSpaceIndex)
+    ).toLowerCase();
+    const rawArgs =
+      firstSpaceIndex === -1 ? "" : content.slice(firstSpaceIndex + 1);
 
     const match = deps.registry.findByAnyPrefixTrigger(trigger);
     if (!match) {
@@ -87,7 +98,13 @@ export const createPrefixHandler = (deps: PrefixHandlerDeps) => {
     const reply = createPrefixReply(message);
 
     const command = match.command;
-    const lang = resolvePrefixLang(deps, command, trigger, match.lang, message.guild?.preferredLocale ?? null);
+    const lang = resolvePrefixLang(
+      deps,
+      command,
+      trigger,
+      match.lang,
+      message.guild?.preferredLocale ?? null,
+    );
     const t = createTranslator(deps.i18n, lang);
 
     const parsed = await parsePrefixArgs(message, command.args, rawArgs);
@@ -97,7 +114,13 @@ export const createPrefixHandler = (deps: PrefixHandlerDeps) => {
         return;
       }
 
-      const usage = buildPrefixUsage(command, deps.prefix, lang, deps.defaultLang, deps.i18n);
+      const usage = buildPrefixUsage(
+        command,
+        deps.prefix,
+        lang,
+        deps.defaultLang,
+        deps.i18n,
+      );
       await reply(t(firstError.key, { ...(firstError.vars ?? {}), usage }));
       return;
     }

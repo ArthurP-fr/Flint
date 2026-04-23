@@ -53,7 +53,10 @@ export const buildDiscordLoginUrl = (state: string): string => {
   return `https://discord.com/oauth2/authorize?${params.toString()}`;
 };
 
-const createAvatarUrl = (discordUserId: string, avatarHash: string | null): string | null => {
+const createAvatarUrl = (
+  discordUserId: string,
+  avatarHash: string | null,
+): string | null => {
   if (!avatarHash) {
     return null;
   }
@@ -61,7 +64,9 @@ const createAvatarUrl = (discordUserId: string, avatarHash: string | null): stri
   return `https://cdn.discordapp.com/avatars/${discordUserId}/${avatarHash}.png`;
 };
 
-export const exchangeCodeForDiscordIdentity = async (code: string): Promise<DiscordIdentity> => {
+export const exchangeCodeForDiscordIdentity = async (
+  code: string,
+): Promise<DiscordIdentity> => {
   const payload = new URLSearchParams({
     client_id: env.DISCORD_CLIENT_ID,
     client_secret: env.DISCORD_CLIENT_SECRET,
@@ -103,7 +108,9 @@ export const exchangeCodeForDiscordIdentity = async (code: string): Promise<Disc
   };
 };
 
-export const validateDiscordBotToken = async (botToken: string): Promise<DiscordBotIdentity> => {
+export const validateDiscordBotToken = async (
+  botToken: string,
+): Promise<DiscordBotIdentity> => {
   const response = await fetch(`${DISCORD_API_BASE}/users/@me`, {
     headers: {
       Authorization: `Bot ${botToken}`,

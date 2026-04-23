@@ -2,20 +2,29 @@ import type { TemplateRenderOptions } from "../types/templateVariables.js";
 
 const createTemplateTokenRegex = (): RegExp => /\{\{([a-zA-Z0-9_]+)\}\}/g;
 
-const normalizeVariableName = (rawName: string): string => rawName.toLowerCase();
+const normalizeVariableName = (rawName: string): string =>
+  rawName.toLowerCase();
 
-const normalizeAliases = (aliases: Record<string, string> = {}): Record<string, string> =>
+const normalizeAliases = (
+  aliases: Record<string, string> = {},
+): Record<string, string> =>
   Object.entries(aliases).reduce<Record<string, string>>((acc, [from, to]) => {
     acc[normalizeVariableName(from)] = normalizeVariableName(to);
     return acc;
   }, {});
 
-const resolveVariableName = (rawName: string, aliases: Record<string, string>): string => {
+const resolveVariableName = (
+  rawName: string,
+  aliases: Record<string, string>,
+): string => {
   const normalized = normalizeVariableName(rawName);
   return aliases[normalized] ?? normalized;
 };
 
-export const extractTemplateVariables = (template: string, aliases: Record<string, string> = {}): string[] => {
+export const extractTemplateVariables = (
+  template: string,
+  aliases: Record<string, string> = {},
+): string[] => {
   const normalizedAliases = normalizeAliases(aliases);
   const found = new Set<string>();
 
@@ -63,7 +72,9 @@ export const renderTemplate = (
 ): string => {
   const normalizedAliases = normalizeAliases(options.aliases);
   const keepUnknown = options.keepUnknown ?? true;
-  const normalizedValues = Object.entries(values).reduce<Record<string, string>>((acc, [key, value]) => {
+  const normalizedValues = Object.entries(values).reduce<
+    Record<string, string>
+  >((acc, [key, value]) => {
     acc[normalizeVariableName(key)] = value;
     return acc;
   }, {});

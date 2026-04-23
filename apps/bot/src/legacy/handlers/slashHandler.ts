@@ -18,7 +18,9 @@ export const createSlashHandler = (deps: SlashHandlerDeps) => {
       return;
     }
 
-    const lang = deps.i18n.resolveLang(interaction.locale ?? interaction.guildLocale);
+    const lang = deps.i18n.resolveLang(
+      interaction.locale ?? interaction.guildLocale,
+    );
     const reply = createSlashReply(interaction);
     const t = createTranslator(deps.i18n, lang);
 

@@ -6,18 +6,19 @@ import {
   type LogEventService,
 } from "../modules/logs/index.js";
 
-export const createLogsCommand = (logEventService: LogEventService) => defineCommand({
-  meta: {
-    name: "logs",
-    category: "utility",
-  },
-  permissions: [PermissionFlagsBits.ManageGuild],
-  sensitive: true,
-  examples: [
-    {
-      source: "slash",
-      descriptionKey: "examples.slash",
+export const createLogsCommand = (logEventService: LogEventService) =>
+  defineCommand({
+    meta: {
+      name: "logs",
+      category: "utility",
     },
-  ],
-  execute: createLogsCommandExecute(logEventService),
-});
+    permissions: [PermissionFlagsBits.ManageGuild],
+    sensitive: true,
+    examples: [
+      {
+        source: "slash",
+        descriptionKey: "examples.slash",
+      },
+    ],
+    execute: createLogsCommandExecute(logEventService),
+  });

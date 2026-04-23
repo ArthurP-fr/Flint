@@ -34,13 +34,16 @@ export class TenantLogEventStore implements LogEventRepository {
       await this.pool.query(logEventSchemaProbeSql);
     } catch (error) {
       throw new Error(
-        "[db:init] missing or incompatible table \"bot_log_event_configs\". Run migrations with \"npm run migrate\".",
+        '[db:init] missing or incompatible table "bot_log_event_configs". Run migrations with "npm run migrate".',
         { cause: error },
       );
     }
   }
 
-  public async listByBotGuild(botId: string, guildId: string): Promise<LogEventRow[]> {
+  public async listByBotGuild(
+    botId: string,
+    guildId: string,
+  ): Promise<LogEventRow[]> {
     const result = await this.pool.query<LogEventRow>(
       `
       SELECT event_key, enabled, channel_id

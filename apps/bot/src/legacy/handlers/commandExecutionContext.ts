@@ -6,7 +6,10 @@ import type {
   TransportContext,
   TranslationVars,
 } from "../types/command.js";
-import type { BuildExecutionContextInput, HandlerExecutionDeps } from "../types/handlers.js";
+import type {
+  BuildExecutionContextInput,
+  HandlerExecutionDeps,
+} from "../types/handlers.js";
 import type { I18nService } from "../i18n/index.js";
 import { createDiscordMemberPermissionsResolver } from "./discordPermissionResolver.js";
 
@@ -14,7 +17,8 @@ export const createTranslator = (
   i18n: I18nService,
   lang: SupportedLang,
 ): ((key: string, vars?: TranslationVars) => string) => {
-  return (key: string, vars?: TranslationVars): string => i18n.t(lang, key, vars);
+  return (key: string, vars?: TranslationVars): string =>
+    i18n.t(lang, key, vars);
 };
 
 export const buildCommandExecutionContext = (

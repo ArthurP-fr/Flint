@@ -4,7 +4,12 @@ import {
   type RESTPostAPIChatInputApplicationCommandsJSONBody,
 } from "discord.js";
 
-import { SUPPORTED_LANGS, type BotCommand, type CommandArgument, type SupportedLang } from "../../types/command.js";
+import {
+  SUPPORTED_LANGS,
+  type BotCommand,
+  type CommandArgument,
+  type SupportedLang,
+} from "../../types/command.js";
 import type { I18nService } from "../../i18n/index.js";
 
 const LANG_TO_DISCORD_LOCALE: Partial<Record<SupportedLang, string>> = {
@@ -24,7 +29,9 @@ const LANG_TO_DISCORD_LOCALE: Partial<Record<SupportedLang, string>> = {
   tr: "tr",
 };
 
-const toLocalizationMap = (source: Partial<Record<SupportedLang, string>>): Record<string, string> => {
+const toLocalizationMap = (
+  source: Partial<Record<SupportedLang, string>>,
+): Record<string, string> => {
   const entries = Object.entries(source)
     .map(([lang, value]) => {
       const discordLocale = LANG_TO_DISCORD_LOCALE[lang as SupportedLang];
@@ -39,7 +46,10 @@ const toLocalizationMap = (source: Partial<Record<SupportedLang, string>>): Reco
   return Object.fromEntries(entries);
 };
 
-const buildCommandNameLocalizationSource = (command: BotCommand, i18n: I18nService): Partial<Record<SupportedLang, string>> => {
+const buildCommandNameLocalizationSource = (
+  command: BotCommand,
+  i18n: I18nService,
+): Partial<Record<SupportedLang, string>> => {
   const localizations: Partial<Record<SupportedLang, string>> = {};
 
   for (const lang of SUPPORTED_LANGS) {
@@ -53,7 +63,10 @@ const buildCommandNameLocalizationSource = (command: BotCommand, i18n: I18nServi
   return localizations;
 };
 
-const buildDescriptionLocalizationSource = (descriptionKey: string, i18n: I18nService): Partial<Record<SupportedLang, string>> => {
+const buildDescriptionLocalizationSource = (
+  descriptionKey: string,
+  i18n: I18nService,
+): Partial<Record<SupportedLang, string>> => {
   const localizations: Partial<Record<SupportedLang, string>> = {};
 
   for (const lang of SUPPORTED_LANGS) {
@@ -67,7 +80,10 @@ const buildDescriptionLocalizationSource = (descriptionKey: string, i18n: I18nSe
   return localizations;
 };
 
-const argDescriptionKey = (command: BotCommand, arg: CommandArgument): string => {
+const argDescriptionKey = (
+  command: BotCommand,
+  arg: CommandArgument,
+): string => {
   return `commands.${command.meta.name}.${arg.descriptionKey}`;
 };
 
@@ -75,7 +91,10 @@ const commandDescriptionKey = (command: BotCommand): string => {
   return `commands.${command.meta.name}.description`;
 };
 
-const buildHelpCommandChoices = (commands: readonly BotCommand[], i18n: I18nService): Array<{ name: string; value: string }> => {
+const buildHelpCommandChoices = (
+  commands: readonly BotCommand[],
+  i18n: I18nService,
+): Array<{ name: string; value: string }> => {
   return commands
     .slice()
     .sort((a, b) => a.meta.name.localeCompare(b.meta.name))
@@ -95,7 +114,9 @@ const applyOption = (
 ): void => {
   const descriptionKey = argDescriptionKey(command, arg);
   const descriptionEn = i18n.t("en", descriptionKey);
-  const descriptionLocalizations = toLocalizationMap(buildDescriptionLocalizationSource(descriptionKey, i18n));
+  const descriptionLocalizations = toLocalizationMap(
+    buildDescriptionLocalizationSource(descriptionKey, i18n),
+  );
 
   if (arg.type === "user") {
     builder.addUserOption((opt) =>
@@ -163,24 +184,22 @@ const applyOption = (
     return;
   }
 
-  builder.addStringOption((opt) =>
-    {
-      const configured = opt
+  builder.addStringOption((opt) => {
+    const configured = opt
       .setName(arg.name)
       .setDescription(descriptionEn)
       .setDescriptionLocalizations(descriptionLocalizations)
       .setRequired(arg.required);
 
-      if (command.meta.name === "help" && arg.name === "command") {
-        const choices = buildHelpCommandChoices(allCommands, i18n);
-        if (choices.length > 0) {
-          configured.addChoices(...choices);
-        }
+    if (command.meta.name === "help" && arg.name === "command") {
+      const choices = buildHelpCommandChoices(allCommands, i18n);
+      if (choices.length > 0) {
+        configured.addChoices(...choices);
       }
+    }
 
-      return configured;
-    },
-  );
+    return configured;
+  });
 };
 
 export const buildSlashPayload = (
@@ -190,8 +209,12 @@ export const buildSlashPayload = (
   return commands.map((command) => {
     const descriptionKey = commandDescriptionKey(command);
 
-    const slashLocalizations = toLocalizationMap(buildCommandNameLocalizationSource(command, i18n));
-    const descriptionLocalizations = toLocalizationMap(buildDescriptionLocalizationSource(descriptionKey, i18n));
+    const slashLocalizations = toLocalizationMap(
+      buildCommandNameLocalizationSource(command, i18n),
+    );
+    const descriptionLocalizations = toLocalizationMap(
+      buildDescriptionLocalizationSource(descriptionKey, i18n),
+    );
 
     const slashBuilder = new SlashCommandBuilder()
       .setName(command.meta.name)
@@ -207,7 +230,9 @@ export const buildSlashPayload = (
   });
 };
 
-export const commandOptionType = (type: CommandArgument["type"]): ApplicationCommandOptionType => {
+export const commandOptionType = (
+  type: CommandArgument["type"],
+): ApplicationCommandOptionType => {
   switch (type) {
     case "user":
       return ApplicationCommandOptionType.User;

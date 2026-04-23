@@ -14,18 +14,26 @@ import {
 } from "../modules/memberMessages/index.js";
 
 /** Commande `goodbye` — ouvre le panneau de configuration des messages 'goodbye'. */
-export const createGoodbyeCommand = (memberMessageService: MemberMessageService, i18n: I18nService) => defineCommand({
-  meta: {
-    name: "goodbye",
-    category: "utility",
-  },
-  permissions: [PermissionFlagsBits.ManageGuild],
-  sensitive: true,
-  examples: [
-    {
-      source: "slash",
-      descriptionKey: "examples.slash",
+export const createGoodbyeCommand = (
+  memberMessageService: MemberMessageService,
+  i18n: I18nService,
+) =>
+  defineCommand({
+    meta: {
+      name: "goodbye",
+      category: "utility",
     },
-  ],
-  execute: createMemberMessagePanelExecute("goodbye", memberMessageService, i18n),
-});
+    permissions: [PermissionFlagsBits.ManageGuild],
+    sensitive: true,
+    examples: [
+      {
+        source: "slash",
+        descriptionKey: "examples.slash",
+      },
+    ],
+    execute: createMemberMessagePanelExecute(
+      "goodbye",
+      memberMessageService,
+      i18n,
+    ),
+  });

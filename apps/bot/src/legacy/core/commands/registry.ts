@@ -26,7 +26,9 @@ export class CommandRegistry {
     return this.commandsByName.get(normalize(name));
   }
 
-  public findByAnyPrefixTrigger(trigger: string): PrefixTriggerMatch | undefined {
+  public findByAnyPrefixTrigger(
+    trigger: string,
+  ): PrefixTriggerMatch | undefined {
     return this.prefixTriggers.get(normalize(trigger));
   }
 
@@ -43,7 +45,9 @@ export class CommandRegistry {
     this.commandsByName.set(name, command);
 
     for (const lang of SUPPORTED_LANGS) {
-      const trigger = normalize(this.i18n.commandTrigger(lang, command.meta.name));
+      const trigger = normalize(
+        this.i18n.commandTrigger(lang, command.meta.name),
+      );
       const existing = this.prefixTriggers.get(trigger);
 
       if (existing) {
@@ -60,7 +64,12 @@ export class CommandRegistry {
       });
     }
 
-    const slashKeys = [command.meta.name, ...SUPPORTED_LANGS.map((lang) => this.i18n.commandName(lang, command.meta.name))];
+    const slashKeys = [
+      command.meta.name,
+      ...SUPPORTED_LANGS.map((lang) =>
+        this.i18n.commandName(lang, command.meta.name),
+      ),
+    ];
 
     for (const keyRaw of slashKeys) {
       const key = normalize(keyRaw);
