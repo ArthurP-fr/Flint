@@ -25,7 +25,6 @@ import type {
   TemplateSuffix,
 } from "../../types/memberMessages.js";
 import { sanitizeMemberMessageRoleIds } from "../../validators/memberMessages.js";
-import { renderMemberMessageImage } from "./imageRenderer.js";
 import type { MemberMessageRepository } from "./repository.js";
 
 export type {
@@ -163,6 +162,13 @@ const buildMemberMessagePayload = async (
     };
   }
 
+  if (renderType !== "image") {
+    return {
+      content: resolveTemplate(i18n, lang, kind, "simple", vars),
+      allowedMentions,
+    };
+  }
+
   const imageTitle = resolveNonEmptyTemplate(
     i18n,
     lang,
@@ -178,21 +184,34 @@ const buildMemberMessagePayload = async (
     vars,
   );
 
-  const imageBuffer = await renderMemberMessageImage({
-    kind,
-    title: imageTitle,
-    subtitle: imageSubtitle,
-    username: user.globalName ?? user.username,
-    avatarUrl: user.displayAvatarURL({ extension: "png", size: 512 }),
-  });
+  try {
+    const { renderMemberMessageImage } = await import("./imageRenderer.js");
 
-  const fileName = `${kind}-${guild.id}-${user.id}.png`;
+    const imageBuffer = await renderMemberMessageImage({
+      kind,
+      title: imageTitle,
+      subtitle: imageSubtitle,
+      username: user.globalName ?? user.username,
+      avatarUrl: user.displayAvatarURL({ extension: "png", size: 512 }),
+    });
 
-  return {
-    allowedMentions,
-    content: resolveTemplate(i18n, lang, kind, "simple", vars),
-    files: [new AttachmentBuilder(imageBuffer, { name: fileName })],
-  };
+    const fileName = `${kind}-${guild.id}-${user.id}.png`;
+
+    return {
+      allowedMentions,
+      content: resolveTemplate(i18n, lang, kind, "simple", vars),
+      files: [new AttachmentBuilder(imageBuffer, { name: fileName })],
+    };
+  } catch (error) {
+    console.warn(
+      "[memberMessages] image renderer unavailable, falling back to text",
+      error,
+    );
+    return {
+      content: resolveTemplate(i18n, lang, kind, "simple", vars),
+      allowedMentions,
+    };
+  }
 };
 
 export class MemberMessageService {
