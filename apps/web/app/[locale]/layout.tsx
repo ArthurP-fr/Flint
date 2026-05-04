@@ -4,6 +4,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
+import { MatomoScript } from "../../components/MatomoScript";
 import { RTL_LOCALES, routing } from "../../i18n/routing";
 import "../globals.css";
 
@@ -130,6 +131,7 @@ export default async function LocaleLayout({
       <body
         className={`${headingFont.variable} ${monoFont.variable} antialiased`}
       >
+        <MatomoScript />
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>
